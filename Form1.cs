@@ -32,7 +32,7 @@ namespace Image_Slider_Puzzle
                 currentLocations.Clear();
                 winPositions = string.Empty;
                 currentPositions = string.Empty;
-                label2.Text = string.Empty;              
+                label2.Text = string.Empty;
             }
 
             OpenFileDialog open = new OpenFileDialog();
@@ -60,7 +60,30 @@ namespace Image_Slider_Puzzle
 
         private void OnPicClick(object? sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            PictureBox pictureBox = (PictureBox)sender;
+            PictureBox emptyBox = pictureBoxList.Find(x => x.Tag == "0");
+
+            Point pic1 = new Point(pictureBox.Location.X, pictureBox.Location.Y);
+            Point pic2 = new Point(emptyBox.Location.X, emptyBox.Location.Y);
+
+            var index1 = this.Controls.IndexOf(pictureBox);
+            var index2 = this.Controls.IndexOf(emptyBox);
+
+            if (pictureBox.Right == emptyBox.Left && pictureBox.Location.Y == emptyBox.Location.Y
+                || pictureBox.Left == emptyBox.Right && pictureBox.Location.Y == emptyBox.Location.Y
+                || pictureBox.Top == emptyBox.Bottom && pictureBox.Location.X == emptyBox.Location.X
+                || pictureBox.Bottom == emptyBox.Top && pictureBox.Location.X == emptyBox.Location.X)
+            {
+                pictureBox.Location = pic2;
+                emptyBox.Location = pic1;
+
+                this.Controls.SetChildIndex(pictureBox, index2);
+                this.Controls.SetChildIndex(emptyBox, index1);
+            }
+
+            label2.Text = "";
+            currentLocations.Clear();
+            CheckGame();
         }
 
         private void CropImage(Bitmap mainBitmap, int height, int width)
@@ -107,12 +130,43 @@ namespace Image_Slider_Puzzle
 
         private void PlacePictureBoxesToForm()
         {
+            var shuffleImages = pictureBoxList.OrderBy(a => Guid.NewGuid()).ToList();
+            pictureBoxList = shuffleImages;
 
+            int x = 200;
+            int y = 25;
+
+            for (int i = 0; i < pictureBoxList.Count; i++)
+            {
+                pictureBoxList[i].BackColor = Color.Gold;
+
+                if (i == 3 || i == 6)
+                {
+                    y += 130;
+                    x = 200;
+                }
+
+                pictureBoxList[i].BorderStyle = BorderStyle.FixedSingle;
+                pictureBoxList[i].Location = new Point(x, y);
+
+                this.Controls.Add(pictureBoxList[i]);
+                x += 130;
+                winPositions += locations[i];
+            }
         }
 
         private void CheckGame()
         {
+            foreach (Control x in this.Controls)
+            {
+                if (x is PictureBox) currentLocations.Add(x.Tag.ToString());
+            }
 
+            currentPositions = string.Join("", currentLocations);
+            label1.Text = winPositions;
+            label2.Text = currentPositions;
+
+            if (winPositions == currentPositions) label2.Text = "Matched!!!";
         }
     }
 }

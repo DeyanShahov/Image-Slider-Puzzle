@@ -51,9 +51,9 @@
             // 
             label2.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point);
             label2.ForeColor = Color.White;
-            label2.Location = new Point(528, 396);
+            label2.Location = new Point(595, 396);
             label2.Name = "label2";
-            label2.Size = new Size(247, 30);
+            label2.Size = new Size(180, 30);
             label2.TabIndex = 1;
             label2.Text = "Status";
             label2.TextAlign = ContentAlignment.MiddleRight;
@@ -77,7 +77,7 @@
             // openToolStripMenuItem
             // 
             openToolStripMenuItem.Name = "openToolStripMenuItem";
-            openToolStripMenuItem.Size = new Size(180, 22);
+            openToolStripMenuItem.Size = new Size(103, 22);
             openToolStripMenuItem.Text = "Open";
             openToolStripMenuItem.Click += OpenFileEvent;
             // 
