@@ -66,8 +66,11 @@ namespace Image_Slider_Puzzle
             Point pic1 = new Point(pictureBox.Location.X, pictureBox.Location.Y);
             Point pic2 = new Point(emptyBox.Location.X, emptyBox.Location.Y);
 
-            var index1 = this.Controls.IndexOf(pictureBox);
-            var index2 = this.Controls.IndexOf(emptyBox);
+            //var index1 = this.Controls.IndexOf(pictureBox);
+            //var index2 = this.Controls.IndexOf(emptyBox);
+
+            var index1 = PuzzelBox.Controls.IndexOf(pictureBox);
+            var index2 = PuzzelBox.Controls.IndexOf(emptyBox);
 
             if (pictureBox.Right == emptyBox.Left && pictureBox.Location.Y == emptyBox.Location.Y
                 || pictureBox.Left == emptyBox.Right && pictureBox.Location.Y == emptyBox.Location.Y
@@ -77,8 +80,11 @@ namespace Image_Slider_Puzzle
                 pictureBox.Location = pic2;
                 emptyBox.Location = pic1;
 
-                this.Controls.SetChildIndex(pictureBox, index2);
-                this.Controls.SetChildIndex(emptyBox, index1);
+                //this.Controls.SetChildIndex(pictureBox, index2);
+                //this.Controls.SetChildIndex(emptyBox, index1);
+
+                PuzzelBox.Controls.SetChildIndex(pictureBox, index2);
+                PuzzelBox.Controls.SetChildIndex(emptyBox, index1);
             }
 
             label2.Text = "";
@@ -133,23 +139,24 @@ namespace Image_Slider_Puzzle
             var shuffleImages = pictureBoxList.OrderBy(a => Guid.NewGuid()).ToList();
             pictureBoxList = shuffleImages;
 
-            int x = 200;
-            int y = 25;
+            int x = PuzzelBox.Location.X - 5;//200;
+            int y = PuzzelBox.Location.Y - 25;//25;
 
             for (int i = 0; i < pictureBoxList.Count; i++)
             {
-                pictureBoxList[i].BackColor = Color.Gold;
+                pictureBoxList[i].BackColor = Color.Black;
 
                 if (i == 3 || i == 6)
                 {
                     y += 130;
-                    x = 200;
+                    x = PuzzelBox.Location.X - 5; //200;
                 }
 
                 pictureBoxList[i].BorderStyle = BorderStyle.FixedSingle;
                 pictureBoxList[i].Location = new Point(x, y);
 
-                this.Controls.Add(pictureBoxList[i]);
+                //this.Controls.Add(pictureBoxList[i]);
+                PuzzelBox.Controls.Add(pictureBoxList[i]);
                 x += 130;
                 winPositions += locations[i];
             }
