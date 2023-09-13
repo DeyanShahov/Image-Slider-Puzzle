@@ -34,6 +34,7 @@
             fileToolStripMenuItem = new ToolStripMenuItem();
             openToolStripMenuItem = new ToolStripMenuItem();
             PuzzelBox = new GroupBox();
+            OriginalImageBox = new GroupBox();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -91,12 +92,22 @@
             PuzzelBox.TabStop = false;
             PuzzelBox.Text = "Puzzle Box";
             // 
+            // OriginalImageBox
+            // 
+            OriginalImageBox.Location = new Point(475, 46);
+            OriginalImageBox.Name = "OriginalImageBox";
+            OriginalImageBox.Size = new Size(300, 300);
+            OriginalImageBox.TabIndex = 4;
+            OriginalImageBox.TabStop = false;
+            OriginalImageBox.Text = "Original";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlDarkDark;
             ClientSize = new Size(800, 561);
+            Controls.Add(OriginalImageBox);
             Controls.Add(PuzzelBox);
             Controls.Add(label2);
             Controls.Add(label1);
@@ -118,5 +129,6 @@
         private ToolStripMenuItem fileToolStripMenuItem;
         private ToolStripMenuItem openToolStripMenuItem;
         private GroupBox PuzzelBox;
+        private GroupBox OriginalImageBox;
     }
 }

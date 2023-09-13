@@ -41,8 +41,16 @@ namespace Image_Slider_Puzzle
             {
                 MainBitmap = new Bitmap(open.FileName);
                 CreatePictureBoxes();
-                AddImages();
+                SetOriginalImageBox();
+                AddImages();               
             }
+        }
+
+        private void SetOriginalImageBox()
+        {
+            Bitmap tempBitmap = new Bitmap(MainBitmap, new Size(270, 270));
+            OriginalImageBox.BackgroundImageLayout = ImageLayout.Center;
+            OriginalImageBox.BackgroundImage = tempBitmap;
         }
 
         private void CreatePictureBoxes()
@@ -123,7 +131,7 @@ namespace Image_Slider_Puzzle
 
         private void AddImages()
         {
-            Bitmap tempBitmap = new Bitmap(MainBitmap, new Size(390, 390));
+            Bitmap tempBitmap = new Bitmap(MainBitmap, new Size(390, 390));         
             CropImage(tempBitmap, 130, 130);
 
             for (int i = 1; i < pictureBoxList.Count; i++)
