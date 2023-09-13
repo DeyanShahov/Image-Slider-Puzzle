@@ -39,6 +39,9 @@
             lblMovesMade = new Label();
             lblTimeElapsed = new Label();
             tmrTimeElapse = new System.Windows.Forms.Timer(components);
+            btnShufle = new Button();
+            btnPause = new Button();
+            btnQuit = new Button();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -132,12 +135,45 @@
             tmrTimeElapse.Interval = 1000;
             tmrTimeElapse.Tick += UpdateTimeElapsedEvent;
             // 
+            // btnShufle
+            // 
+            btnShufle.Location = new Point(490, 468);
+            btnShufle.Name = "btnShufle";
+            btnShufle.Size = new Size(75, 23);
+            btnShufle.TabIndex = 7;
+            btnShufle.Text = "Shuffle";
+            btnShufle.UseVisualStyleBackColor = true;
+            btnShufle.Click += btnShuffleClick;
+            // 
+            // btnPause
+            // 
+            btnPause.Location = new Point(586, 468);
+            btnPause.Name = "btnPause";
+            btnPause.Size = new Size(75, 23);
+            btnPause.TabIndex = 8;
+            btnPause.Text = "Pause";
+            btnPause.UseVisualStyleBackColor = true;
+            btnPause.Click += btnPauseOrResumeClick;
+            // 
+            // btnQuit
+            // 
+            btnQuit.Location = new Point(681, 468);
+            btnQuit.Name = "btnQuit";
+            btnQuit.Size = new Size(75, 23);
+            btnQuit.TabIndex = 9;
+            btnQuit.Text = "Quit";
+            btnQuit.UseVisualStyleBackColor = true;
+            btnQuit.Click += btnQuitClick;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlDarkDark;
             ClientSize = new Size(917, 560);
+            Controls.Add(btnQuit);
+            Controls.Add(btnPause);
+            Controls.Add(btnShufle);
             Controls.Add(lblTimeElapsed);
             Controls.Add(lblMovesMade);
             Controls.Add(OriginalImageBox);
@@ -166,5 +202,8 @@
         private Label lblMovesMade;
         private Label lblTimeElapsed;
         private System.Windows.Forms.Timer tmrTimeElapse;
+        private Button btnShufle;
+        private Button btnPause;
+        private Button btnQuit;
     }
 }

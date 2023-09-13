@@ -101,7 +101,6 @@ namespace Image_Slider_Puzzle
 
                 if (lblTimeElapsed.Text == "00:00:00")
                 {
-                    tmrTimeElapse.Enabled = true;
                     tmrTimeElapse.Start();
                 }
             }
@@ -174,7 +173,6 @@ namespace Image_Slider_Puzzle
                 pictureBoxList[i].BorderStyle = BorderStyle.FixedSingle;
                 pictureBoxList[i].Location = new Point(x, y);
 
-                //this.Controls.Add(pictureBoxList[i]);
                 PuzzelBox.Controls.Add(pictureBoxList[i]);
                 x += 130;
                 winPositions += locations[i];
@@ -183,7 +181,7 @@ namespace Image_Slider_Puzzle
 
         private void CheckGame()
         {
-            foreach (Control x in this.Controls)
+            foreach (Control x in PuzzelBox.Controls)
             {
                 if (x is PictureBox) currentLocations.Add(x.Tag.ToString());
             }
@@ -196,10 +194,55 @@ namespace Image_Slider_Puzzle
         }
 
         private void UpdateTimeElapsedEvent(object sender, EventArgs e)
+        {         
+            if (tmrTimeElapse.Interval.ToString() != "00:00:00")
+            {
+                elapsedSeconds++;
+                TimeSpan time = TimeSpan.FromSeconds(elapsedSeconds);
+                lblTimeElapsed.Text = time.ToString("hh':'mm':'ss");
+            }
+
+            if (lblTimeElapsed.Text == "00:00:05")
+            {
+                tmrTimeElapse.Stop();
+                lblTimeElapsed.Text = "00:00:00";
+                lblMovesMade.Text = "Moves Made: 0";
+                moves = 0;
+                winPositions = String.Empty;
+                elapsedSeconds = 0;
+                MessageBox.Show("Time is Up\nTry Again", "Puzzle");
+                PlacePictureBoxesToForm();
+            }
+
+        }
+
+        private void btnShuffleClick(object sender, EventArgs e)
         {
-            elapsedSeconds++;
-            TimeSpan time = TimeSpan.FromSeconds(elapsedSeconds);
-            lblTimeElapsed.Text = time.ToString("hh':'mm':'ss");
+
+        }
+
+        private void btnPauseOrResumeClick(object sender, EventArgs e)
+        {
+            if (lblTimeElapsed.Text != "00:00:00")
+            {
+                if (btnPause.Text == "Pause")
+                {
+                    tmrTimeElapse.Stop();
+                    PuzzelBox.Controls.Clear();
+                    btnPause.Text = "Resume";
+                }
+                else
+                {
+                    tmrTimeElapse.Start();
+                    PuzzelBox.Controls.AddRange(pictureBoxList.ToArray());
+                    btnPause.Text = "Pause";
+                }
+            }              
+        }
+
+        private void btnQuitClick(object sender, EventArgs e)
+        {
+
         }
     }
 }
