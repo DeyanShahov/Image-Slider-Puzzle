@@ -10,6 +10,9 @@ namespace Image_Slider_Puzzle
         string winPositions;
         string currentPositions;
 
+        private int moves = 0;
+        private int elapsedSeconds = 0;
+
         Bitmap MainBitmap;
 
         public Form1()
@@ -42,7 +45,7 @@ namespace Image_Slider_Puzzle
                 MainBitmap = new Bitmap(open.FileName);
                 CreatePictureBoxes();
                 SetOriginalImageBox();
-                AddImages();               
+                AddImages();
             }
         }
 
@@ -93,6 +96,14 @@ namespace Image_Slider_Puzzle
 
                 PuzzelBox.Controls.SetChildIndex(pictureBox, index2);
                 PuzzelBox.Controls.SetChildIndex(emptyBox, index1);
+
+                lblMovesMade.Text = "Moves Made: " + (++moves);
+
+                if (lblTimeElapsed.Text == "00:00:00")
+                {
+                    tmrTimeElapse.Enabled = true;
+                    tmrTimeElapse.Start();
+                }
             }
 
             label2.Text = "";
@@ -131,7 +142,7 @@ namespace Image_Slider_Puzzle
 
         private void AddImages()
         {
-            Bitmap tempBitmap = new Bitmap(MainBitmap, new Size(390, 390));         
+            Bitmap tempBitmap = new Bitmap(MainBitmap, new Size(390, 390));
             CropImage(tempBitmap, 130, 130);
 
             for (int i = 1; i < pictureBoxList.Count; i++)
@@ -182,6 +193,13 @@ namespace Image_Slider_Puzzle
             label2.Text = currentPositions;
 
             if (winPositions == currentPositions) label2.Text = "Matched!!!";
+        }
+
+        private void UpdateTimeElapsedEvent(object sender, EventArgs e)
+        {
+            elapsedSeconds++;
+            TimeSpan time = TimeSpan.FromSeconds(elapsedSeconds);
+            lblTimeElapsed.Text = time.ToString("hh':'mm':'ss");
         }
     }
 }

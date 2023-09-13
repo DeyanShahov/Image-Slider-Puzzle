@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             label1 = new Label();
             label2 = new Label();
             menuStrip1 = new MenuStrip();
@@ -35,6 +36,9 @@
             openToolStripMenuItem = new ToolStripMenuItem();
             PuzzelBox = new GroupBox();
             OriginalImageBox = new GroupBox();
+            lblMovesMade = new Label();
+            lblTimeElapsed = new Label();
+            tmrTimeElapse = new System.Windows.Forms.Timer(components);
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -65,7 +69,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(800, 24);
+            menuStrip1.Size = new Size(917, 24);
             menuStrip1.TabIndex = 2;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -101,12 +105,41 @@
             OriginalImageBox.TabStop = false;
             OriginalImageBox.Text = "Original";
             // 
+            // lblMovesMade
+            // 
+            lblMovesMade.AutoSize = true;
+            lblMovesMade.Font = new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            lblMovesMade.ForeColor = SystemColors.ControlText;
+            lblMovesMade.Location = new Point(303, 485);
+            lblMovesMade.Name = "lblMovesMade";
+            lblMovesMade.Size = new Size(118, 19);
+            lblMovesMade.TabIndex = 5;
+            lblMovesMade.Text = "Moves Made:  ";
+            lblMovesMade.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // lblTimeElapsed
+            // 
+            lblTimeElapsed.AutoSize = true;
+            lblTimeElapsed.Font = new Font("Impact", 48F, FontStyle.Regular, GraphicsUnit.Point);
+            lblTimeElapsed.Location = new Point(475, 366);
+            lblTimeElapsed.Name = "lblTimeElapsed";
+            lblTimeElapsed.Size = new Size(264, 80);
+            lblTimeElapsed.TabIndex = 6;
+            lblTimeElapsed.Text = "00:00:00";
+            // 
+            // tmrTimeElapse
+            // 
+            tmrTimeElapse.Interval = 1000;
+            tmrTimeElapse.Tick += UpdateTimeElapsedEvent;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlDarkDark;
-            ClientSize = new Size(800, 561);
+            ClientSize = new Size(917, 560);
+            Controls.Add(lblTimeElapsed);
+            Controls.Add(lblMovesMade);
             Controls.Add(OriginalImageBox);
             Controls.Add(PuzzelBox);
             Controls.Add(label2);
@@ -130,5 +163,8 @@
         private ToolStripMenuItem openToolStripMenuItem;
         private GroupBox PuzzelBox;
         private GroupBox OriginalImageBox;
+        private Label lblMovesMade;
+        private Label lblTimeElapsed;
+        private System.Windows.Forms.Timer tmrTimeElapse;
     }
 }
