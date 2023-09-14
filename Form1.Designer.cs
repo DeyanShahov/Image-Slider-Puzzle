@@ -112,7 +112,7 @@
             GalleryToolStripMenuItem.Name = "GalleryToolStripMenuItem";
             GalleryToolStripMenuItem.Size = new Size(55, 20);
             GalleryToolStripMenuItem.Text = "Gallery";
-            GalleryToolStripMenuItem.Click += GalleryClickEvent;
+            GalleryToolStripMenuItem.Click += GalleryOpenCloseClickEvent;
             // 
             // PuzzleBox
             // 
@@ -200,7 +200,7 @@
             GalleryBox.Controls.Add(pictureBox6);
             GalleryBox.Controls.Add(pictureBox5);
             GalleryBox.Controls.Add(pictureBox1);
-            GalleryBox.Location = new Point(132, 36);
+            GalleryBox.Location = new Point(114, 36);
             GalleryBox.Name = "GalleryBox";
             GalleryBox.Size = new Size(572, 488);
             GalleryBox.TabIndex = 0;

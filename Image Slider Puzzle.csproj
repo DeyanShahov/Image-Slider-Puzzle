@@ -7,6 +7,7 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <ApplicationIcon>Resources\puzzle.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,6 +18,10 @@
     <None Remove="Resources\Untitled1761.png" />
     <None Remove="Resources\Untitled1762.png" />
     <None Remove="Resources\Untitled1763.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\puzzle.ico" />
   </ItemGroup>
 
   <ItemGroup>
