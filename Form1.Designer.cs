@@ -35,14 +35,9 @@
             fileToolStripMenuItem = new ToolStripMenuItem();
             openToolStripMenuItem = new ToolStripMenuItem();
             GalleryToolStripMenuItem = new ToolStripMenuItem();
+            settingsToolStripMenuItem = new ToolStripMenuItem();
+            SettingsOpenClosedClickEvent = new ToolStripMenuItem();
             PuzzleBox = new GroupBox();
-            OriginalImageBox = new GroupBox();
-            lblMovesMade = new Label();
-            lblTimeElapsed = new Label();
-            tmrTimeElapse = new System.Windows.Forms.Timer(components);
-            btnShuffle = new Button();
-            btnPause = new Button();
-            btnQuit = new Button();
             GalleryBox = new GroupBox();
             pictureBox7 = new PictureBox();
             pictureBox2 = new PictureBox();
@@ -51,7 +46,19 @@
             pictureBox6 = new PictureBox();
             pictureBox5 = new PictureBox();
             pictureBox1 = new PictureBox();
+            OriginalImageBox = new GroupBox();
+            lblMovesMade = new Label();
+            lblTimeElapsed = new Label();
+            tmrTimeElapse = new System.Windows.Forms.Timer(components);
+            btnShuffle = new Button();
+            btnPause = new Button();
+            btnQuit = new Button();
+            panSettings = new Panel();
+            lvlVeryHardMod = new Label();
+            lblHardMod = new Label();
+            lblNormalMod = new Label();
             menuStrip1.SuspendLayout();
+            PuzzleBox.SuspendLayout();
             GalleryBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox7).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
@@ -60,6 +67,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            panSettings.SuspendLayout();
             SuspendLayout();
             // 
             // label1
@@ -86,7 +94,7 @@
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, GalleryToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, GalleryToolStripMenuItem, settingsToolStripMenuItem, SettingsOpenClosedClickEvent });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(803, 24);
@@ -114,80 +122,27 @@
             GalleryToolStripMenuItem.Text = "Gallery";
             GalleryToolStripMenuItem.Click += GalleryOpenCloseClickEvent;
             // 
+            // settingsToolStripMenuItem
+            // 
+            settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            settingsToolStripMenuItem.Size = new Size(12, 20);
+            // 
+            // SettingsOpenClosedClickEvent
+            // 
+            SettingsOpenClosedClickEvent.Name = "SettingsOpenClosedClickEvent";
+            SettingsOpenClosedClickEvent.Size = new Size(61, 20);
+            SettingsOpenClosedClickEvent.Text = "Settings";
+            SettingsOpenClosedClickEvent.Click += SettingsOpenClosedClickEvent_Click;
+            // 
             // PuzzleBox
             // 
+            PuzzleBox.Controls.Add(GalleryBox);
             PuzzleBox.Location = new Point(25, 46);
             PuzzleBox.Name = "PuzzleBox";
             PuzzleBox.Size = new Size(430, 425);
             PuzzleBox.TabIndex = 3;
             PuzzleBox.TabStop = false;
             PuzzleBox.Text = "Puzzle Box";
-            // 
-            // OriginalImageBox
-            // 
-            OriginalImageBox.Location = new Point(475, 46);
-            OriginalImageBox.Name = "OriginalImageBox";
-            OriginalImageBox.Size = new Size(300, 300);
-            OriginalImageBox.TabIndex = 4;
-            OriginalImageBox.TabStop = false;
-            OriginalImageBox.Text = "Original";
-            // 
-            // lblMovesMade
-            // 
-            lblMovesMade.AutoSize = true;
-            lblMovesMade.Font = new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            lblMovesMade.ForeColor = SystemColors.ControlText;
-            lblMovesMade.Location = new Point(303, 485);
-            lblMovesMade.Name = "lblMovesMade";
-            lblMovesMade.Size = new Size(118, 19);
-            lblMovesMade.TabIndex = 5;
-            lblMovesMade.Text = "Moves Made:  ";
-            lblMovesMade.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // lblTimeElapsed
-            // 
-            lblTimeElapsed.AutoSize = true;
-            lblTimeElapsed.Font = new Font("Impact", 48F, FontStyle.Regular, GraphicsUnit.Point);
-            lblTimeElapsed.Location = new Point(475, 366);
-            lblTimeElapsed.Name = "lblTimeElapsed";
-            lblTimeElapsed.Size = new Size(264, 80);
-            lblTimeElapsed.TabIndex = 6;
-            lblTimeElapsed.Text = "00:00:00";
-            // 
-            // tmrTimeElapse
-            // 
-            tmrTimeElapse.Interval = 1000;
-            tmrTimeElapse.Tick += UpdateTimeElapsedEvent;
-            // 
-            // btnShuffle
-            // 
-            btnShuffle.Location = new Point(490, 468);
-            btnShuffle.Name = "btnShuffle";
-            btnShuffle.Size = new Size(75, 23);
-            btnShuffle.TabIndex = 7;
-            btnShuffle.Text = "Shuffle";
-            btnShuffle.UseVisualStyleBackColor = true;
-            btnShuffle.Click += btnShuffleClick;
-            // 
-            // btnPause
-            // 
-            btnPause.Location = new Point(586, 468);
-            btnPause.Name = "btnPause";
-            btnPause.Size = new Size(75, 23);
-            btnPause.TabIndex = 8;
-            btnPause.Text = "Pause";
-            btnPause.UseVisualStyleBackColor = true;
-            btnPause.Click += btnPauseOrResumeClick;
-            // 
-            // btnQuit
-            // 
-            btnQuit.Location = new Point(681, 468);
-            btnQuit.Name = "btnQuit";
-            btnQuit.Size = new Size(75, 23);
-            btnQuit.TabIndex = 9;
-            btnQuit.Text = "Quit";
-            btnQuit.UseVisualStyleBackColor = true;
-            btnQuit.Click += btnQuitClick;
             // 
             // GalleryBox
             // 
@@ -200,7 +155,7 @@
             GalleryBox.Controls.Add(pictureBox6);
             GalleryBox.Controls.Add(pictureBox5);
             GalleryBox.Controls.Add(pictureBox1);
-            GalleryBox.Location = new Point(114, 36);
+            GalleryBox.Location = new Point(110, 8);
             GalleryBox.Name = "GalleryBox";
             GalleryBox.Size = new Size(572, 488);
             GalleryBox.TabIndex = 0;
@@ -285,13 +240,129 @@
             pictureBox1.TabStop = false;
             pictureBox1.Click += pictureBox1_Click;
             // 
+            // OriginalImageBox
+            // 
+            OriginalImageBox.Location = new Point(475, 46);
+            OriginalImageBox.Name = "OriginalImageBox";
+            OriginalImageBox.Size = new Size(300, 300);
+            OriginalImageBox.TabIndex = 4;
+            OriginalImageBox.TabStop = false;
+            OriginalImageBox.Text = "Original";
+            // 
+            // lblMovesMade
+            // 
+            lblMovesMade.AutoSize = true;
+            lblMovesMade.Font = new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            lblMovesMade.ForeColor = SystemColors.ControlText;
+            lblMovesMade.Location = new Point(303, 485);
+            lblMovesMade.Name = "lblMovesMade";
+            lblMovesMade.Size = new Size(118, 19);
+            lblMovesMade.TabIndex = 5;
+            lblMovesMade.Text = "Moves Made:  ";
+            lblMovesMade.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // lblTimeElapsed
+            // 
+            lblTimeElapsed.AutoSize = true;
+            lblTimeElapsed.Font = new Font("Impact", 48F, FontStyle.Regular, GraphicsUnit.Point);
+            lblTimeElapsed.Location = new Point(475, 366);
+            lblTimeElapsed.Name = "lblTimeElapsed";
+            lblTimeElapsed.Size = new Size(264, 80);
+            lblTimeElapsed.TabIndex = 6;
+            lblTimeElapsed.Text = "00:00:00";
+            // 
+            // tmrTimeElapse
+            // 
+            tmrTimeElapse.Interval = 1000;
+            tmrTimeElapse.Tick += UpdateTimeElapsedEvent;
+            // 
+            // btnShuffle
+            // 
+            btnShuffle.Location = new Point(490, 468);
+            btnShuffle.Name = "btnShuffle";
+            btnShuffle.Size = new Size(75, 23);
+            btnShuffle.TabIndex = 7;
+            btnShuffle.Text = "Shuffle";
+            btnShuffle.UseVisualStyleBackColor = true;
+            btnShuffle.Click += btnShuffleClick;
+            // 
+            // btnPause
+            // 
+            btnPause.Location = new Point(586, 468);
+            btnPause.Name = "btnPause";
+            btnPause.Size = new Size(75, 23);
+            btnPause.TabIndex = 8;
+            btnPause.Text = "Pause";
+            btnPause.UseVisualStyleBackColor = true;
+            btnPause.Click += btnPauseOrResumeClick;
+            // 
+            // btnQuit
+            // 
+            btnQuit.Location = new Point(681, 468);
+            btnQuit.Name = "btnQuit";
+            btnQuit.Size = new Size(75, 23);
+            btnQuit.TabIndex = 9;
+            btnQuit.Text = "Quit";
+            btnQuit.UseVisualStyleBackColor = true;
+            btnQuit.Click += btnQuitClick;
+            // 
+            // panSettings
+            // 
+            panSettings.BackColor = SystemColors.ActiveBorder;
+            panSettings.BorderStyle = BorderStyle.FixedSingle;
+            panSettings.Controls.Add(lvlVeryHardMod);
+            panSettings.Controls.Add(lblHardMod);
+            panSettings.Controls.Add(lblNormalMod);
+            panSettings.ForeColor = Color.Black;
+            panSettings.Location = new Point(274, 36);
+            panSettings.Name = "panSettings";
+            panSettings.Size = new Size(242, 478);
+            panSettings.TabIndex = 0;
+            panSettings.Visible = false;
+            // 
+            // lvlVeryHardMod
+            // 
+            lvlVeryHardMod.AutoSize = true;
+            lvlVeryHardMod.Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
+            lvlVeryHardMod.Location = new Point(66, 290);
+            lvlVeryHardMod.Name = "lvlVeryHardMod";
+            lvlVeryHardMod.Size = new Size(114, 29);
+            lvlVeryHardMod.TabIndex = 2;
+            lvlVeryHardMod.Text = "VERY HARD";
+            lvlVeryHardMod.TextAlign = ContentAlignment.MiddleCenter;
+            lvlVeryHardMod.Click += lvlVeryHardMod_Click;
+            // 
+            // lblHardMod
+            // 
+            lblHardMod.AutoSize = true;
+            lblHardMod.Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
+            lblHardMod.Location = new Point(91, 190);
+            lblHardMod.Name = "lblHardMod";
+            lblHardMod.Size = new Size(64, 29);
+            lblHardMod.TabIndex = 1;
+            lblHardMod.Text = "HARD";
+            lblHardMod.TextAlign = ContentAlignment.MiddleCenter;
+            lblHardMod.Click += lblHardMod_Click;
+            // 
+            // lblNormalMod
+            // 
+            lblNormalMod.AutoSize = true;
+            lblNormalMod.Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
+            lblNormalMod.Location = new Point(76, 92);
+            lblNormalMod.Name = "lblNormalMod";
+            lblNormalMod.Size = new Size(90, 29);
+            lblNormalMod.TabIndex = 0;
+            lblNormalMod.Text = "NORMAL";
+            lblNormalMod.TextAlign = ContentAlignment.MiddleCenter;
+            lblNormalMod.Click += lblNormalMod_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlDarkDark;
             ClientSize = new Size(803, 560);
-            Controls.Add(GalleryBox);
+            Controls.Add(panSettings);
             Controls.Add(btnQuit);
             Controls.Add(btnPause);
             Controls.Add(btnShuffle);
@@ -309,6 +380,7 @@
             Text = "Image Slider Puzzle";
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
+            PuzzleBox.ResumeLayout(false);
             GalleryBox.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox7).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
@@ -317,6 +389,8 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            panSettings.ResumeLayout(false);
+            panSettings.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -345,5 +419,11 @@
         private PictureBox pictureBox6;
         private PictureBox pictureBox5;
         private PictureBox pictureBox7;
+        private ToolStripMenuItem settingsToolStripMenuItem;
+        private Panel panSettings;
+        private ToolStripMenuItem SettingsOpenClosedClickEvent;
+        private Label lblNormalMod;
+        private Label lvlVeryHardMod;
+        private Label lblHardMod;
     }
 }

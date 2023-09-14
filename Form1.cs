@@ -10,11 +10,13 @@ namespace Image_Slider_Puzzle
 
         private string winPositions;
         private string currentPositions;
+        private string gameMod = "Normal";
 
         private int moves = 0;
         private int elapsedSeconds = 0;
 
         Bitmap MainBitmap;
+        Random random = new Random();
 
         public Form1()
         {
@@ -31,11 +33,11 @@ namespace Image_Slider_Puzzle
             imageFromGallery.Add(Properties.Resources.Untitled1763);
         }
 
-       
+
 
         private void SetOriginalImageBox()
         {
-            Bitmap tempBitmap = new Bitmap(MainBitmap, new Size(270, 270));            
+            Bitmap tempBitmap = new Bitmap(MainBitmap, new Size(270, 270));
             OriginalImageBox.BackgroundImageLayout = ImageLayout.Center;
             OriginalImageBox.BackgroundImage = tempBitmap;
         }
@@ -51,7 +53,7 @@ namespace Image_Slider_Puzzle
                 pictureBoxList.Add(tempPic);
                 locations.Add(tempPic.Tag.ToString());
             }
-        }       
+        }
 
         private void CropImage(Bitmap mainBitmap, int height, int width)
         {
@@ -89,8 +91,7 @@ namespace Image_Slider_Puzzle
             for (int i = 1; i < pictureBoxList.Count; i++)
             {
                 pictureBoxList[i].BackgroundImage = images[i];
-                //pictureBoxList[i].BackgroundImage.RotateFlip(RotateFlipType.Rotate90FlipNone);
-                //tempBitmap.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                //if (gameMod == "Hard") pictureBoxList[i].BackgroundImage.RotateFlip(RotateFlipType.Rotate90FlipNone);
             }
 
             PlacePictureBoxesToForm();
@@ -99,10 +100,11 @@ namespace Image_Slider_Puzzle
         private void PlacePictureBoxesToForm()
         {
             var shuffleImages = pictureBoxList.OrderBy(a => Guid.NewGuid()).ToList();
+            //shuffleImages.FindAll(p => p.BackgroundImage != null).ForEach(p => p.BackgroundImage.RotateFlip(RotateFlipType.Rotate90FlipNone));
             pictureBoxList = shuffleImages;
 
-            int x = PuzzleBox.Location.X - 5;//200;
-            int y = PuzzleBox.Location.Y - 25;//25;
+            int x = PuzzleBox.Location.X - 5;
+            int y = PuzzleBox.Location.Y - 25;
 
             for (int i = 0; i < pictureBoxList.Count; i++)
             {
@@ -111,13 +113,14 @@ namespace Image_Slider_Puzzle
                 if (i == 3 || i == 6)
                 {
                     y += 130;
-                    x = PuzzleBox.Location.X - 5;//200;
+                    x = PuzzleBox.Location.X - 5;
                 }
 
                 pictureBoxList[i].BorderStyle = BorderStyle.FixedSingle;
                 pictureBoxList[i].Location = new Point(x, y);
 
                 PuzzleBox.Controls.Add(pictureBoxList[i]);
+
                 x += 130;
                 winPositions += locations[i];
             }
@@ -143,11 +146,11 @@ namespace Image_Slider_Puzzle
             }
 
             return isWin;
-        }      
+        }
 
         private void LoadImageFromGalleryOrPc(Bitmap image)
         {
-            if (pictureBoxList != null)
+            if (pictureBoxList.Any())
             {
                 foreach (PictureBox pics in pictureBoxList)
                 {
@@ -219,6 +222,9 @@ namespace Image_Slider_Puzzle
                 emptyBox.Location = pic1;
 
 
+                if (gameMod == "Hard") RotatePictureBox(pictureBox);
+
+
                 PuzzleBox.Controls.SetChildIndex(pictureBox, index2);
                 PuzzleBox.Controls.SetChildIndex(emptyBox, index1);
 
@@ -229,6 +235,11 @@ namespace Image_Slider_Puzzle
                     tmrTimeElapse.Start();
                 }
             }
+
+            //Image flipImage = pictureBox.BackgroundImage;
+            //flipImage.RotateFlip(RotateFlipType.Rotate90FlipNone);
+            //pictureBox.BackgroundImage = flipImage;
+            //pictureBox.Refresh();
 
             label2.Text = "";
             currentLocations.Clear();
@@ -278,7 +289,13 @@ namespace Image_Slider_Puzzle
         {
             if (GalleryBox.Visible == false) GalleryBox.Visible = true;
             else GalleryBox.Visible = false;
-        }   
+        }
+
+        private void SettingsOpenClosedClickEvent_Click(object sender, EventArgs e)
+        {
+            if (panSettings.Visible == false) panSettings.Visible = true;
+            else panSettings.Visible = false;
+        }
 
         #region Btn Click Event
         private void btnQuitClick(object sender, EventArgs e)
@@ -348,6 +365,68 @@ namespace Image_Slider_Puzzle
         #endregion
 
         #endregion
+
+
+        private void lblNormalMod_Click(object sender, EventArgs e)
+        {
+            gameMod = "Normal";
+            panSettings.Visible = false;
+        }
+
+        private void lblHardMod_Click(object sender, EventArgs e)
+        {
+            gameMod = "Hard";
+            panSettings.Visible = false;
+
+            //RotatePictureBoxes(PuzzleBox);
+        }
+
+        private void lvlVeryHardMod_Click(object sender, EventArgs e)
+        {
+            gameMod = "VeryHard";
+            panSettings.Visible = false;
+        }
+
+        private void RotatePictureBoxes(Control container)
+        {
+            foreach (Control control in container.Controls)
+            {
+                if (control.BackgroundImage != null) control.BackgroundImage.RotateFlip(RandomRotate());
+            }
+            container.Refresh();
+        }
+
+        private void RotatePictureBox(PictureBox pictureBox)
+        {
+
+            pictureBox.BackgroundImage.RotateFlip(RandomRotate());
+
+            pictureBox.Refresh();
+        }
+
+
+        private RotateFlipType RandomRotate()
+        {
+            RotateFlipType temp = RotateFlipType.RotateNoneFlipNone;
+
+            switch (random.Next(1, 5))
+            {
+                case 1:
+                    temp = RotateFlipType.Rotate90FlipNone;
+                    break;
+                case 2:
+                    temp = RotateFlipType.Rotate180FlipNone;
+                    break;
+                case 3:
+                    temp = RotateFlipType.Rotate270FlipNone;
+                    break;
+                case 4:
+                    temp = RotateFlipType.RotateNoneFlipNone;
+                    break;
+            }
+
+            return temp;
+        }
 
     }
 }
