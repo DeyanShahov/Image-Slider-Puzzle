@@ -1,14 +1,17 @@
+using System.Drawing;
+using static System.Net.Mime.MediaTypeNames;
+
 namespace Image_Slider_Puzzle
 {
     public partial class Form1 : Form
     {
-        List<PictureBox> pictureBoxList = new List<PictureBox>();
-        List<Bitmap> images = new List<Bitmap>();
-        List<string> locations = new List<string>();
-        List<string> currentLocations = new List<string>();
+        private List<PictureBox> pictureBoxList = new List<PictureBox>();
+        private List<Bitmap> images = new List<Bitmap>();
+        private List<string> locations = new List<string>();
+        private List<string> currentLocations = new List<string>();
 
-        string winPositions;
-        string currentPositions;
+        private string winPositions;
+        private string currentPositions;
 
         private int moves = 0;
         private int elapsedSeconds = 0;
@@ -26,8 +29,10 @@ namespace Image_Slider_Puzzle
             {
                 foreach (PictureBox pics in pictureBoxList)
                 {
-                    this.Controls.Remove(pics);
+                    PuzzleBox.Controls.Remove(pics);
                 }
+
+                OriginalImageBox.BackgroundImage = null;
 
                 pictureBoxList.Clear();
                 images.Clear();
@@ -38,14 +43,21 @@ namespace Image_Slider_Puzzle
                 label2.Text = string.Empty;
             }
 
-            OpenFileDialog open = new OpenFileDialog();
-            open.Filter = "Image Files Only | *.jpg; *.jpeg; *.gif; *.png";
-            if (open.ShowDialog() == DialogResult.OK)
+            using (OpenFileDialog open = new OpenFileDialog())
             {
-                MainBitmap = new Bitmap(open.FileName);
-                CreatePictureBoxes();
-                SetOriginalImageBox();
-                AddImages();
+                if (MainBitmap != null) MainBitmap.Dispose();
+
+                open.Filter = "Image Files Only | *.jpg; *.jpeg; *.gif; *.png";
+                if (open.ShowDialog() == DialogResult.OK)
+                {
+                    ResetPuzzle();
+                    MainBitmap = new Bitmap(open.FileName);
+                    CreatePictureBoxes();
+                    SetOriginalImageBox();
+                    AddImages();
+
+                    //LoadImageFromGalleryOrPc(new Bitmap(open.FileName));
+                }
             }
         }
 
@@ -77,11 +89,8 @@ namespace Image_Slider_Puzzle
             Point pic1 = new Point(pictureBox.Location.X, pictureBox.Location.Y);
             Point pic2 = new Point(emptyBox.Location.X, emptyBox.Location.Y);
 
-            //var index1 = this.Controls.IndexOf(pictureBox);
-            //var index2 = this.Controls.IndexOf(emptyBox);
-
-            var index1 = PuzzelBox.Controls.IndexOf(pictureBox);
-            var index2 = PuzzelBox.Controls.IndexOf(emptyBox);
+            var index1 = PuzzleBox.Controls.IndexOf(pictureBox);
+            var index2 = PuzzleBox.Controls.IndexOf(emptyBox);
 
             if (pictureBox.Right == emptyBox.Left && pictureBox.Location.Y == emptyBox.Location.Y
                 || pictureBox.Left == emptyBox.Right && pictureBox.Location.Y == emptyBox.Location.Y
@@ -91,11 +100,9 @@ namespace Image_Slider_Puzzle
                 pictureBox.Location = pic2;
                 emptyBox.Location = pic1;
 
-                //this.Controls.SetChildIndex(pictureBox, index2);
-                //this.Controls.SetChildIndex(emptyBox, index1);
 
-                PuzzelBox.Controls.SetChildIndex(pictureBox, index2);
-                PuzzelBox.Controls.SetChildIndex(emptyBox, index1);
+                PuzzleBox.Controls.SetChildIndex(pictureBox, index2);
+                PuzzleBox.Controls.SetChildIndex(emptyBox, index1);
 
                 lblMovesMade.Text = "Moves Made: " + (++moves);
 
@@ -135,7 +142,6 @@ namespace Image_Slider_Puzzle
                     x = 0;
                     y += 130;
                 }
-
             }
         }
 
@@ -146,7 +152,7 @@ namespace Image_Slider_Puzzle
 
             for (int i = 1; i < pictureBoxList.Count; i++)
             {
-                pictureBoxList[i].BackgroundImage = (Image)images[i];
+                pictureBoxList[i].BackgroundImage = images[i];
             }
 
             PlacePictureBoxesToForm();
@@ -157,8 +163,8 @@ namespace Image_Slider_Puzzle
             var shuffleImages = pictureBoxList.OrderBy(a => Guid.NewGuid()).ToList();
             pictureBoxList = shuffleImages;
 
-            int x = PuzzelBox.Location.X - 5;//200;
-            int y = PuzzelBox.Location.Y - 25;//25;
+            int x = PuzzleBox.Location.X - 5;//200;
+            int y = PuzzleBox.Location.Y - 25;//25;
 
             for (int i = 0; i < pictureBoxList.Count; i++)
             {
@@ -167,13 +173,13 @@ namespace Image_Slider_Puzzle
                 if (i == 3 || i == 6)
                 {
                     y += 130;
-                    x = PuzzelBox.Location.X - 5; //200;
+                    x = PuzzleBox.Location.X - 5;//200;
                 }
 
                 pictureBoxList[i].BorderStyle = BorderStyle.FixedSingle;
                 pictureBoxList[i].Location = new Point(x, y);
 
-                PuzzelBox.Controls.Add(pictureBoxList[i]);
+                PuzzleBox.Controls.Add(pictureBoxList[i]);
                 x += 130;
                 winPositions += locations[i];
             }
@@ -181,7 +187,7 @@ namespace Image_Slider_Puzzle
 
         private void CheckGame()
         {
-            foreach (Control x in PuzzelBox.Controls)
+            foreach (Control x in PuzzleBox.Controls)
             {
                 if (x is PictureBox) currentLocations.Add(x.Tag.ToString());
             }
@@ -194,7 +200,7 @@ namespace Image_Slider_Puzzle
         }
 
         private void UpdateTimeElapsedEvent(object sender, EventArgs e)
-        {         
+        {
             if (tmrTimeElapse.Interval.ToString() != "00:00:00")
             {
                 elapsedSeconds++;
@@ -202,23 +208,27 @@ namespace Image_Slider_Puzzle
                 lblTimeElapsed.Text = time.ToString("hh':'mm':'ss");
             }
 
-            if (lblTimeElapsed.Text == "00:00:05")
+            if (lblTimeElapsed.Text == "01:00:00")
             {
                 tmrTimeElapse.Stop();
-                lblTimeElapsed.Text = "00:00:00";
-                lblMovesMade.Text = "Moves Made: 0";
-                moves = 0;
-                winPositions = String.Empty;
-                elapsedSeconds = 0;
                 MessageBox.Show("Time is Up\nTry Again", "Puzzle");
-                PlacePictureBoxesToForm();
+                ResetPuzzle();
             }
 
         }
 
         private void btnShuffleClick(object sender, EventArgs e)
         {
+            DialogResult YesOrNo = new DialogResult();
+            if (lblTimeElapsed.Text != "00:00:00")
+            {
+                YesOrNo = MessageBox.Show("Are You Sure To Restart ?", "Puzzle", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            }
 
+            if (YesOrNo == DialogResult.Yes || lblTimeElapsed.Text == "00:00:00")
+            {
+                ResetPuzzle();
+            }
         }
 
         private void btnPauseOrResumeClick(object sender, EventArgs e)
@@ -228,21 +238,125 @@ namespace Image_Slider_Puzzle
                 if (btnPause.Text == "Pause")
                 {
                     tmrTimeElapse.Stop();
-                    PuzzelBox.Controls.Clear();
+                    PuzzleBox.Controls.Clear();
                     btnPause.Text = "Resume";
                 }
                 else
                 {
                     tmrTimeElapse.Start();
-                    PuzzelBox.Controls.AddRange(pictureBoxList.ToArray());
+                    PuzzleBox.Controls.AddRange(pictureBoxList.ToArray());
                     btnPause.Text = "Pause";
                 }
-            }              
+            }
         }
 
         private void btnQuitClick(object sender, EventArgs e)
         {
+            AskPermissionBeforeQuite(sender, e as FormClosingEventArgs);
+        }
+
+        private void AskPermissionBeforeQuite(object sender, FormClosingEventArgs e)
+        {
+            DialogResult YesOrNO = MessageBox.Show(this, "Are You Sure To Quit ?", "Puzzle", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (sender as Button != btnQuit && YesOrNO == DialogResult.No) e.Cancel = true;
+            if (sender as Button == btnQuit && YesOrNO == DialogResult.Yes) Environment.Exit(0);
 
         }
+
+        private void GalleryClickEvent(object sender, EventArgs e)
+        {
+            if (GalleryBox.Visible == false) GalleryBox.Visible = true;
+            else GalleryBox.Visible = false;
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e) //=> LoadImageFromGalleryOrPc(Properties.Resources.Untitled1757);
+        {
+            if (pictureBoxList != null)
+            {
+                foreach (PictureBox pics in pictureBoxList)
+                {
+                    PuzzleBox.Controls.Remove(pics);
+                }
+
+                OriginalImageBox.BackgroundImage = null;
+
+                pictureBoxList.Clear();
+                images.Clear();
+                locations.Clear();
+                currentLocations.Clear();
+                winPositions = string.Empty;
+                currentPositions = string.Empty;
+                label2.Text = string.Empty;
+            }
+
+            if (MainBitmap != null) MainBitmap.Dispose();
+
+            ResetPuzzle();
+            MainBitmap = Properties.Resources.Untitled1757;
+            CreatePictureBoxes();
+            SetOriginalImageBox();
+            AddImages();
+            GalleryBox.Visible = false;
+        }
+        private void pictureBox2_Click(object sender, EventArgs e) => LoadImageFromGalleryOrPc(Properties.Resources.Untitled1758);
+
+        private void pictureBox3_Click(object sender, EventArgs e) => LoadImageFromGalleryOrPc(Properties.Resources.Untitled1759);
+
+        private void pictureBox4_Click(object sender, EventArgs e) => LoadImageFromGalleryOrPc(Properties.Resources.Untitled1760);
+
+        private void pictureBox5_Click(object sender, EventArgs e) => LoadImageFromGalleryOrPc(Properties.Resources.Untitled1761);
+
+        private void pictureBox6_Click(object sender, EventArgs e) => LoadImageFromGalleryOrPc(Properties.Resources.Untitled1762);
+
+        private void pictureBox7_Click(object sender, EventArgs e) => LoadImageFromGalleryOrPc(Properties.Resources.Untitled1763);
+
+        private void LoadImageFromGalleryOrPc(Bitmap image)
+        {
+            if (pictureBoxList != null)
+            {
+                foreach (PictureBox pics in pictureBoxList)
+                {
+                    PuzzleBox.Controls.Remove(pics);
+                }
+
+                OriginalImageBox.BackgroundImage = null;
+
+                pictureBoxList.Clear();
+                images.Clear();
+                locations.Clear();
+                currentLocations.Clear();
+                winPositions = string.Empty;
+                currentPositions = string.Empty;
+                label2.Text = string.Empty;
+            }
+
+            if (MainBitmap != null) MainBitmap.Dispose();
+
+            ResetPuzzle();
+            MainBitmap = image;
+            CreatePictureBoxes();
+            SetOriginalImageBox();
+            AddImages();
+            GalleryBox.Visible = false;
+        }
+
+        private void ResetPuzzle()
+        {
+            tmrTimeElapse.Stop();
+            elapsedSeconds = 0;
+            lblTimeElapsed.Text = "00:00:00";
+
+            moves = 0;
+            lblMovesMade.Text = "Moves Made: 0";
+
+            winPositions = string.Empty;
+            label1.Text = "";
+
+            currentPositions = string.Empty;
+            label2.Text = "";
+
+            PlacePictureBoxesToForm();
+        }
+
     }
 }

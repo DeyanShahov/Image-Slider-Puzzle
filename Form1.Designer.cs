@@ -34,15 +34,32 @@
             menuStrip1 = new MenuStrip();
             fileToolStripMenuItem = new ToolStripMenuItem();
             openToolStripMenuItem = new ToolStripMenuItem();
-            PuzzelBox = new GroupBox();
+            GalleryToolStripMenuItem = new ToolStripMenuItem();
+            PuzzleBox = new GroupBox();
             OriginalImageBox = new GroupBox();
             lblMovesMade = new Label();
             lblTimeElapsed = new Label();
             tmrTimeElapse = new System.Windows.Forms.Timer(components);
-            btnShufle = new Button();
+            btnShuffle = new Button();
             btnPause = new Button();
             btnQuit = new Button();
+            GalleryBox = new GroupBox();
+            pictureBox7 = new PictureBox();
+            pictureBox2 = new PictureBox();
+            pictureBox3 = new PictureBox();
+            pictureBox4 = new PictureBox();
+            pictureBox6 = new PictureBox();
+            pictureBox5 = new PictureBox();
+            pictureBox1 = new PictureBox();
             menuStrip1.SuspendLayout();
+            GalleryBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox7).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -69,10 +86,10 @@
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, GalleryToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(917, 24);
+            menuStrip1.Size = new Size(803, 24);
             menuStrip1.TabIndex = 2;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -90,14 +107,21 @@
             openToolStripMenuItem.Text = "Open";
             openToolStripMenuItem.Click += OpenFileEvent;
             // 
-            // PuzzelBox
+            // GalleryToolStripMenuItem
             // 
-            PuzzelBox.Location = new Point(25, 46);
-            PuzzelBox.Name = "PuzzelBox";
-            PuzzelBox.Size = new Size(430, 425);
-            PuzzelBox.TabIndex = 3;
-            PuzzelBox.TabStop = false;
-            PuzzelBox.Text = "Puzzle Box";
+            GalleryToolStripMenuItem.Name = "GalleryToolStripMenuItem";
+            GalleryToolStripMenuItem.Size = new Size(55, 20);
+            GalleryToolStripMenuItem.Text = "Gallery";
+            GalleryToolStripMenuItem.Click += GalleryClickEvent;
+            // 
+            // PuzzleBox
+            // 
+            PuzzleBox.Location = new Point(25, 46);
+            PuzzleBox.Name = "PuzzleBox";
+            PuzzleBox.Size = new Size(430, 425);
+            PuzzleBox.TabIndex = 3;
+            PuzzleBox.TabStop = false;
+            PuzzleBox.Text = "Puzzle Box";
             // 
             // OriginalImageBox
             // 
@@ -135,15 +159,15 @@
             tmrTimeElapse.Interval = 1000;
             tmrTimeElapse.Tick += UpdateTimeElapsedEvent;
             // 
-            // btnShufle
+            // btnShuffle
             // 
-            btnShufle.Location = new Point(490, 468);
-            btnShufle.Name = "btnShufle";
-            btnShufle.Size = new Size(75, 23);
-            btnShufle.TabIndex = 7;
-            btnShufle.Text = "Shuffle";
-            btnShufle.UseVisualStyleBackColor = true;
-            btnShufle.Click += btnShuffleClick;
+            btnShuffle.Location = new Point(490, 468);
+            btnShuffle.Name = "btnShuffle";
+            btnShuffle.Size = new Size(75, 23);
+            btnShuffle.TabIndex = 7;
+            btnShuffle.Text = "Shuffle";
+            btnShuffle.UseVisualStyleBackColor = true;
+            btnShuffle.Click += btnShuffleClick;
             // 
             // btnPause
             // 
@@ -165,27 +189,134 @@
             btnQuit.UseVisualStyleBackColor = true;
             btnQuit.Click += btnQuitClick;
             // 
+            // GalleryBox
+            // 
+            GalleryBox.BackColor = SystemColors.ControlDark;
+            GalleryBox.BackgroundImageLayout = ImageLayout.None;
+            GalleryBox.Controls.Add(pictureBox7);
+            GalleryBox.Controls.Add(pictureBox2);
+            GalleryBox.Controls.Add(pictureBox3);
+            GalleryBox.Controls.Add(pictureBox4);
+            GalleryBox.Controls.Add(pictureBox6);
+            GalleryBox.Controls.Add(pictureBox5);
+            GalleryBox.Controls.Add(pictureBox1);
+            GalleryBox.Location = new Point(132, 36);
+            GalleryBox.Name = "GalleryBox";
+            GalleryBox.Size = new Size(572, 488);
+            GalleryBox.TabIndex = 0;
+            GalleryBox.TabStop = false;
+            GalleryBox.Text = "Gallery";
+            GalleryBox.Visible = false;
+            // 
+            // pictureBox7
+            // 
+            pictureBox7.Image = Properties.Resources.Untitled1763;
+            pictureBox7.Location = new Point(219, 335);
+            pictureBox7.Name = "pictureBox7";
+            pictureBox7.Size = new Size(149, 116);
+            pictureBox7.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox7.TabIndex = 6;
+            pictureBox7.TabStop = false;
+            pictureBox7.Click += pictureBox7_Click;
+            // 
+            // pictureBox2
+            // 
+            pictureBox2.Image = Properties.Resources.Untitled1758;
+            pictureBox2.Location = new Point(220, 37);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Size = new Size(149, 116);
+            pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox2.TabIndex = 5;
+            pictureBox2.TabStop = false;
+            pictureBox2.Click += pictureBox2_Click;
+            // 
+            // pictureBox3
+            // 
+            pictureBox3.Image = Properties.Resources.Untitled1759;
+            pictureBox3.Location = new Point(396, 37);
+            pictureBox3.Name = "pictureBox3";
+            pictureBox3.Size = new Size(149, 116);
+            pictureBox3.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox3.TabIndex = 4;
+            pictureBox3.TabStop = false;
+            pictureBox3.Click += pictureBox3_Click;
+            // 
+            // pictureBox4
+            // 
+            pictureBox4.Image = Properties.Resources.Untitled1760;
+            pictureBox4.Location = new Point(41, 186);
+            pictureBox4.Name = "pictureBox4";
+            pictureBox4.Size = new Size(149, 116);
+            pictureBox4.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox4.TabIndex = 3;
+            pictureBox4.TabStop = false;
+            pictureBox4.Click += pictureBox4_Click;
+            // 
+            // pictureBox6
+            // 
+            pictureBox6.Image = Properties.Resources.Untitled1762;
+            pictureBox6.Location = new Point(396, 186);
+            pictureBox6.Name = "pictureBox6";
+            pictureBox6.Size = new Size(149, 116);
+            pictureBox6.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox6.TabIndex = 2;
+            pictureBox6.TabStop = false;
+            pictureBox6.Click += pictureBox6_Click;
+            // 
+            // pictureBox5
+            // 
+            pictureBox5.Image = Properties.Resources.Untitled1761;
+            pictureBox5.Location = new Point(220, 186);
+            pictureBox5.Name = "pictureBox5";
+            pictureBox5.Size = new Size(149, 116);
+            pictureBox5.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox5.TabIndex = 1;
+            pictureBox5.TabStop = false;
+            pictureBox5.Click += pictureBox5_Click;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = Properties.Resources.Untitled1757;
+            pictureBox1.Location = new Point(41, 37);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(149, 116);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 0;
+            pictureBox1.TabStop = false;
+            pictureBox1.Click += pictureBox1_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlDarkDark;
-            ClientSize = new Size(917, 560);
+            ClientSize = new Size(803, 560);
+            Controls.Add(GalleryBox);
             Controls.Add(btnQuit);
             Controls.Add(btnPause);
-            Controls.Add(btnShufle);
+            Controls.Add(btnShuffle);
             Controls.Add(lblTimeElapsed);
             Controls.Add(lblMovesMade);
             Controls.Add(OriginalImageBox);
-            Controls.Add(PuzzelBox);
+            Controls.Add(PuzzleBox);
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(menuStrip1);
             MainMenuStrip = menuStrip1;
+            MaximizeBox = false;
+            MinimizeBox = false;
             Name = "Form1";
             Text = "Image Slider Puzzle";
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
+            GalleryBox.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pictureBox7).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -197,13 +328,22 @@
         private MenuStrip menuStrip1;
         private ToolStripMenuItem fileToolStripMenuItem;
         private ToolStripMenuItem openToolStripMenuItem;
-        private GroupBox PuzzelBox;
+        private GroupBox PuzzleBox;
         private GroupBox OriginalImageBox;
         private Label lblMovesMade;
         private Label lblTimeElapsed;
         private System.Windows.Forms.Timer tmrTimeElapse;
-        private Button btnShufle;
+        private Button btnShuffle;
         private Button btnPause;
         private Button btnQuit;
+        private ToolStripMenuItem GalleryToolStripMenuItem;
+        private GroupBox GalleryBox;
+        private PictureBox pictureBox1;
+        private PictureBox pictureBox2;
+        private PictureBox pictureBox3;
+        private PictureBox pictureBox4;
+        private PictureBox pictureBox6;
+        private PictureBox pictureBox5;
+        private PictureBox pictureBox7;
     }
 }
