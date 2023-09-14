@@ -5,6 +5,7 @@ namespace Image_Slider_Puzzle
 {
     public partial class Form1 : Form
     {
+        private List<Bitmap> imageFromGallery = new List<Bitmap>();
         private List<PictureBox> pictureBoxList = new List<PictureBox>();
         private List<Bitmap> images = new List<Bitmap>();
         private List<string> locations = new List<string>();
@@ -21,42 +22,50 @@ namespace Image_Slider_Puzzle
         public Form1()
         {
             InitializeComponent();
+
+            imageFromGallery.Add(Properties.Resources.Untitled1757);
+            imageFromGallery.Add(Properties.Resources.Untitled1758);
+            imageFromGallery.Add(Properties.Resources.Untitled1759);
+            imageFromGallery.Add(Properties.Resources.Untitled1760);
+            imageFromGallery.Add(Properties.Resources.Untitled1761);
+            imageFromGallery.Add(Properties.Resources.Untitled1762);
+            imageFromGallery.Add(Properties.Resources.Untitled1763);
         }
 
         private void OpenFileEvent(object sender, EventArgs e)
         {
-            if (pictureBoxList != null)
-            {
-                foreach (PictureBox pics in pictureBoxList)
-                {
-                    PuzzleBox.Controls.Remove(pics);
-                }
+            //if (pictureBoxList != null)
+            //{
+            //    foreach (PictureBox pics in pictureBoxList)
+            //    {
+            //        PuzzleBox.Controls.Remove(pics);
+            //    }
 
-                OriginalImageBox.BackgroundImage = null;
+            //    OriginalImageBox.BackgroundImage = null;
 
-                pictureBoxList.Clear();
-                images.Clear();
-                locations.Clear();
-                currentLocations.Clear();
-                winPositions = string.Empty;
-                currentPositions = string.Empty;
-                label2.Text = string.Empty;
-            }
+            //    pictureBoxList.Clear();
+            //    images.Clear();
+            //    locations.Clear();
+            //    currentLocations.Clear();
+            //    winPositions = string.Empty;
+            //    currentPositions = string.Empty;
+            //    label2.Text = string.Empty;
+            //}
 
             using (OpenFileDialog open = new OpenFileDialog())
             {
-                if (MainBitmap != null) MainBitmap.Dispose();
+                //if (MainBitmap != null) MainBitmap.Dispose();
 
                 open.Filter = "Image Files Only | *.jpg; *.jpeg; *.gif; *.png";
                 if (open.ShowDialog() == DialogResult.OK)
                 {
-                    ResetPuzzle();
-                    MainBitmap = new Bitmap(open.FileName);
-                    CreatePictureBoxes();
-                    SetOriginalImageBox();
-                    AddImages();
+                    //ResetPuzzle();
+                    //MainBitmap = new Bitmap(open.FileName);
+                    //CreatePictureBoxes();
+                    //SetOriginalImageBox();
+                    //AddImages();
 
-                    //LoadImageFromGalleryOrPc(new Bitmap(open.FileName));
+                    LoadImageFromGalleryOrPc(new Bitmap(open.FileName));
                 }
             }
         }
@@ -114,7 +123,13 @@ namespace Image_Slider_Puzzle
 
             label2.Text = "";
             currentLocations.Clear();
-            CheckGame();
+        
+            if (CheckGame())
+            {
+                tmrTimeElapse.Stop();
+                MessageBox.Show("Congratulations...\nYour Win\nTime Elapsed : " + elapsedSeconds + " s.\nTotal Moves Made : " + moves, "Puzzle");
+                GalleryBox.Visible = true;
+            }
         }
 
         private void CropImage(Bitmap mainBitmap, int height, int width)
@@ -160,8 +175,8 @@ namespace Image_Slider_Puzzle
 
         private void PlacePictureBoxesToForm()
         {
-            var shuffleImages = pictureBoxList.OrderBy(a => Guid.NewGuid()).ToList();
-            pictureBoxList = shuffleImages;
+            //var shuffleImages = pictureBoxList.OrderBy(a => Guid.NewGuid()).ToList();
+            //pictureBoxList = shuffleImages;
 
             int x = PuzzleBox.Location.X - 5;//200;
             int y = PuzzleBox.Location.Y - 25;//25;
@@ -185,8 +200,10 @@ namespace Image_Slider_Puzzle
             }
         }
 
-        private void CheckGame()
+        private bool CheckGame()
         {
+            bool isWin = false;
+
             foreach (Control x in PuzzleBox.Controls)
             {
                 if (x is PictureBox) currentLocations.Add(x.Tag.ToString());
@@ -196,7 +213,13 @@ namespace Image_Slider_Puzzle
             label1.Text = winPositions;
             label2.Text = currentPositions;
 
-            if (winPositions == currentPositions) label2.Text = "Matched!!!";
+            if (winPositions == currentPositions) 
+            {
+                label2.Text = "Matched!!!";
+                isWin = true;
+            }
+
+            return isWin;
         }
 
         private void UpdateTimeElapsedEvent(object sender, EventArgs e)
@@ -269,46 +292,19 @@ namespace Image_Slider_Puzzle
             else GalleryBox.Visible = false;
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e) //=> LoadImageFromGalleryOrPc(Properties.Resources.Untitled1757);
-        {
-            if (pictureBoxList != null)
-            {
-                foreach (PictureBox pics in pictureBoxList)
-                {
-                    PuzzleBox.Controls.Remove(pics);
-                }
+        private void pictureBox1_Click(object sender, EventArgs e) => LoadImageFromGalleryOrPc(imageFromGallery[0]);
 
-                OriginalImageBox.BackgroundImage = null;
+        private void pictureBox2_Click(object sender, EventArgs e) => LoadImageFromGalleryOrPc(imageFromGallery[1]);
 
-                pictureBoxList.Clear();
-                images.Clear();
-                locations.Clear();
-                currentLocations.Clear();
-                winPositions = string.Empty;
-                currentPositions = string.Empty;
-                label2.Text = string.Empty;
-            }
+        private void pictureBox3_Click(object sender, EventArgs e) => LoadImageFromGalleryOrPc(imageFromGallery[2]);
 
-            if (MainBitmap != null) MainBitmap.Dispose();
+        private void pictureBox4_Click(object sender, EventArgs e) => LoadImageFromGalleryOrPc(imageFromGallery[3]);
 
-            ResetPuzzle();
-            MainBitmap = Properties.Resources.Untitled1757;
-            CreatePictureBoxes();
-            SetOriginalImageBox();
-            AddImages();
-            GalleryBox.Visible = false;
-        }
-        private void pictureBox2_Click(object sender, EventArgs e) => LoadImageFromGalleryOrPc(Properties.Resources.Untitled1758);
+        private void pictureBox5_Click(object sender, EventArgs e) => LoadImageFromGalleryOrPc(imageFromGallery[4]);
 
-        private void pictureBox3_Click(object sender, EventArgs e) => LoadImageFromGalleryOrPc(Properties.Resources.Untitled1759);
+        private void pictureBox6_Click(object sender, EventArgs e) => LoadImageFromGalleryOrPc(imageFromGallery[5]);
 
-        private void pictureBox4_Click(object sender, EventArgs e) => LoadImageFromGalleryOrPc(Properties.Resources.Untitled1760);
-
-        private void pictureBox5_Click(object sender, EventArgs e) => LoadImageFromGalleryOrPc(Properties.Resources.Untitled1761);
-
-        private void pictureBox6_Click(object sender, EventArgs e) => LoadImageFromGalleryOrPc(Properties.Resources.Untitled1762);
-
-        private void pictureBox7_Click(object sender, EventArgs e) => LoadImageFromGalleryOrPc(Properties.Resources.Untitled1763);
+        private void pictureBox7_Click(object sender, EventArgs e) => LoadImageFromGalleryOrPc(imageFromGallery[6]);
 
         private void LoadImageFromGalleryOrPc(Bitmap image)
         {
@@ -333,7 +329,7 @@ namespace Image_Slider_Puzzle
             if (MainBitmap != null) MainBitmap.Dispose();
 
             ResetPuzzle();
-            MainBitmap = image;
+            MainBitmap = (Bitmap)image.Clone();
             CreatePictureBoxes();
             SetOriginalImageBox();
             AddImages();
