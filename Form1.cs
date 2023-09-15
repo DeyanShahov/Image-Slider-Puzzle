@@ -7,6 +7,7 @@ namespace Image_Slider_Puzzle
         private List<Bitmap> images = new List<Bitmap>();
         private List<string> locations = new List<string>();
         private List<string> currentLocations = new List<string>();
+        private Dictionary<string, int> imagesRotateAngles = new Dictionary<string, int>();
 
         private string winPositions;
         private string currentPositions;
@@ -14,6 +15,9 @@ namespace Image_Slider_Puzzle
 
         private int moves = 0;
         private int elapsedSeconds = 0;
+        private int switchNumber = 1;
+
+        private bool toSwitch = false;
 
         Bitmap MainBitmap;
         Random random = new Random();
@@ -52,6 +56,7 @@ namespace Image_Slider_Puzzle
                 tempPic.Click += OnPicClick;
                 pictureBoxList.Add(tempPic);
                 locations.Add(tempPic.Tag.ToString());
+                imagesRotateAngles.Add(i.ToString(), 0);
             }
         }
 
@@ -163,6 +168,7 @@ namespace Image_Slider_Puzzle
                 images.Clear();
                 locations.Clear();
                 currentLocations.Clear();
+                imagesRotateAngles.Clear();
                 winPositions = string.Empty;
                 currentPositions = string.Empty;
                 label2.Text = string.Empty;
@@ -177,12 +183,18 @@ namespace Image_Slider_Puzzle
             AddImages();
 
             GalleryBox.Visible = false;
-            btnShuffle.Enabled = true;
+            //btnShuffle.Enabled = true;
             btnPause.Enabled = true;
         }
 
         private void ResetPuzzle()
         {
+
+            btnSwitch.Enabled = true;
+            toSwitch = false;
+            switchNumber = 1;
+            btnSwitch.Text = $"Switch +{switchNumber}";
+
             tmrTimeElapse.Stop();
             elapsedSeconds = 0;
             lblTimeElapsed.Text = "00:00:00";
@@ -213,33 +225,31 @@ namespace Image_Slider_Puzzle
             var index1 = PuzzleBox.Controls.IndexOf(pictureBox);
             var index2 = PuzzleBox.Controls.IndexOf(emptyBox);
 
-            if (pictureBox.Right == emptyBox.Left && pictureBox.Location.Y == emptyBox.Location.Y
+            if (!toSwitch)
+            {
+                if (pictureBox.Right == emptyBox.Left && pictureBox.Location.Y == emptyBox.Location.Y
                 || pictureBox.Left == emptyBox.Right && pictureBox.Location.Y == emptyBox.Location.Y
                 || pictureBox.Top == emptyBox.Bottom && pictureBox.Location.X == emptyBox.Location.X
                 || pictureBox.Bottom == emptyBox.Top && pictureBox.Location.X == emptyBox.Location.X)
-            {
-                pictureBox.Location = pic2;
-                emptyBox.Location = pic1;
-
-
-                if (gameMod == "Hard") RotatePictureBox(pictureBox);
-
-
-                PuzzleBox.Controls.SetChildIndex(pictureBox, index2);
-                PuzzleBox.Controls.SetChildIndex(emptyBox, index1);
-
-                lblMovesMade.Text = "Moves Made: " + (++moves);
-
-                if (lblTimeElapsed.Text == "00:00:00")
                 {
-                    tmrTimeElapse.Start();
+                    SwitchBoxes(pictureBox, emptyBox, pic1, pic2, index1, index2);
                 }
+            }
+            else
+            {
+                SwitchBoxes(pictureBox, emptyBox, pic1, pic2, index1, index2);
+
+                toSwitch = false;
+                btnSwitch.Enabled = false;
+                btnSwitch.Text = $"Switch {switchNumber}";
             }
 
             //Image flipImage = pictureBox.BackgroundImage;
-            //flipImage.RotateFlip(RotateFlipType.Rotate90FlipNone);
+            //flipImage.RotateFlip(RotateFlipType.RotateNoneFlipNone);
             //pictureBox.BackgroundImage = flipImage;
             //pictureBox.Refresh();
+
+
 
             label2.Text = "";
             currentLocations.Clear();
@@ -252,8 +262,28 @@ namespace Image_Slider_Puzzle
                 GalleryBox.Visible = true;
 
                 pictureBoxList.ForEach(p => p.Enabled = false);
-                btnShuffle.Enabled = false;
+                //btnShuffle.Enabled = false;
                 btnPause.Enabled = false;
+            }
+        }
+
+        private void SwitchBoxes(PictureBox pictureBox, PictureBox emptyBox, Point pic1, Point pic2, int index1, int index2)
+        {
+            pictureBox.Location = pic2;
+            emptyBox.Location = pic1;
+
+
+            if (gameMod == "VeryHard") RotatePictureBoxes(PuzzleBox);
+
+
+            PuzzleBox.Controls.SetChildIndex(pictureBox, index2);
+            PuzzleBox.Controls.SetChildIndex(emptyBox, index1);
+
+            lblMovesMade.Text = "Moves Made: " + (++moves);
+
+            if (lblTimeElapsed.Text == "00:00:00")
+            {
+                tmrTimeElapse.Start();
             }
         }
 
@@ -378,7 +408,7 @@ namespace Image_Slider_Puzzle
             gameMod = "Hard";
             panSettings.Visible = false;
 
-            //RotatePictureBoxes(PuzzleBox);
+            RotatePictureBoxes(PuzzleBox);
         }
 
         private void lvlVeryHardMod_Click(object sender, EventArgs e)
@@ -391,42 +421,67 @@ namespace Image_Slider_Puzzle
         {
             foreach (Control control in container.Controls)
             {
-                if (control.BackgroundImage != null) control.BackgroundImage.RotateFlip(RandomRotate());
+                if (control.BackgroundImage != null)
+                {
+                    (RotateFlipType rotateType, int rotationAngle) = RandomRotate();
+                    control.BackgroundImage.RotateFlip(rotateType);
+                }
             }
             container.Refresh();
         }
 
         private void RotatePictureBox(PictureBox pictureBox)
         {
+            (RotateFlipType rotateType, int rotationAngle) = RandomRotate();
 
-            pictureBox.BackgroundImage.RotateFlip(RandomRotate());
+            string pictureBoxNumber = pictureBox.Tag.ToString();
+
+            if (imagesRotateAngles.TryGetValue(pictureBoxNumber, out int rotationAngleBox))
+            {
+                int newRotationAngle = rotationAngle + rotationAngleBox;
+
+                if (newRotationAngle >= 360) newRotationAngle -= 360;
+
+                imagesRotateAngles[pictureBoxNumber] = newRotationAngle;
+            }
+
+            pictureBox.BackgroundImage.RotateFlip(rotateType);
 
             pictureBox.Refresh();
         }
 
 
-        private RotateFlipType RandomRotate()
+        private (RotateFlipType, int) RandomRotate()
         {
             RotateFlipType temp = RotateFlipType.RotateNoneFlipNone;
+            int angle = 0;
 
-            switch (random.Next(1, 5))
+            switch (random.Next(1, 4))
             {
                 case 1:
                     temp = RotateFlipType.Rotate90FlipNone;
+                    angle = 90;
                     break;
                 case 2:
                     temp = RotateFlipType.Rotate180FlipNone;
+                    angle = 180;
                     break;
                 case 3:
                     temp = RotateFlipType.Rotate270FlipNone;
-                    break;
-                case 4:
-                    temp = RotateFlipType.RotateNoneFlipNone;
+                    angle = 270;
                     break;
             }
 
-            return temp;
+            return (temp, angle);
         }
 
+        private void btnSwitch_Click(object sender, EventArgs e)
+        {
+            if (switchNumber > 0)
+            {
+                switchNumber--;
+                toSwitch = true;
+            }
+        }
     }
 }

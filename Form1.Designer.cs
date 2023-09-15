@@ -57,8 +57,8 @@
             lvlVeryHardMod = new Label();
             lblHardMod = new Label();
             lblNormalMod = new Label();
+            btnSwitch = new Button();
             menuStrip1.SuspendLayout();
-            PuzzleBox.SuspendLayout();
             GalleryBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox7).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
@@ -136,7 +136,6 @@
             // 
             // PuzzleBox
             // 
-            PuzzleBox.Controls.Add(GalleryBox);
             PuzzleBox.Location = new Point(25, 46);
             PuzzleBox.Name = "PuzzleBox";
             PuzzleBox.Size = new Size(430, 425);
@@ -155,7 +154,7 @@
             GalleryBox.Controls.Add(pictureBox6);
             GalleryBox.Controls.Add(pictureBox5);
             GalleryBox.Controls.Add(pictureBox1);
-            GalleryBox.Location = new Point(110, 8);
+            GalleryBox.Location = new Point(114, 31);
             GalleryBox.Name = "GalleryBox";
             GalleryBox.Size = new Size(572, 488);
             GalleryBox.TabIndex = 0;
@@ -314,7 +313,7 @@
             panSettings.Controls.Add(lblHardMod);
             panSettings.Controls.Add(lblNormalMod);
             panSettings.ForeColor = Color.Black;
-            panSettings.Location = new Point(274, 36);
+            panSettings.Location = new Point(276, 27);
             panSettings.Name = "panSettings";
             panSettings.Size = new Size(242, 478);
             panSettings.TabIndex = 0;
@@ -356,12 +355,24 @@
             lblNormalMod.TextAlign = ContentAlignment.MiddleCenter;
             lblNormalMod.Click += lblNormalMod_Click;
             // 
+            // btnSwitch
+            // 
+            btnSwitch.Location = new Point(489, 519);
+            btnSwitch.Name = "btnSwitch";
+            btnSwitch.Size = new Size(75, 23);
+            btnSwitch.TabIndex = 10;
+            btnSwitch.Text = "Switch +1";
+            btnSwitch.UseVisualStyleBackColor = true;
+            btnSwitch.Click += btnSwitch_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlDarkDark;
             ClientSize = new Size(803, 560);
+            Controls.Add(GalleryBox);
+            Controls.Add(btnSwitch);
             Controls.Add(panSettings);
             Controls.Add(btnQuit);
             Controls.Add(btnPause);
@@ -380,7 +391,6 @@
             Text = "Image Slider Puzzle";
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
-            PuzzleBox.ResumeLayout(false);
             GalleryBox.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox7).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
@@ -425,5 +435,6 @@
         private Label lblNormalMod;
         private Label lvlVeryHardMod;
         private Label lblHardMod;
+        private Button btnSwitch;
     }
 }
