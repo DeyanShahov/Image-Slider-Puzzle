@@ -57,11 +57,12 @@
             btnPause = new Button();
             btnQuit = new Button();
             panSettings = new Panel();
-            lvlVeryHardMod = new Label();
+            lblVeryHardMod = new Label();
             lblHardMod = new Label();
             lblNormalMod = new Label();
             btnSwitch = new Button();
             menuStrip1.SuspendLayout();
+            PuzzleBox.SuspendLayout();
             GalleryBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox7).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
@@ -80,9 +81,9 @@
             label1.ForeColor = Color.White;
             label1.Location = new Point(25, 512);
             label1.Name = "label1";
-            label1.Size = new Size(83, 30);
+            label1.Size = new Size(89, 30);
             label1.TabIndex = 0;
-            label1.Text = "ListOne";
+            label1.Text = "List One";
             // 
             // label2
             // 
@@ -114,7 +115,7 @@
             // openToolStripMenuItem
             // 
             openToolStripMenuItem.Name = "openToolStripMenuItem";
-            openToolStripMenuItem.Size = new Size(180, 22);
+            openToolStripMenuItem.Size = new Size(103, 22);
             openToolStripMenuItem.Text = "Open";
             openToolStripMenuItem.Click += OpenFileEvent;
             // 
@@ -147,19 +148,20 @@
             // englishToolStripMenuItem
             // 
             englishToolStripMenuItem.Name = "englishToolStripMenuItem";
-            englishToolStripMenuItem.Size = new Size(180, 22);
+            englishToolStripMenuItem.Size = new Size(124, 22);
             englishToolStripMenuItem.Text = "English";
             englishToolStripMenuItem.Click += EnglishToolStripMenuItem_Click;
             // 
             // bulgarianToolStripMenuItem
             // 
             bulgarianToolStripMenuItem.Name = "bulgarianToolStripMenuItem";
-            bulgarianToolStripMenuItem.Size = new Size(180, 22);
+            bulgarianToolStripMenuItem.Size = new Size(124, 22);
             bulgarianToolStripMenuItem.Text = "Bulgarian";
             bulgarianToolStripMenuItem.Click += BulgarianToolStripMenuItem_Click;
             // 
             // PuzzleBox
             // 
+            PuzzleBox.Controls.Add(GalleryBox);
             PuzzleBox.Location = new Point(25, 46);
             PuzzleBox.Name = "PuzzleBox";
             PuzzleBox.Size = new Size(430, 425);
@@ -178,7 +180,7 @@
             GalleryBox.Controls.Add(pictureBox6);
             GalleryBox.Controls.Add(pictureBox5);
             GalleryBox.Controls.Add(pictureBox1);
-            GalleryBox.Location = new Point(114, 31);
+            GalleryBox.Location = new Point(103, 31);
             GalleryBox.Name = "GalleryBox";
             GalleryBox.Size = new Size(572, 488);
             GalleryBox.TabIndex = 0;
@@ -277,7 +279,7 @@
             lblMovesMade.AutoSize = true;
             lblMovesMade.Font = new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point);
             lblMovesMade.ForeColor = SystemColors.ControlText;
-            lblMovesMade.Location = new Point(303, 485);
+            lblMovesMade.Location = new Point(263, 483);
             lblMovesMade.Name = "lblMovesMade";
             lblMovesMade.Size = new Size(118, 19);
             lblMovesMade.TabIndex = 5;
@@ -333,27 +335,27 @@
             // 
             panSettings.BackColor = SystemColors.ActiveBorder;
             panSettings.BorderStyle = BorderStyle.FixedSingle;
-            panSettings.Controls.Add(lvlVeryHardMod);
+            panSettings.Controls.Add(lblVeryHardMod);
             panSettings.Controls.Add(lblHardMod);
             panSettings.Controls.Add(lblNormalMod);
             panSettings.ForeColor = Color.Black;
-            panSettings.Location = new Point(276, 27);
+            panSettings.Location = new Point(292, 46);
             panSettings.Name = "panSettings";
             panSettings.Size = new Size(242, 478);
             panSettings.TabIndex = 0;
             panSettings.Visible = false;
             // 
-            // lvlVeryHardMod
+            // lblVeryHardMod
             // 
-            lvlVeryHardMod.AutoSize = true;
-            lvlVeryHardMod.Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
-            lvlVeryHardMod.Location = new Point(66, 290);
-            lvlVeryHardMod.Name = "lvlVeryHardMod";
-            lvlVeryHardMod.Size = new Size(114, 29);
-            lvlVeryHardMod.TabIndex = 2;
-            lvlVeryHardMod.Text = "VERY HARD";
-            lvlVeryHardMod.TextAlign = ContentAlignment.MiddleCenter;
-            lvlVeryHardMod.Click += lvlVeryHardMod_Click;
+            lblVeryHardMod.AutoSize = true;
+            lblVeryHardMod.Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
+            lblVeryHardMod.Location = new Point(66, 290);
+            lblVeryHardMod.Name = "lblVeryHardMod";
+            lblVeryHardMod.Size = new Size(114, 29);
+            lblVeryHardMod.TabIndex = 2;
+            lblVeryHardMod.Text = "VERY HARD";
+            lblVeryHardMod.TextAlign = ContentAlignment.MiddleCenter;
+            lblVeryHardMod.Click += lblVeryHardMod_Click;
             // 
             // lblHardMod
             // 
@@ -395,7 +397,6 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlDarkDark;
             ClientSize = new Size(803, 560);
-            Controls.Add(GalleryBox);
             Controls.Add(btnSwitch);
             Controls.Add(panSettings);
             Controls.Add(btnQuit);
@@ -415,6 +416,7 @@
             Text = "Image Slider Puzzle";
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
+            PuzzleBox.ResumeLayout(false);
             GalleryBox.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox7).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
@@ -457,7 +459,7 @@
         private Panel panSettings;
         private ToolStripMenuItem SettingsOpenClosedClickEvent;
         private Label lblNormalMod;
-        private Label lvlVeryHardMod;
+        private Label lblVeryHardMod;
         private Label lblHardMod;
         private Button btnSwitch;
         private ToolStripMenuItem languageToolStripMenuItem;

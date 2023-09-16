@@ -53,13 +53,51 @@ namespace Image_Slider_Puzzle
                 bulgarianToolStripMenuItem
             };
 
-            Dictionary<Language, string[]> possibleLanguagesWords = new Dictionary<Language, string[]>
+            Dictionary<Language, string[]> possibleLanguagesWordsForToolStripMenuItem = new Dictionary<Language, string[]>
             {
                 {Language.English, new[] {"File" , "Open", "Gallery", "Settings", "Language", "English", "Bulgarian" } },
                 {Language.Bulgarian, new[] { "Файл", "Отвори", "Галерия", "Настройки", "Език", "Английски", "Български" } }
             };
 
-            languageChanger.SortDataForLanguageDictionary(toolStripMenuItems, possibleLanguagesWords);
+            languageChanger.SortDataForLanguageMenuItems(toolStripMenuItems, possibleLanguagesWordsForToolStripMenuItem);
+
+
+            List<Button> buttonItems = new List<Button>
+            {
+                btnShuffle,
+                btnPause,
+                btnQuit,
+                btnSwitch
+            };
+
+            Dictionary<Language, string[]> possibleLanguagesWordsForButton = new Dictionary<Language, string[]>
+            {
+                { Language.English, new [] { "Shuffle", "Pause", "Quit", "Switch"} },
+                { Language.Bulgarian, new [] { "Размести", "Пауза", "Напусни", "Размени"} },
+            };
+
+            languageChanger.SortDataForLanguageBtnItems(buttonItems, possibleLanguagesWordsForButton);
+
+            List<Control> groupBoxesLabelsItems = new List<Control>
+            {
+                PuzzleBox,
+                OriginalImageBox,
+                GalleryBox,
+                lblNormalMod,
+                lblHardMod,
+                lblVeryHardMod,
+                lblMovesMade,
+                label1,
+                label2
+            };
+
+            Dictionary<Language, string[]> possibleLanguagesWordsForGroupBox = new Dictionary<Language, string[]>
+            {
+                { Language.English, new [] { "Puzzle Box", "Original", "Gallery", "NORMAL", "HARD", "VERY HARD", "Moves Made:", "List One", "Status" } },
+                { Language.Bulgarian, new [] { "Пъзел поле", "Оригинал", "Галерия", "НОРМАЛ", "ТРУДНО", "МНОГО ТРУДНО", "Направени Ходове:", "Първи лист", "Статус"} },
+            };
+
+            languageChanger.SortDataForLanguageGroupBoxItems(groupBoxesLabelsItems, possibleLanguagesWordsForGroupBox);
 
         }
 
@@ -403,7 +441,7 @@ namespace Image_Slider_Puzzle
             RotatePictureBoxes(PuzzleBox);
         }
 
-        private void lvlVeryHardMod_Click(object sender, EventArgs e)
+        private void lblVeryHardMod_Click(object sender, EventArgs e)
         {
             gameMod = "VeryHard";
             panSettings.Visible = false;
