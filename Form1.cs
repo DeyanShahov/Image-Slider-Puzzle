@@ -1,10 +1,8 @@
-using System.Windows.Forms;
-
 namespace Image_Slider_Puzzle
 {
     public partial class Form1 : Form
     {
-        LanguageChanger languageChanger;// = new LanguageChanger();
+        LanguageChanger languageChanger = new LanguageChanger();
 
         private List<Bitmap> imageFromGallery = new List<Bitmap>();
         private List<PictureBox> pictureBoxList = new List<PictureBox>();
@@ -25,9 +23,6 @@ namespace Image_Slider_Puzzle
         Bitmap MainBitmap;
         Random random = new Random();
 
-        //ToolStripMenuItem menuItem = menuStrip1 as ToolStripMenuItem;
-        
-
         public Form1()
         {
             InitializeComponent();
@@ -42,12 +37,12 @@ namespace Image_Slider_Puzzle
             imageFromGallery.Add(Properties.Resources.Untitled1762);
             imageFromGallery.Add(Properties.Resources.Untitled1763);
 
-            languageChanger = new LanguageChanger(GetAllObjectForLanguageChange());
+            GetAllObjectForLanguageChange();
         }
 
-        private List<ToolStripMenuItem> GetAllObjectForLanguageChange()
+        private void GetAllObjectForLanguageChange()
         {
-            List<ToolStripMenuItem> newList = new List<ToolStripMenuItem>
+            List<ToolStripMenuItem> toolStripMenuItems = new List<ToolStripMenuItem>
             {
                 fileToolStripMenuItem,
                 openToolStripMenuItem,
@@ -58,7 +53,14 @@ namespace Image_Slider_Puzzle
                 bulgarianToolStripMenuItem
             };
 
-            return newList;
+            Dictionary<Language, string[]> possibleLanguagesWords = new Dictionary<Language, string[]>
+            {
+                {Language.English, new[] {"File" , "Open", "Gallery", "Settings", "Language", "English", "Bulgarian" } },
+                {Language.Bulgarian, new[] { "Файл", "Отвори", "Галерия", "Настройки", "Език", "Английски", "Български" } }
+            };
+
+            languageChanger.SortDataForLanguageDictionary(toolStripMenuItems, possibleLanguagesWords);
+
         }
 
         private void SetOriginalImageBox()
@@ -338,7 +340,7 @@ namespace Image_Slider_Puzzle
         private void GalleryOpenCloseClickEvent(object sender, EventArgs e)
         {
             if (GalleryBox.Visible == false) GalleryBox.Visible = true;
-            else GalleryBox.Visible = false;          
+            else GalleryBox.Visible = false;
         }
 
         private void SettingsOpenClosedClickEvent_Click(object sender, EventArgs e)
@@ -422,7 +424,7 @@ namespace Image_Slider_Puzzle
         }
 
         private void BulgarianToolStripMenuItem_Click(object sender, EventArgs e)
-        {        
+        {
             languageChanger.ChangeLanguage(Language.Bulgarian);
         }
 

@@ -1,62 +1,44 @@
-﻿using System.ComponentModel;
-
-namespace Image_Slider_Puzzle
+﻿namespace Image_Slider_Puzzle
 {
     public class LanguageChanger
     {
-        private readonly List<ToolStripMenuItem> btnList;
-
-        private Dictionary<string, string> englishStrings = new Dictionary<string, string>()
-        {
-            {"fileToolStripMenuItem", "File"},
-            {"openToolStripMenuItem", "Open"},
-            {"GalleryToolStripMenuItem", "Gallery"},
-            {"SettingsOpenClosedClickEvent", "Settings"},
-            {"englishToolStripMenuItem", "English"},
-            {"bulgarianToolStripMenuItem", "Bulgarian"},
-            {"languageToolStripMenuItem", "Language"},
-        };
-
-        private Dictionary<string, string> bulgarianStrings = new Dictionary<string, string>()
-        {
-            {"fileToolStripMenuItem", "Файл"},
-            {"openToolStripMenuItem", "Отвори"},
-            {"GalleryToolStripMenuItem", "Галерия"},
-            {"SettingsOpenClosedClickEvent", "Настройки"},
-            {"englishToolStripMenuItem", "Английски"},
-            {"bulgarianToolStripMenuItem", "Български"},
-            {"languageToolStripMenuItem", "Език"}
-        };
-
-        public LanguageChanger(List<ToolStripMenuItem> btns)
-        {
-
-            this.btnList = btns;
-
-        }
-
-
-
+        private Dictionary<ToolStripMenuItem, Dictionary<Language, string>> btnList = new Dictionary<ToolStripMenuItem, Dictionary<Language, string>>();
+   
         public void ChangeLanguage(Language language)
         {
-            Dictionary<string, string> languageStrings;
-
-            if (language == Language.Bulgarian) languageStrings = bulgarianStrings;
-            else languageStrings = englishStrings;
-
-            //btnEnglish.Text = languageStrings["btnEnglish"];
-            //btnBulgarian.Text = languageStrings["btnBulgarian"];
-            //btn.Text = languageStrings[btn.Name];
-            btnList.ForEach(btn => btn.Text = languageStrings[btn.Name]);
+            foreach (var item in btnList)
+            {
+                item.Key.Text = item.Value[language];
+            }
         }
 
+        public void SortDataForLanguageDictionary(List<ToolStripMenuItem> toolStripMenuItems, Dictionary<Language, string[]> possibleLanguagesWords)
+        {
+            var objectList = new Dictionary<ToolStripMenuItem, Dictionary<Language, string>>();
 
+            for (int i = 0; i < toolStripMenuItems.Count; i++)
+            {
+                foreach (var key in possibleLanguagesWords.Keys)
+                {
+                    if (!objectList.ContainsKey(toolStripMenuItems[i]))
+                    {
+                        objectList.Add(toolStripMenuItems[i], new Dictionary<Language, string>());
+                        objectList[toolStripMenuItems[i]].Add(key, possibleLanguagesWords[key][i]);
+                    }
+                    else
+                    {
+                        objectList[toolStripMenuItems[i]].Add(key, possibleLanguagesWords[key][i]);
+                    }
+                }
+            }
 
-        //public enum Language 
-        //{
-        //    English,
-        //    Bulgarian
-        //}
+            btnList = objectList;
+        }
     }
 
+    public enum Language
+    {
+        English,
+        Bulgarian
+    }
 }
