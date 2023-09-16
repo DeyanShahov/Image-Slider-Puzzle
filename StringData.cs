@@ -5,5 +5,8 @@
         public static string gameModNormal = "Normal";
         public static string gameModHard = "Hard";
         public static string gameModVeryHard = "VeryHard";
+
+
+        public static string victory = "VICTORY";
     }
 }

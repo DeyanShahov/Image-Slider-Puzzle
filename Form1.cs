@@ -12,13 +12,15 @@ namespace Image_Slider_Puzzle
 
         private string winPositions;
         private string currentPositions;
-        private string gameMod = "Normal";
+        private string gameMod = StringData.gameModNormal;
 
         private int moves = 0;
         private int elapsedSeconds = 0;
         private int switchNumber = 1;
 
         private bool toSwitch = false;
+        private bool isPause = false;
+        private Language languageCurrent = Language.English;
 
         Bitmap MainBitmap;
         Random random = new Random();
@@ -201,7 +203,7 @@ namespace Image_Slider_Puzzle
 
             if (winPositions == currentPositions)
             {
-                label2.Text = "Matched!!!";
+                label2.Text = StringData.victory;
                 isWin = true;
             }
 
@@ -248,14 +250,14 @@ namespace Image_Slider_Puzzle
             btnSwitch.Enabled = true;
             toSwitch = false;
             switchNumber = 1;
-            btnSwitch.Text = $"Switch +{switchNumber}";
+            btnSwitch.Text = $"{languageChanger.ReturnCorrectWord("Switch", languageCurrent)} +{switchNumber}";
 
             tmrTimeElapse.Stop();
             elapsedSeconds = 0;
             lblTimeElapsed.Text = "00:00:00";
 
             moves = 0;
-            lblMovesMade.Text = "Moves Made: 0";
+            lblMovesMade.Text = $"{languageChanger.ReturnCorrectWord("Moves Made:", languageCurrent)} 0";
 
             winPositions = string.Empty;
             label1.Text = "";
@@ -296,7 +298,7 @@ namespace Image_Slider_Puzzle
 
                 toSwitch = false;
                 btnSwitch.Enabled = false;
-                btnSwitch.Text = $"Switch {switchNumber}";
+                btnSwitch.Text = $"{languageChanger.ReturnCorrectWord("Switch", languageCurrent)} {switchNumber}";
             }
 
 
@@ -323,7 +325,13 @@ namespace Image_Slider_Puzzle
 
 
                 tmrTimeElapse.Stop();
-                MessageBox.Show("Congratulations...\nYour Win\nTime Elapsed : " + elapsedSeconds + " s.\nTotal Moves Made : " + moves, "Puzzle");
+                string messages = String.Empty;
+                messages += languageChanger.ReturnCorrectWord("Congratulations...\nYour Win\nTime Elapsed : ", languageCurrent) + elapsedSeconds;
+                messages += languageChanger.ReturnCorrectWord("s.\nTotal Moves Made : ", languageCurrent) + moves;
+
+                MessageBox.Show(messages, "Puzzle");
+                messages = String.Empty;
+
                 GalleryBox.Visible = true;
 
                 pictureBoxList.ForEach(p => p.Enabled = false);
@@ -336,13 +344,14 @@ namespace Image_Slider_Puzzle
             emptyBox.Location = pic1;
 
 
-            if (gameMod == "VeryHard") RotatePictureBoxes(PuzzleBox);
+            if (gameMod == StringData.gameModVeryHard) RotatePictureBoxes(PuzzleBox);
 
 
             PuzzleBox.Controls.SetChildIndex(pictureBox, index2);
             PuzzleBox.Controls.SetChildIndex(emptyBox, index1);
 
-            lblMovesMade.Text = "Moves Made: " + (++moves);
+            //lblMovesMade.Text = "Moves Made: " + (++moves);
+            lblMovesMade.Text = $"{languageChanger.ReturnCorrectWord("Moves Made:", languageCurrent)} {++moves}";//"Moves Made: " + (++moves);
 
             if (lblTimeElapsed.Text == "00:00:00")
             {
@@ -370,7 +379,7 @@ namespace Image_Slider_Puzzle
             if (lblTimeElapsed.Text == "01:00:00")
             {
                 tmrTimeElapse.Stop();
-                MessageBox.Show("Time is Up\nTry Again", "Puzzle");
+                MessageBox.Show(languageChanger.ReturnCorrectWord("Time is Up\nTry Again", languageCurrent), "Puzzle");
                 ResetPuzzle();
             }
 
@@ -398,17 +407,19 @@ namespace Image_Slider_Puzzle
         {
             if (lblTimeElapsed.Text != "00:00:00")
             {
-                if (btnPause.Text == "Pause")
+                if (!isPause)
                 {
+                    isPause = true;
                     tmrTimeElapse.Stop();
                     PuzzleBox.Controls.Clear();
-                    btnPause.Text = "Resume";
+                    btnPause.Text = languageChanger.ReturnCorrectWord("Resume", languageCurrent);
                 }
                 else
                 {
+                    isPause = false;
                     tmrTimeElapse.Start();
                     PuzzleBox.Controls.AddRange(pictureBoxList.ToArray());
-                    btnPause.Text = "Pause";
+                    btnPause.Text = languageChanger.ReturnCorrectWord("Pause", languageCurrent);
                 }
             }
         }
@@ -418,7 +429,7 @@ namespace Image_Slider_Puzzle
             DialogResult YesOrNo = new DialogResult();
             if (lblTimeElapsed.Text != "00:00:00")
             {
-                YesOrNo = MessageBox.Show("Are You Sure To Restart ?", "Puzzle", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                YesOrNo = MessageBox.Show(languageChanger.ReturnCorrectWord("Are You Sure To Restart ?", languageCurrent), "Puzzle", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             }
 
             if (YesOrNo == DialogResult.Yes || lblTimeElapsed.Text == "00:00:00")
@@ -429,13 +440,13 @@ namespace Image_Slider_Puzzle
 
         private void lblNormalMod_Click(object sender, EventArgs e)
         {
-            gameMod = "Normal";
+            gameMod = StringData.gameModNormal;
             panSettings.Visible = false;
         }
 
         private void lblHardMod_Click(object sender, EventArgs e)
         {
-            gameMod = "Hard";
+            gameMod = StringData.gameModHard;
             panSettings.Visible = false;
 
             RotatePictureBoxes(PuzzleBox);
@@ -443,7 +454,7 @@ namespace Image_Slider_Puzzle
 
         private void lblVeryHardMod_Click(object sender, EventArgs e)
         {
-            gameMod = "VeryHard";
+            gameMod = StringData.gameModVeryHard;
             panSettings.Visible = false;
         }
 
@@ -458,11 +469,13 @@ namespace Image_Slider_Puzzle
 
         private void EnglishToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            languageCurrent = Language.English;
             languageChanger.ChangeLanguage(Language.English);
         }
 
         private void BulgarianToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            languageCurrent = Language.Bulgarian;
             languageChanger.ChangeLanguage(Language.Bulgarian);
         }
 
@@ -471,7 +484,7 @@ namespace Image_Slider_Puzzle
 
         private void AskPermissionBeforeQuite(object sender, FormClosingEventArgs e)
         {
-            DialogResult YesOrNO = MessageBox.Show(this, "Are You Sure To Quit ?", "Puzzle", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult YesOrNO = MessageBox.Show(this, languageChanger.ReturnCorrectWord("Are You Sure To Quit ?", languageCurrent), "Puzzle", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (sender as Button != btnQuit && YesOrNO == DialogResult.No) e.Cancel = true;
             if (sender as Button == btnQuit && YesOrNO == DialogResult.Yes) Environment.Exit(0);
 

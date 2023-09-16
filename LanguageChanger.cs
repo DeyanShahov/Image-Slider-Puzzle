@@ -1,10 +1,38 @@
-﻿namespace Image_Slider_Puzzle
+﻿using System.Diagnostics;
+
+namespace Image_Slider_Puzzle
 {
     public class LanguageChanger
-    {   
+    {
+        private Dictionary<string, string> englishStrings = new Dictionary<string, string>
+        {
+            {"Moves Made:", "Moves Made:"},
+            {"Switch", "Switch" },
+            {"Resume", "Resume" },
+            {"Pause", "Pause" },
+            {"Congratulations...\nYour Win\nTime Elapsed : ", "Congratulations...\nYour Win\nTime Elapsed : " },
+            {"s.\nTotal Moves Made : ", "s.\nTotal Moves Made : " },
+            {"Time is Up\nTry Again", "Time is Up\nTry Again" },
+            {"Are You Sure To Restart ?", "Are You Sure To Restart ?" },
+            {"Are You Sure To Quit ?", "Are You Sure To Quit ?" }
+        };
+
+        private Dictionary<string, string> bulgarianStrings = new Dictionary<string, string>
+        {
+            {"Moves Made:", "Направени Ходове:"},
+            {"Switch", "Размени" },
+            {"Resume", "Продължи" },
+            {"Pause", "Пауза" },
+            {"Congratulations...\nYour Win\nTime Elapsed : ", "Поздравления...\nТи Победи\nИзминало Време : " },
+            {"s.\nTotal Moves Made : ", "s.\nПълен брой ходове : " },
+            {"Time is Up\nTry Again", "Времето изтече\nОпитай пак" },
+            {"Are You Sure To Restart ?", "Сигурни ли сте за Рестарта ?" },
+            {"Are You Sure To Quit ?", "Сигурни ли сте за Напускането ?" }
+        };
+
         private Dictionary<ToolStripMenuItem, Dictionary<Language, string>> menuItemList = new Dictionary<ToolStripMenuItem, Dictionary<Language, string>>();
         private Dictionary<Button, Dictionary<Language, string>> btnList = new Dictionary<Button, Dictionary<Language, string>>();
-        private Dictionary<Control, Dictionary<Language, string>> groupBoxListLabels = new Dictionary<Control, Dictionary<Language, string>>();    
+        private Dictionary<Control, Dictionary<Language, string>> groupBoxListLabels = new Dictionary<Control, Dictionary<Language, string>>();
 
         public void ChangeLanguage(Language language)
         {
@@ -92,12 +120,16 @@
 
             groupBoxListLabels = objectList;
         }
-    }
 
-    public interface ILocalizable
-    {
-        Dictionary<Language, string> LocalizedText { get; set; }
-        string Text { get; set; }
+        internal string ReturnCorrectWord(string wordToCheck, Language languageCurrent)
+        {
+            Dictionary<string, string> languageStrings;
+
+            if (languageCurrent == Language.English) languageStrings = englishStrings;
+            else languageStrings = bulgarianStrings;
+
+            return languageStrings[wordToCheck];
+        }
     }
 
 
