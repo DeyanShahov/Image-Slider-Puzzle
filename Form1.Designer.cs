@@ -37,6 +37,9 @@
             GalleryToolStripMenuItem = new ToolStripMenuItem();
             settingsToolStripMenuItem = new ToolStripMenuItem();
             SettingsOpenClosedClickEvent = new ToolStripMenuItem();
+            languageToolStripMenuItem = new ToolStripMenuItem();
+            englishToolStripMenuItem = new ToolStripMenuItem();
+            bulgarianToolStripMenuItem = new ToolStripMenuItem();
             PuzzleBox = new GroupBox();
             GalleryBox = new GroupBox();
             pictureBox7 = new PictureBox();
@@ -94,7 +97,7 @@
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, GalleryToolStripMenuItem, settingsToolStripMenuItem, SettingsOpenClosedClickEvent });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, GalleryToolStripMenuItem, settingsToolStripMenuItem, SettingsOpenClosedClickEvent, languageToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(803, 24);
@@ -111,7 +114,7 @@
             // openToolStripMenuItem
             // 
             openToolStripMenuItem.Name = "openToolStripMenuItem";
-            openToolStripMenuItem.Size = new Size(103, 22);
+            openToolStripMenuItem.Size = new Size(180, 22);
             openToolStripMenuItem.Text = "Open";
             openToolStripMenuItem.Click += OpenFileEvent;
             // 
@@ -133,6 +136,27 @@
             SettingsOpenClosedClickEvent.Size = new Size(61, 20);
             SettingsOpenClosedClickEvent.Text = "Settings";
             SettingsOpenClosedClickEvent.Click += SettingsOpenClosedClickEvent_Click;
+            // 
+            // languageToolStripMenuItem
+            // 
+            languageToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { englishToolStripMenuItem, bulgarianToolStripMenuItem });
+            languageToolStripMenuItem.Name = "languageToolStripMenuItem";
+            languageToolStripMenuItem.Size = new Size(71, 20);
+            languageToolStripMenuItem.Text = "Language";
+            // 
+            // englishToolStripMenuItem
+            // 
+            englishToolStripMenuItem.Name = "englishToolStripMenuItem";
+            englishToolStripMenuItem.Size = new Size(180, 22);
+            englishToolStripMenuItem.Text = "English";
+            englishToolStripMenuItem.Click += EnglishToolStripMenuItem_Click;
+            // 
+            // bulgarianToolStripMenuItem
+            // 
+            bulgarianToolStripMenuItem.Name = "bulgarianToolStripMenuItem";
+            bulgarianToolStripMenuItem.Size = new Size(180, 22);
+            bulgarianToolStripMenuItem.Text = "Bulgarian";
+            bulgarianToolStripMenuItem.Click += BulgarianToolStripMenuItem_Click;
             // 
             // PuzzleBox
             // 
@@ -436,5 +460,8 @@
         private Label lvlVeryHardMod;
         private Label lblHardMod;
         private Button btnSwitch;
+        private ToolStripMenuItem languageToolStripMenuItem;
+        private ToolStripMenuItem englishToolStripMenuItem;
+        private ToolStripMenuItem bulgarianToolStripMenuItem;
     }
 }

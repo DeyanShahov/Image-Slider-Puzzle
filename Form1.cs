@@ -1,7 +1,11 @@
+using System.Windows.Forms;
+
 namespace Image_Slider_Puzzle
 {
     public partial class Form1 : Form
     {
+        LanguageChanger languageChanger;// = new LanguageChanger();
+
         private List<Bitmap> imageFromGallery = new List<Bitmap>();
         private List<PictureBox> pictureBoxList = new List<PictureBox>();
         private List<Bitmap> images = new List<Bitmap>();
@@ -21,6 +25,9 @@ namespace Image_Slider_Puzzle
         Bitmap MainBitmap;
         Random random = new Random();
 
+        //ToolStripMenuItem menuItem = menuStrip1 as ToolStripMenuItem;
+        
+
         public Form1()
         {
             InitializeComponent();
@@ -34,9 +41,25 @@ namespace Image_Slider_Puzzle
             imageFromGallery.Add(Properties.Resources.Untitled1761);
             imageFromGallery.Add(Properties.Resources.Untitled1762);
             imageFromGallery.Add(Properties.Resources.Untitled1763);
+
+            languageChanger = new LanguageChanger(GetAllObjectForLanguageChange());
         }
 
+        private List<ToolStripMenuItem> GetAllObjectForLanguageChange()
+        {
+            List<ToolStripMenuItem> newList = new List<ToolStripMenuItem>
+            {
+                fileToolStripMenuItem,
+                openToolStripMenuItem,
+                GalleryToolStripMenuItem,
+                SettingsOpenClosedClickEvent,
+                languageToolStripMenuItem,
+                englishToolStripMenuItem,
+                bulgarianToolStripMenuItem
+            };
 
+            return newList;
+        }
 
         private void SetOriginalImageBox()
         {
@@ -246,7 +269,7 @@ namespace Image_Slider_Puzzle
 
                 ClearAllCollections();
 
-                CreatePictureBoxes();                
+                CreatePictureBoxes();
 
                 Bitmap tempBitmap = new Bitmap(MainBitmap, new Size(390, 390));
                 CropImage(tempBitmap, 130, 130);
@@ -315,7 +338,7 @@ namespace Image_Slider_Puzzle
         private void GalleryOpenCloseClickEvent(object sender, EventArgs e)
         {
             if (GalleryBox.Visible == false) GalleryBox.Visible = true;
-            else GalleryBox.Visible = false;
+            else GalleryBox.Visible = false;          
         }
 
         private void SettingsOpenClosedClickEvent_Click(object sender, EventArgs e)
@@ -393,6 +416,16 @@ namespace Image_Slider_Puzzle
             }
         }
 
+        private void EnglishToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            languageChanger.ChangeLanguage(Language.English);
+        }
+
+        private void BulgarianToolStripMenuItem_Click(object sender, EventArgs e)
+        {        
+            languageChanger.ChangeLanguage(Language.Bulgarian);
+        }
+
 
         #endregion
 
@@ -424,7 +457,7 @@ namespace Image_Slider_Puzzle
 
         #endregion
 
-       
+
         private void RotatePictureBoxes(Control container)
         {
             foreach (Control control in container.Controls)
@@ -452,6 +485,8 @@ namespace Image_Slider_Puzzle
             }
 
             return type;
-        }     
+        }
+
+
     }
 }
