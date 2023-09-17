@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace Image_Slider_Puzzle
+﻿namespace Image_Slider_Puzzle
 {
     public class LanguageChanger
     {
@@ -29,6 +27,20 @@ namespace Image_Slider_Puzzle
             {"Are You Sure To Restart ?", "Сигурни ли сте за Рестарта ?" },
             {"Are You Sure To Quit ?", "Сигурни ли сте за Напускането ?" }
         };
+
+        private Dictionary<string, string> germanStrings = new Dictionary<string, string>
+        {
+            {"Moves Made:", "Nur auf Deutsch" },
+            {"Switch", "Austauschen" },
+            {"Resume", "Fortsetzen" },
+            {"Pause", "Pause" },
+            {"Congratulations...\nYour Win\nTime Elapsed : ", "Glückwünsche...\nDein Sieg\nVergangene Zeit : " },
+            {"s.\nTotal Moves Made : ", "s.\nGesamtanzahl der Züge : " },
+            {"Time is Up\nTry Again", "Die Zeit ist abgelaufen\nVersuch es erneut" },
+            {"Are You Sure To Restart ?", "Sind Sie sicher, dass Sie neu starten möchten?" },
+            {"Are You Sure To Quit ?", "Sind Sie sicher, dass Sie beenden möchten?" }
+        };
+
 
         private Dictionary<ToolStripMenuItem, Dictionary<Language, string>> menuItemList = new Dictionary<ToolStripMenuItem, Dictionary<Language, string>>();
         private Dictionary<Button, Dictionary<Language, string>> btnList = new Dictionary<Button, Dictionary<Language, string>>();
@@ -126,6 +138,7 @@ namespace Image_Slider_Puzzle
             Dictionary<string, string> languageStrings;
 
             if (languageCurrent == Language.English) languageStrings = englishStrings;
+            if (languageCurrent == Language.German) languageStrings = germanStrings;
             else languageStrings = bulgarianStrings;
 
             return languageStrings[wordToCheck];
@@ -136,6 +149,7 @@ namespace Image_Slider_Puzzle
     public enum Language
     {
         English,
-        Bulgarian
+        Bulgarian,
+        German
     }
 }

@@ -40,6 +40,7 @@
             languageToolStripMenuItem = new ToolStripMenuItem();
             englishToolStripMenuItem = new ToolStripMenuItem();
             bulgarianToolStripMenuItem = new ToolStripMenuItem();
+            GermanToolStripMenuItem = new ToolStripMenuItem();
             PuzzleBox = new GroupBox();
             GalleryBox = new GroupBox();
             pictureBox7 = new PictureBox();
@@ -139,7 +140,7 @@
             // 
             // languageToolStripMenuItem
             // 
-            languageToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { englishToolStripMenuItem, bulgarianToolStripMenuItem });
+            languageToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { englishToolStripMenuItem, bulgarianToolStripMenuItem, GermanToolStripMenuItem });
             languageToolStripMenuItem.Name = "languageToolStripMenuItem";
             languageToolStripMenuItem.Size = new Size(71, 20);
             languageToolStripMenuItem.Text = "Language";
@@ -147,16 +148,23 @@
             // englishToolStripMenuItem
             // 
             englishToolStripMenuItem.Name = "englishToolStripMenuItem";
-            englishToolStripMenuItem.Size = new Size(124, 22);
+            englishToolStripMenuItem.Size = new Size(180, 22);
             englishToolStripMenuItem.Text = "English";
             englishToolStripMenuItem.Click += EnglishToolStripMenuItem_Click;
             // 
             // bulgarianToolStripMenuItem
             // 
             bulgarianToolStripMenuItem.Name = "bulgarianToolStripMenuItem";
-            bulgarianToolStripMenuItem.Size = new Size(124, 22);
+            bulgarianToolStripMenuItem.Size = new Size(180, 22);
             bulgarianToolStripMenuItem.Text = "Bulgarian";
             bulgarianToolStripMenuItem.Click += BulgarianToolStripMenuItem_Click;
+            // 
+            // GermanToolStripMenuItem
+            // 
+            GermanToolStripMenuItem.Name = "GermanToolStripMenuItem";
+            GermanToolStripMenuItem.Size = new Size(180, 22);
+            GermanToolStripMenuItem.Text = "German";
+            GermanToolStripMenuItem.Click += GermanToolStripMenuItem_Click;
             // 
             // PuzzleBox
             // 
@@ -463,5 +471,6 @@
         private ToolStripMenuItem languageToolStripMenuItem;
         private ToolStripMenuItem englishToolStripMenuItem;
         private ToolStripMenuItem bulgarianToolStripMenuItem;
+        private ToolStripMenuItem GermanToolStripMenuItem;
     }
 }

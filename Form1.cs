@@ -1,4 +1,4 @@
-namespace Image_Slider_Puzzle
+п»їnamespace Image_Slider_Puzzle
 {
     public partial class Form1 : Form
     {
@@ -58,7 +58,8 @@ namespace Image_Slider_Puzzle
             Dictionary<Language, string[]> possibleLanguagesWordsForToolStripMenuItem = new Dictionary<Language, string[]>
             {
                 {Language.English, new[] {"File" , "Open", "Gallery", "Settings", "Language", "English", "Bulgarian" } },
-                {Language.Bulgarian, new[] { "Файл", "Отвори", "Галерия", "Настройки", "Език", "Английски", "Български" } }
+                {Language.Bulgarian, new[] { "Р¤Р°Р№Р»", "РћС‚РІРѕСЂРё", "Р“Р°Р»РµСЂРёСЏ", "РќР°СЃС‚СЂРѕР№РєРё", "Р•Р·РёРє", "РђРЅРіР»РёР№СЃРєРё", "Р‘СЉР»РіР°СЂСЃРєРё" } },
+                {Language.German, new[] {"Datei", "Г–ffnen", "Galerie", "Einstellungen", "Sprache", "Englisch", "Bulgarisch"} }
             };
 
             languageChanger.SortDataForLanguageMenuItems(toolStripMenuItems, possibleLanguagesWordsForToolStripMenuItem);
@@ -75,7 +76,8 @@ namespace Image_Slider_Puzzle
             Dictionary<Language, string[]> possibleLanguagesWordsForButton = new Dictionary<Language, string[]>
             {
                 { Language.English, new [] { "Shuffle", "Pause", "Quit", "Switch"} },
-                { Language.Bulgarian, new [] { "Размести", "Пауза", "Напусни", "Размени"} },
+                { Language.Bulgarian, new [] { "Р Р°Р·РјРµСЃС‚Рё", "РџР°СѓР·Р°", "РќР°РїСѓСЃРЅРё", "Р Р°Р·РјРµРЅРё"} },
+                {Language.German, new [] { "Platzieren", "Pause", "Verlassen", "Austauschen" } }
             };
 
             languageChanger.SortDataForLanguageBtnItems(buttonItems, possibleLanguagesWordsForButton);
@@ -96,7 +98,8 @@ namespace Image_Slider_Puzzle
             Dictionary<Language, string[]> possibleLanguagesWordsForGroupBox = new Dictionary<Language, string[]>
             {
                 { Language.English, new [] { "Puzzle Box", "Original", "Gallery", "NORMAL", "HARD", "VERY HARD", "Moves Made:", "List One", "Status" } },
-                { Language.Bulgarian, new [] { "Пъзел поле", "Оригинал", "Галерия", "НОРМАЛ", "ТРУДНО", "МНОГО ТРУДНО", "Направени Ходове:", "Първи лист", "Статус"} },
+                { Language.Bulgarian, new [] { "РџСЉР·РµР» РїРѕР»Рµ", "РћСЂРёРіРёРЅР°Р»", "Р“Р°Р»РµСЂРёСЏ", "РќРћР РњРђР›", "РўР РЈР”РќРћ", "РњРќРћР“Рћ РўР РЈР”РќРћ", "РќР°РїСЂР°РІРµРЅРё РҐРѕРґРѕРІРµ:", "РџСЉСЂРІРё Р»РёСЃС‚", "РЎС‚Р°С‚СѓСЃ"} },
+                {Language.German, new [] { "Puzzle Feld", "Original", "Galerie", "NORMAL", "SCHWER", "SEHR SCHWER", "Gemachte ZГјge:", "Erste Liste", "Status" } }
             };
 
             languageChanger.SortDataForLanguageGroupBoxItems(groupBoxesLabelsItems, possibleLanguagesWordsForGroupBox);
@@ -479,6 +482,11 @@ namespace Image_Slider_Puzzle
             languageChanger.ChangeLanguage(Language.Bulgarian);
         }
 
+        private void GermanToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            languageCurrent = Language.German;
+            languageChanger.ChangeLanguage(Language.German);
+        }
 
         #endregion
 
@@ -539,7 +547,6 @@ namespace Image_Slider_Puzzle
 
             return type;
         }
-
 
     }
 }
