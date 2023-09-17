@@ -51,7 +51,7 @@
 
         public static Dictionary<string, string> ChineseStrings = new Dictionary<string, string>
         {
-            {"Moves Made:", "只有在中文" },
+            {"Moves Made:", "只有在中文:" },
             {"Switch", "交换" },
             {"Resume", "继续" },
             {"Pause", "暂停" },

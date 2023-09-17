@@ -62,8 +62,8 @@
             lblHardMod = new Label();
             lblNormalMod = new Label();
             btnSwitch = new Button();
+            ChineseToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
-            PuzzleBox.SuspendLayout();
             GalleryBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox7).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
@@ -141,7 +141,7 @@
             // 
             // languageToolStripMenuItem
             // 
-            languageToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { englishToolStripMenuItem, bulgarianToolStripMenuItem, GermanToolStripMenuItem });
+            languageToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { englishToolStripMenuItem, bulgarianToolStripMenuItem, GermanToolStripMenuItem, ChineseToolStripMenuItem });
             languageToolStripMenuItem.Name = "languageToolStripMenuItem";
             languageToolStripMenuItem.Size = new Size(71, 20);
             languageToolStripMenuItem.Text = "Language";
@@ -149,27 +149,26 @@
             // englishToolStripMenuItem
             // 
             englishToolStripMenuItem.Name = "englishToolStripMenuItem";
-            englishToolStripMenuItem.Size = new Size(124, 22);
+            englishToolStripMenuItem.Size = new Size(180, 22);
             englishToolStripMenuItem.Text = "English";
             englishToolStripMenuItem.Click += EnglishToolStripMenuItem_Click;
             // 
             // bulgarianToolStripMenuItem
             // 
             bulgarianToolStripMenuItem.Name = "bulgarianToolStripMenuItem";
-            bulgarianToolStripMenuItem.Size = new Size(124, 22);
+            bulgarianToolStripMenuItem.Size = new Size(180, 22);
             bulgarianToolStripMenuItem.Text = "Bulgarian";
             bulgarianToolStripMenuItem.Click += BulgarianToolStripMenuItem_Click;
             // 
             // GermanToolStripMenuItem
             // 
             GermanToolStripMenuItem.Name = "GermanToolStripMenuItem";
-            GermanToolStripMenuItem.Size = new Size(124, 22);
+            GermanToolStripMenuItem.Size = new Size(180, 22);
             GermanToolStripMenuItem.Text = "German";
             GermanToolStripMenuItem.Click += GermanToolStripMenuItem_Click;
             // 
             // PuzzleBox
             // 
-            PuzzleBox.Controls.Add(GalleryBox);
             PuzzleBox.Location = new Point(25, 46);
             PuzzleBox.Name = "PuzzleBox";
             PuzzleBox.Size = new Size(430, 425);
@@ -188,7 +187,7 @@
             GalleryBox.Controls.Add(pictureBox6);
             GalleryBox.Controls.Add(pictureBox5);
             GalleryBox.Controls.Add(pictureBox1);
-            GalleryBox.Location = new Point(19, 8);
+            GalleryBox.Location = new Point(120, 31);
             GalleryBox.Name = "GalleryBox";
             GalleryBox.Size = new Size(572, 488);
             GalleryBox.TabIndex = 0;
@@ -402,12 +401,20 @@
             btnSwitch.UseVisualStyleBackColor = true;
             btnSwitch.Click += btnSwitch_Click;
             // 
+            // ChineseToolStripMenuItem
+            // 
+            ChineseToolStripMenuItem.Name = "ChineseToolStripMenuItem";
+            ChineseToolStripMenuItem.Size = new Size(180, 22);
+            ChineseToolStripMenuItem.Text = "Chinese";
+            ChineseToolStripMenuItem.Click += ChineseToolStripMenuItem_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlDarkDark;
             ClientSize = new Size(803, 560);
+            Controls.Add(GalleryBox);
             Controls.Add(btnSwitch);
             Controls.Add(panSettings);
             Controls.Add(btnQuit);
@@ -427,7 +434,6 @@
             Text = "Image Slider Puzzle";
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
-            PuzzleBox.ResumeLayout(false);
             GalleryBox.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox7).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
@@ -476,5 +482,6 @@
         private ToolStripMenuItem englishToolStripMenuItem;
         private ToolStripMenuItem bulgarianToolStripMenuItem;
         private ToolStripMenuItem GermanToolStripMenuItem;
+        private ToolStripMenuItem ChineseToolStripMenuItem;
     }
 }

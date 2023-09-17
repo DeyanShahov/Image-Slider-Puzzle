@@ -59,7 +59,9 @@
             {
                 {Language.English, new[] {"File" , "Open", "Gallery", "Settings", "Language", "English", "Bulgarian" } },
                 {Language.Bulgarian, new[] { "Файл", "Отвори", "Галерия", "Настройки", "Език", "Английски", "Български" } },
-                {Language.German, new[] {"Datei", "Öffnen", "Galerie", "Einstellungen", "Sprache", "Englisch", "Bulgarisch"} }
+                {Language.German, new[] {"Datei", "Öffnen", "Galerie", "Einstellungen", "Sprache", "Englisch", "Bulgarisch"} },
+                {Language.Chinese, new[] { "文件", "打开", "画廊", "设置", "语言", "英语", "保加利亚语" } }
+
             };
 
             languageChanger.SortDataForLanguageMenuItems(toolStripMenuItems, possibleLanguagesWordsForToolStripMenuItem);
@@ -77,7 +79,9 @@
             {
                 { Language.English, new [] { "Shuffle", "Pause", "Quit", "Switch"} },
                 { Language.Bulgarian, new [] { "Размести", "Пауза", "Напусни", "Размени"} },
-                {Language.German, new [] { "Platzieren", "Pause", "Verlassen", "Austauschen" } }
+                { Language.German, new [] { "Platzieren", "Pause", "Verlassen", "Austauschen" } },
+                { Language.Chinese, new [] { "混洗", "暂停", "退出", "交换"} }
+
             };
 
             languageChanger.SortDataForLanguageBtnItems(buttonItems, possibleLanguagesWordsForButton);
@@ -99,7 +103,9 @@
             {
                 { Language.English, new [] { "Puzzle Box", "Original", "Gallery", "NORMAL", "HARD", "VERY HARD", "Moves Made:", "List One", "Status" } },
                 { Language.Bulgarian, new [] { "Пъзел поле", "Оригинал", "Галерия", "НОРМАЛ", "ТРУДНО", "МНОГО ТРУДНО", "Направени Ходове:", "Първи лист", "Статус"} },
-                {Language.German, new [] { "Puzzle Feld", "Original", "Galerie", "NORMAL", "SCHWER", "SEHR SCHWER", "Gemachte Züge:", "Erste Liste", "Status" } }
+                { Language.German, new [] { "Puzzle Feld", "Original", "Galerie", "NORMAL", "SCHWER", "SEHR SCHWER", "Gemachte Züge:", "Erste Liste", "Status" } },
+                { Language.Chinese, new [] { "拼图盒", "原版", "画廊", "正常", "困难", "非常困难", "已完成的动作：", "清单一", "状态" } }
+
             };
 
             languageChanger.SortDataForLanguageGroupBoxItems(groupBoxesLabelsItems, possibleLanguagesWordsForGroupBox);
@@ -473,21 +479,26 @@
         private void EnglishToolStripMenuItem_Click(object sender, EventArgs e)
         {
             languageCurrent = Language.English;
-            languageChanger.ChangeLanguage(Language.English);
+            languageChanger.ChangeLanguage(languageCurrent);
         }
 
         private void BulgarianToolStripMenuItem_Click(object sender, EventArgs e)
         {
             languageCurrent = Language.Bulgarian;
-            languageChanger.ChangeLanguage(Language.Bulgarian);
+            languageChanger.ChangeLanguage(languageCurrent);
         }
 
         private void GermanToolStripMenuItem_Click(object sender, EventArgs e)
         {
             languageCurrent = Language.German;
-            languageChanger.ChangeLanguage(Language.German);
+            languageChanger.ChangeLanguage(languageCurrent);
         }
 
+        private void ChineseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            languageCurrent = Language.Chinese;
+            languageChanger.ChangeLanguage(languageCurrent);
+        }
         #endregion
 
         private void AskPermissionBeforeQuite(object sender, FormClosingEventArgs e)
