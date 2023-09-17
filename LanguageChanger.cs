@@ -2,46 +2,6 @@
 {
     public class LanguageChanger
     {
-        private Dictionary<string, string> englishStrings = new Dictionary<string, string>
-        {
-            {"Moves Made:", "Moves Made:"},
-            {"Switch", "Switch" },
-            {"Resume", "Resume" },
-            {"Pause", "Pause" },
-            {"Congratulations...\nYour Win\nTime Elapsed : ", "Congratulations...\nYour Win\nTime Elapsed : " },
-            {"s.\nTotal Moves Made : ", "s.\nTotal Moves Made : " },
-            {"Time is Up\nTry Again", "Time is Up\nTry Again" },
-            {"Are You Sure To Restart ?", "Are You Sure To Restart ?" },
-            {"Are You Sure To Quit ?", "Are You Sure To Quit ?" }
-        };
-
-        private Dictionary<string, string> bulgarianStrings = new Dictionary<string, string>
-        {
-            {"Moves Made:", "Направени Ходове:"},
-            {"Switch", "Размени" },
-            {"Resume", "Продължи" },
-            {"Pause", "Пауза" },
-            {"Congratulations...\nYour Win\nTime Elapsed : ", "Поздравления...\nТи Победи\nИзминало Време : " },
-            {"s.\nTotal Moves Made : ", "s.\nПълен брой ходове : " },
-            {"Time is Up\nTry Again", "Времето изтече\nОпитай пак" },
-            {"Are You Sure To Restart ?", "Сигурни ли сте за Рестарта ?" },
-            {"Are You Sure To Quit ?", "Сигурни ли сте за Напускането ?" }
-        };
-
-        private Dictionary<string, string> germanStrings = new Dictionary<string, string>
-        {
-            {"Moves Made:", "Nur auf Deutsch" },
-            {"Switch", "Austauschen" },
-            {"Resume", "Fortsetzen" },
-            {"Pause", "Pause" },
-            {"Congratulations...\nYour Win\nTime Elapsed : ", "Glückwünsche...\nDein Sieg\nVergangene Zeit : " },
-            {"s.\nTotal Moves Made : ", "s.\nGesamtanzahl der Züge : " },
-            {"Time is Up\nTry Again", "Die Zeit ist abgelaufen\nVersuch es erneut" },
-            {"Are You Sure To Restart ?", "Sind Sie sicher, dass Sie neu starten möchten?" },
-            {"Are You Sure To Quit ?", "Sind Sie sicher, dass Sie beenden möchten?" }
-        };
-
-
         private Dictionary<ToolStripMenuItem, Dictionary<Language, string>> menuItemList = new Dictionary<ToolStripMenuItem, Dictionary<Language, string>>();
         private Dictionary<Button, Dictionary<Language, string>> btnList = new Dictionary<Button, Dictionary<Language, string>>();
         private Dictionary<Control, Dictionary<Language, string>> groupBoxListLabels = new Dictionary<Control, Dictionary<Language, string>>();
@@ -137,9 +97,10 @@
         {
             Dictionary<string, string> languageStrings;
 
-            if (languageCurrent == Language.English) languageStrings = englishStrings;
-            if (languageCurrent == Language.German) languageStrings = germanStrings;
-            else languageStrings = bulgarianStrings;
+            if (languageCurrent == Language.English) languageStrings = StringData.EnglishStrings;
+            else if(languageCurrent == Language.German) languageStrings = StringData.GermanStrings;
+            else if(languageCurrent == Language.Chinese) languageStrings = StringData.ChineseStrings;
+            else languageStrings = StringData.BulgarianStrings;
 
             return languageStrings[wordToCheck];
         }
@@ -150,6 +111,7 @@
     {
         English,
         Bulgarian,
-        German
+        German,
+        Chinese
     }
 }

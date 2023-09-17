@@ -63,6 +63,7 @@
             lblNormalMod = new Label();
             btnSwitch = new Button();
             menuStrip1.SuspendLayout();
+            PuzzleBox.SuspendLayout();
             GalleryBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox7).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
@@ -148,26 +149,27 @@
             // englishToolStripMenuItem
             // 
             englishToolStripMenuItem.Name = "englishToolStripMenuItem";
-            englishToolStripMenuItem.Size = new Size(180, 22);
+            englishToolStripMenuItem.Size = new Size(124, 22);
             englishToolStripMenuItem.Text = "English";
             englishToolStripMenuItem.Click += EnglishToolStripMenuItem_Click;
             // 
             // bulgarianToolStripMenuItem
             // 
             bulgarianToolStripMenuItem.Name = "bulgarianToolStripMenuItem";
-            bulgarianToolStripMenuItem.Size = new Size(180, 22);
+            bulgarianToolStripMenuItem.Size = new Size(124, 22);
             bulgarianToolStripMenuItem.Text = "Bulgarian";
             bulgarianToolStripMenuItem.Click += BulgarianToolStripMenuItem_Click;
             // 
             // GermanToolStripMenuItem
             // 
             GermanToolStripMenuItem.Name = "GermanToolStripMenuItem";
-            GermanToolStripMenuItem.Size = new Size(180, 22);
+            GermanToolStripMenuItem.Size = new Size(124, 22);
             GermanToolStripMenuItem.Text = "German";
             GermanToolStripMenuItem.Click += GermanToolStripMenuItem_Click;
             // 
             // PuzzleBox
             // 
+            PuzzleBox.Controls.Add(GalleryBox);
             PuzzleBox.Location = new Point(25, 46);
             PuzzleBox.Name = "PuzzleBox";
             PuzzleBox.Size = new Size(430, 425);
@@ -186,7 +188,7 @@
             GalleryBox.Controls.Add(pictureBox6);
             GalleryBox.Controls.Add(pictureBox5);
             GalleryBox.Controls.Add(pictureBox1);
-            GalleryBox.Location = new Point(103, 31);
+            GalleryBox.Location = new Point(19, 8);
             GalleryBox.Name = "GalleryBox";
             GalleryBox.Size = new Size(572, 488);
             GalleryBox.TabIndex = 0;
@@ -294,13 +296,14 @@
             // 
             // lblTimeElapsed
             // 
-            lblTimeElapsed.AutoSize = true;
+            lblTimeElapsed.BorderStyle = BorderStyle.Fixed3D;
             lblTimeElapsed.Font = new Font("Impact", 48F, FontStyle.Regular, GraphicsUnit.Point);
             lblTimeElapsed.Location = new Point(475, 366);
             lblTimeElapsed.Name = "lblTimeElapsed";
-            lblTimeElapsed.Size = new Size(264, 80);
+            lblTimeElapsed.Size = new Size(300, 82);
             lblTimeElapsed.TabIndex = 6;
             lblTimeElapsed.Text = "00:00:00";
+            lblTimeElapsed.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // tmrTimeElapse
             // 
@@ -353,11 +356,13 @@
             // 
             // lblVeryHardMod
             // 
-            lblVeryHardMod.AutoSize = true;
+            lblVeryHardMod.Anchor = AnchorStyles.None;
+            lblVeryHardMod.BorderStyle = BorderStyle.FixedSingle;
+            lblVeryHardMod.FlatStyle = FlatStyle.Popup;
             lblVeryHardMod.Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
-            lblVeryHardMod.Location = new Point(66, 290);
+            lblVeryHardMod.Location = new Point(3, 290);
             lblVeryHardMod.Name = "lblVeryHardMod";
-            lblVeryHardMod.Size = new Size(114, 29);
+            lblVeryHardMod.Size = new Size(234, 31);
             lblVeryHardMod.TabIndex = 2;
             lblVeryHardMod.Text = "VERY HARD";
             lblVeryHardMod.TextAlign = ContentAlignment.MiddleCenter;
@@ -365,11 +370,11 @@
             // 
             // lblHardMod
             // 
-            lblHardMod.AutoSize = true;
+            lblHardMod.BorderStyle = BorderStyle.FixedSingle;
             lblHardMod.Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
-            lblHardMod.Location = new Point(91, 190);
+            lblHardMod.Location = new Point(3, 190);
             lblHardMod.Name = "lblHardMod";
-            lblHardMod.Size = new Size(64, 29);
+            lblHardMod.Size = new Size(234, 31);
             lblHardMod.TabIndex = 1;
             lblHardMod.Text = "HARD";
             lblHardMod.TextAlign = ContentAlignment.MiddleCenter;
@@ -377,11 +382,11 @@
             // 
             // lblNormalMod
             // 
-            lblNormalMod.AutoSize = true;
+            lblNormalMod.BorderStyle = BorderStyle.FixedSingle;
             lblNormalMod.Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
-            lblNormalMod.Location = new Point(76, 92);
+            lblNormalMod.Location = new Point(3, 92);
             lblNormalMod.Name = "lblNormalMod";
-            lblNormalMod.Size = new Size(90, 29);
+            lblNormalMod.Size = new Size(234, 31);
             lblNormalMod.TabIndex = 0;
             lblNormalMod.Text = "NORMAL";
             lblNormalMod.TextAlign = ContentAlignment.MiddleCenter;
@@ -403,7 +408,6 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlDarkDark;
             ClientSize = new Size(803, 560);
-            Controls.Add(GalleryBox);
             Controls.Add(btnSwitch);
             Controls.Add(panSettings);
             Controls.Add(btnQuit);
@@ -423,6 +427,7 @@
             Text = "Image Slider Puzzle";
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
+            PuzzleBox.ResumeLayout(false);
             GalleryBox.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox7).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
@@ -432,7 +437,6 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             panSettings.ResumeLayout(false);
-            panSettings.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
