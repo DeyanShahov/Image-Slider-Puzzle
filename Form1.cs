@@ -25,6 +25,7 @@
         Bitmap MainBitmap;
         Random random = new Random();
 
+
         public Form1()
         {
             InitializeComponent();
@@ -172,8 +173,8 @@
         private void PlacePictureBoxesToForm()
         {
             //shuffleImages.FindAll(p => p.BackgroundImage != null).ForEach(p => p.BackgroundImage.RotateFlip(RotateFlipType.Rotate90FlipNone));
-            var shuffleImages = pictureBoxList.OrderBy(a => Guid.NewGuid()).ToList();
-            pictureBoxList = shuffleImages;
+            //var shuffleImages = pictureBoxList.OrderBy(a => Guid.NewGuid()).ToList();
+            //pictureBoxList = shuffleImages;
 
             int x = PuzzleBox.Location.X - 5;
             int y = PuzzleBox.Location.Y - 25;
@@ -559,5 +560,28 @@
             return type;
         }
 
+        private void BtnAutoSolve_Click(object sender, EventArgs e)
+        {
+            var initialState = currentPositions.Select(x => int.Parse(x.ToString())).ToArray();
+            string message = string.Empty;
+
+            PuzzleSolver solver = new PuzzleSolver();
+            List<string> solution = solver.SolvePuzzle(initialState);
+
+            if (solution[0] == "No Solution")
+            {
+                message = "No solution found.";
+            }
+            else
+            {
+                message += "Solution: ";
+                foreach (var move in solution)
+                {
+                   message += move + ", ";
+                }
+            }
+
+            MessageBox.Show(message);
+        }
     }
 }

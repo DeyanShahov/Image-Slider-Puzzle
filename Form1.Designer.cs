@@ -41,6 +41,7 @@
             englishToolStripMenuItem = new ToolStripMenuItem();
             bulgarianToolStripMenuItem = new ToolStripMenuItem();
             GermanToolStripMenuItem = new ToolStripMenuItem();
+            ChineseToolStripMenuItem = new ToolStripMenuItem();
             PuzzleBox = new GroupBox();
             GalleryBox = new GroupBox();
             pictureBox7 = new PictureBox();
@@ -62,8 +63,9 @@
             lblHardMod = new Label();
             lblNormalMod = new Label();
             btnSwitch = new Button();
-            ChineseToolStripMenuItem = new ToolStripMenuItem();
+            btnAutoSolve = new Button();
             menuStrip1.SuspendLayout();
+            PuzzleBox.SuspendLayout();
             GalleryBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox7).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
@@ -149,26 +151,34 @@
             // englishToolStripMenuItem
             // 
             englishToolStripMenuItem.Name = "englishToolStripMenuItem";
-            englishToolStripMenuItem.Size = new Size(180, 22);
+            englishToolStripMenuItem.Size = new Size(124, 22);
             englishToolStripMenuItem.Text = "English";
             englishToolStripMenuItem.Click += EnglishToolStripMenuItem_Click;
             // 
             // bulgarianToolStripMenuItem
             // 
             bulgarianToolStripMenuItem.Name = "bulgarianToolStripMenuItem";
-            bulgarianToolStripMenuItem.Size = new Size(180, 22);
+            bulgarianToolStripMenuItem.Size = new Size(124, 22);
             bulgarianToolStripMenuItem.Text = "Bulgarian";
             bulgarianToolStripMenuItem.Click += BulgarianToolStripMenuItem_Click;
             // 
             // GermanToolStripMenuItem
             // 
             GermanToolStripMenuItem.Name = "GermanToolStripMenuItem";
-            GermanToolStripMenuItem.Size = new Size(180, 22);
+            GermanToolStripMenuItem.Size = new Size(124, 22);
             GermanToolStripMenuItem.Text = "German";
             GermanToolStripMenuItem.Click += GermanToolStripMenuItem_Click;
             // 
+            // ChineseToolStripMenuItem
+            // 
+            ChineseToolStripMenuItem.Name = "ChineseToolStripMenuItem";
+            ChineseToolStripMenuItem.Size = new Size(124, 22);
+            ChineseToolStripMenuItem.Text = "Chinese";
+            ChineseToolStripMenuItem.Click += ChineseToolStripMenuItem_Click;
+            // 
             // PuzzleBox
             // 
+            PuzzleBox.Controls.Add(GalleryBox);
             PuzzleBox.Location = new Point(25, 46);
             PuzzleBox.Name = "PuzzleBox";
             PuzzleBox.Size = new Size(430, 425);
@@ -187,7 +197,7 @@
             GalleryBox.Controls.Add(pictureBox6);
             GalleryBox.Controls.Add(pictureBox5);
             GalleryBox.Controls.Add(pictureBox1);
-            GalleryBox.Location = new Point(120, 31);
+            GalleryBox.Location = new Point(50, 22);
             GalleryBox.Name = "GalleryBox";
             GalleryBox.Size = new Size(572, 488);
             GalleryBox.TabIndex = 0;
@@ -401,12 +411,15 @@
             btnSwitch.UseVisualStyleBackColor = true;
             btnSwitch.Click += btnSwitch_Click;
             // 
-            // ChineseToolStripMenuItem
+            // btnAutoSolve
             // 
-            ChineseToolStripMenuItem.Name = "ChineseToolStripMenuItem";
-            ChineseToolStripMenuItem.Size = new Size(180, 22);
-            ChineseToolStripMenuItem.Text = "Chinese";
-            ChineseToolStripMenuItem.Click += ChineseToolStripMenuItem_Click;
+            btnAutoSolve.Location = new Point(379, 519);
+            btnAutoSolve.Name = "btnAutoSolve";
+            btnAutoSolve.Size = new Size(94, 23);
+            btnAutoSolve.TabIndex = 11;
+            btnAutoSolve.Text = "AUTO SOLVE";
+            btnAutoSolve.UseVisualStyleBackColor = true;
+            btnAutoSolve.Click += BtnAutoSolve_Click;
             // 
             // Form1
             // 
@@ -414,7 +427,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlDarkDark;
             ClientSize = new Size(803, 560);
-            Controls.Add(GalleryBox);
+            Controls.Add(btnAutoSolve);
             Controls.Add(btnSwitch);
             Controls.Add(panSettings);
             Controls.Add(btnQuit);
@@ -434,6 +447,7 @@
             Text = "Image Slider Puzzle";
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
+            PuzzleBox.ResumeLayout(false);
             GalleryBox.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox7).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
@@ -483,5 +497,6 @@
         private ToolStripMenuItem bulgarianToolStripMenuItem;
         private ToolStripMenuItem GermanToolStripMenuItem;
         private ToolStripMenuItem ChineseToolStripMenuItem;
+        private Button btnAutoSolve;
     }
 }
