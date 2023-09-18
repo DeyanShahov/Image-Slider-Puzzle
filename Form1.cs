@@ -318,6 +318,8 @@
             if (queueNextMove != null && queueNextMove.Any()) queueNextMove.Clear();
             currentMoveDirection = string.Empty;
 
+            panBFS.Visible = false;
+
             btnSwitch.Enabled = true;
             toSwitch = false;
             switchNumber = 1;
@@ -361,15 +363,9 @@
                 || pictureBox.Left == emptyBox.Right && pictureBox.Location.Y == emptyBox.Location.Y
                 || pictureBox.Top == emptyBox.Bottom && pictureBox.Location.X == emptyBox.Location.X
                 || pictureBox.Bottom == emptyBox.Top && pictureBox.Location.X == emptyBox.Location.X)
-                {
+                {                  
                     SwitchBoxes(pictureBox, emptyBox, pic1, pic2, index1, index2);
-                }
-
-                if (queueNextMove != null && queueNextMove.Any() && currentMoveDirection == queueNextMove.ElementAt(0))
-                {
-                    lblBFSNextMove.Text = "Next Move : " + queueNextMove.Dequeue();
-                }
-                    
+                }                            
             }
             else
             {
@@ -378,6 +374,11 @@
                 toSwitch = false;
                 btnSwitch.Enabled = false;
                 btnSwitch.Text = $"{languageChanger.ReturnCorrectWord("Switch", languageCurrent)} {switchNumber}";
+            }
+
+            if (queueNextMove != null && queueNextMove.Any())// && currentMoveDirection == queueNextMove.ElementAt(0))
+            {
+                lblBFSNextMove.Text = "Next Move : " + queueNextMove.Dequeue();
             }
 
             label2.Text = "";
@@ -401,7 +402,7 @@
 
                 //PlacePictureBoxesToForm();
 
-
+                panBFS.Visible = false;
                 tmrTimeElapse.Stop();
                 string messages = String.Empty;
                 messages += languageChanger.ReturnCorrectWord("Congratulations...\nYour Win\nTime Elapsed : ", languageCurrent) + elapsedSeconds;
@@ -702,7 +703,7 @@
 
                 queueNextMove = new Queue<string>(message.Split(", ", StringSplitOptions.RemoveEmptyEntries));
                 lblBFSNextMove.Text = queueNextMove.ElementAt(0) == StringData.messageNoFoundSolution 
-                    ? StringData.warningNoSolution : queueNextMove.Dequeue();               
+                    ? StringData.warningNoSolution : (queueNextMove.Dequeue()).Replace("Solution: ", "Next Move : ");               
             }
             else
             {
