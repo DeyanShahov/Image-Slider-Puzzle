@@ -64,6 +64,17 @@
             lblNormalMod = new Label();
             btnSwitch = new Button();
             btnAutoSolve = new Button();
+            panBFS = new Panel();
+            lblBFSCurrMove = new Label();
+            lblBFSNextMove = new Label();
+            btnBFSPlay = new Button();
+            btnBFSSolve = new Button();
+            textBoxBFSResult = new TextBox();
+            lblBFSAttempts = new Label();
+            lblBFSMultiplier = new Label();
+            lblBFSSolution = new Label();
+            textBoxBFSAttemps = new TextBox();
+            lblBFSClose = new Label();
             menuStrip1.SuspendLayout();
             PuzzleBox.SuspendLayout();
             GalleryBox.SuspendLayout();
@@ -75,6 +86,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panSettings.SuspendLayout();
+            panBFS.SuspendLayout();
             SuspendLayout();
             // 
             // label1
@@ -357,7 +369,7 @@
             panSettings.Controls.Add(lblHardMod);
             panSettings.Controls.Add(lblNormalMod);
             panSettings.ForeColor = Color.Black;
-            panSettings.Location = new Point(263, 27);
+            panSettings.Location = new Point(202, 27);
             panSettings.Name = "panSettings";
             panSettings.Size = new Size(242, 478);
             panSettings.TabIndex = 0;
@@ -417,9 +429,126 @@
             btnAutoSolve.Name = "btnAutoSolve";
             btnAutoSolve.Size = new Size(94, 23);
             btnAutoSolve.TabIndex = 11;
-            btnAutoSolve.Text = "AUTO SOLVE";
+            btnAutoSolve.Text = "BFS Answer";
             btnAutoSolve.UseVisualStyleBackColor = true;
             btnAutoSolve.Click += BtnAutoSolve_Click;
+            // 
+            // panBFS
+            // 
+            panBFS.BackColor = SystemColors.ActiveBorder;
+            panBFS.BorderStyle = BorderStyle.FixedSingle;
+            panBFS.Controls.Add(lblBFSCurrMove);
+            panBFS.Controls.Add(lblBFSNextMove);
+            panBFS.Controls.Add(btnBFSPlay);
+            panBFS.Controls.Add(btnBFSSolve);
+            panBFS.Controls.Add(textBoxBFSResult);
+            panBFS.Controls.Add(lblBFSAttempts);
+            panBFS.Controls.Add(lblBFSMultiplier);
+            panBFS.Controls.Add(lblBFSSolution);
+            panBFS.Controls.Add(textBoxBFSAttemps);
+            panBFS.Controls.Add(lblBFSClose);
+            panBFS.Location = new Point(475, 46);
+            panBFS.Name = "panBFS";
+            panBFS.Size = new Size(300, 317);
+            panBFS.TabIndex = 12;
+            panBFS.Visible = false;
+            // 
+            // lblBFSCurrMove
+            // 
+            lblBFSCurrMove.AutoSize = true;
+            lblBFSCurrMove.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            lblBFSCurrMove.Location = new Point(13, 252);
+            lblBFSCurrMove.Name = "lblBFSCurrMove";
+            lblBFSCurrMove.Size = new Size(64, 21);
+            lblBFSCurrMove.TabIndex = 9;
+            lblBFSCurrMove.Text = "Move : ";
+            // 
+            // lblBFSNextMove
+            // 
+            lblBFSNextMove.AutoSize = true;
+            lblBFSNextMove.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            lblBFSNextMove.Location = new Point(13, 283);
+            lblBFSNextMove.Name = "lblBFSNextMove";
+            lblBFSNextMove.Size = new Size(103, 21);
+            lblBFSNextMove.TabIndex = 8;
+            lblBFSNextMove.Text = "Next Move : ";
+            // 
+            // btnBFSPlay
+            // 
+            btnBFSPlay.Location = new Point(6, 94);
+            btnBFSPlay.Name = "btnBFSPlay";
+            btnBFSPlay.Size = new Size(75, 23);
+            btnBFSPlay.TabIndex = 7;
+            btnBFSPlay.Text = "PLAY";
+            btnBFSPlay.UseVisualStyleBackColor = true;
+            // 
+            // btnBFSSolve
+            // 
+            btnBFSSolve.Location = new Point(219, 94);
+            btnBFSSolve.Name = "btnBFSSolve";
+            btnBFSSolve.Size = new Size(75, 23);
+            btnBFSSolve.TabIndex = 6;
+            btnBFSSolve.Text = "SOLVE";
+            btnBFSSolve.UseVisualStyleBackColor = true;
+            btnBFSSolve.Click += btnBFSSolve_Click;
+            // 
+            // textBoxBFSResult
+            // 
+            textBoxBFSResult.BackColor = SystemColors.ControlLight;
+            textBoxBFSResult.Location = new Point(6, 123);
+            textBoxBFSResult.Multiline = true;
+            textBoxBFSResult.Name = "textBoxBFSResult";
+            textBoxBFSResult.ReadOnly = true;
+            textBoxBFSResult.Size = new Size(288, 94);
+            textBoxBFSResult.TabIndex = 5;
+            // 
+            // lblBFSAttempts
+            // 
+            lblBFSAttempts.AutoSize = true;
+            lblBFSAttempts.Location = new Point(6, 62);
+            lblBFSAttempts.Name = "lblBFSAttempts";
+            lblBFSAttempts.Size = new Size(120, 15);
+            lblBFSAttempts.TabIndex = 4;
+            lblBFSAttempts.Text = "Attempts for solution";
+            // 
+            // lblBFSMultiplier
+            // 
+            lblBFSMultiplier.AutoSize = true;
+            lblBFSMultiplier.Location = new Point(217, 62);
+            lblBFSMultiplier.Name = "lblBFSMultiplier";
+            lblBFSMultiplier.Size = new Size(55, 15);
+            lblBFSMultiplier.TabIndex = 3;
+            lblBFSMultiplier.Text = "x 100 000";
+            // 
+            // lblBFSSolution
+            // 
+            lblBFSSolution.AutoSize = true;
+            lblBFSSolution.Font = new Font("Segoe UI Black", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
+            lblBFSSolution.Location = new Point(66, 5);
+            lblBFSSolution.Name = "lblBFSSolution";
+            lblBFSSolution.Size = new Size(165, 30);
+            lblBFSSolution.TabIndex = 2;
+            lblBFSSolution.Text = "BFS SOLUTION";
+            // 
+            // textBoxBFSAttempts
+            // 
+            textBoxBFSAttemps.Location = new Point(132, 59);
+            textBoxBFSAttemps.Name = "textBoxBFSAttempts";
+            textBoxBFSAttemps.Size = new Size(79, 23);
+            textBoxBFSAttemps.TabIndex = 1;
+            textBoxBFSAttemps.Text = "10";
+            textBoxBFSAttemps.TextAlign = HorizontalAlignment.Center;
+            // 
+            // lblBFSClose
+            // 
+            lblBFSClose.AutoSize = true;
+            lblBFSClose.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            lblBFSClose.Location = new Point(265, 5);
+            lblBFSClose.Name = "lblBFSClose";
+            lblBFSClose.Size = new Size(30, 32);
+            lblBFSClose.TabIndex = 0;
+            lblBFSClose.Text = "X";
+            lblBFSClose.Click += lblBFSClose_Click;
             // 
             // Form1
             // 
@@ -427,6 +556,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlDarkDark;
             ClientSize = new Size(803, 560);
+            Controls.Add(panBFS);
             Controls.Add(btnAutoSolve);
             Controls.Add(btnSwitch);
             Controls.Add(panSettings);
@@ -457,6 +587,8 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             panSettings.ResumeLayout(false);
+            panBFS.ResumeLayout(false);
+            panBFS.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -498,5 +630,16 @@
         private ToolStripMenuItem GermanToolStripMenuItem;
         private ToolStripMenuItem ChineseToolStripMenuItem;
         private Button btnAutoSolve;
+        private Panel panBFS;
+        private Label lblBFSClose;
+        private Label lblBFSMultiplier;
+        private Label lblBFSSolution;
+        private TextBox textBoxBFSAttemps;
+        private Label lblBFSAttempts;
+        private TextBox textBoxBFSResult;
+        private Button btnBFSSolve;
+        private Button btnBFSPlay;
+        private Label lblBFSNextMove;
+        private Label lblBFSCurrMove;
     }
 }

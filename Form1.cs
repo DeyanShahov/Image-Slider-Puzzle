@@ -2,7 +2,9 @@
 {
     public partial class Form1 : Form
     {
-        LanguageChanger languageChanger = new LanguageChanger();
+        private LanguageChanger languageChanger = new LanguageChanger();
+        private Queue<string> queueNextMove;
+        private string currentMoveDirection = string.Empty;
 
         private List<Bitmap> imageFromGallery = new List<Bitmap>();
         private List<PictureBox> pictureBoxList = new List<PictureBox>();
@@ -112,7 +114,6 @@
             languageChanger.SortDataForLanguageGroupBoxItems(groupBoxesLabelsItems, possibleLanguagesWordsForGroupBox);
 
         }
-
         private void SetOriginalImageBox()
         {
             Bitmap tempBitmap = new Bitmap(MainBitmap, new Size(270, 270));
@@ -172,9 +173,8 @@
         }
         private void PlacePictureBoxesToForm()
         {
-            //shuffleImages.FindAll(p => p.BackgroundImage != null).ForEach(p => p.BackgroundImage.RotateFlip(RotateFlipType.Rotate90FlipNone));
-            //var shuffleImages = pictureBoxList.OrderBy(a => Guid.NewGuid()).ToList();
-            //pictureBoxList = shuffleImages;
+
+            ShuffleImageForPuzzleBox();
 
             int x = PuzzleBox.Location.X - 5;
             int y = PuzzleBox.Location.Y - 25;
@@ -198,6 +198,64 @@
                 winPositions += locations[i];
             }
         }
+        private void ShuffleImageForPuzzleBox()
+        {
+            //shuffleImages.FindAll(p => p.BackgroundImage != null).ForEach(p => p.BackgroundImage.RotateFlip(RotateFlipType.Rotate90FlipNone));
+            //var shuffleImages = pictureBoxList.OrderBy(a => Guid.NewGuid()).ToList();
+            // pictureBoxList = shuffleImages;
+
+            PictureBox[] initialState = pictureBoxList.ToArray();
+
+            //Determine how moves can be made (all possible directions)
+            var possibleMoves = new List<(int Dx, int Dy)> { (-1, 0), (1, 0), (0, -1), (0, 1) };
+
+            if (initialState.Any())
+            {
+                int shuffleCounts = 0;
+
+                //Find the position of 0 (black box)
+                var zeroIndex = 0;
+                var zeroX = zeroIndex % 3;
+                var zeroY = zeroIndex / 3;
+
+
+                while (shuffleCounts < 5)
+                {
+                    var (dx, dy) = possibleMoves[random.Next(0, possibleMoves.Count)];
+                    var newX = zeroX + dx;
+                    var newY = zeroY + dy;
+
+                    if (newX >= 0 && newX < 3 && newY >= 0 && newY < 3)
+                    {
+                        var newIndex = newY * 3 + newX;
+
+                        //Swap
+                        var temp = initialState[zeroIndex];
+                        initialState[zeroIndex] = initialState[newIndex];
+                        initialState[newIndex] = temp;
+
+                        //zeroIndex += newIndex;
+                        for (int x = 0; x < initialState.Length; x++)
+                        {
+                            if (initialState[x].Tag.ToString() == "0")
+                            {
+                                zeroIndex = x;
+                                break;
+                            }
+                        }
+
+                        zeroX = zeroIndex % 3;
+                        zeroY = zeroIndex / 3;
+
+                        shuffleCounts++;
+                    }
+                }
+            }
+
+            pictureBoxList = initialState.ToList();
+
+        }
+
         private bool CheckGame()
         {
             bool isWin = false;
@@ -245,6 +303,7 @@
 
                 OriginalImageBox.BackgroundImage = null;
 
+
                 pictureBoxList.Clear();
                 images.Clear();
                 locations.Clear();
@@ -256,6 +315,8 @@
         }
         private void ResetPuzzle()
         {
+            if (queueNextMove != null && queueNextMove.Any()) queueNextMove.Clear();
+            currentMoveDirection = string.Empty;
 
             btnSwitch.Enabled = true;
             toSwitch = false;
@@ -283,6 +344,8 @@
 
         private void OnPicClick(object? sender, EventArgs e)
         {
+            CloseAllOpenWindows();
+
             PictureBox pictureBox = (PictureBox)sender;
             PictureBox emptyBox = pictureBoxList.Find(x => x.Tag == "0");
 
@@ -301,6 +364,12 @@
                 {
                     SwitchBoxes(pictureBox, emptyBox, pic1, pic2, index1, index2);
                 }
+
+                if (queueNextMove != null && queueNextMove.Any() && currentMoveDirection == queueNextMove.ElementAt(0))
+                {
+                    lblBFSNextMove.Text = "Next Move : " + queueNextMove.Dequeue();
+                }
+                    
             }
             else
             {
@@ -311,7 +380,6 @@
                 btnSwitch.Text = $"{languageChanger.ReturnCorrectWord("Switch", languageCurrent)} {switchNumber}";
             }
 
-
             label2.Text = "";
             currentLocations.Clear();
 
@@ -321,17 +389,17 @@
 
                 ClearAllCollections();
 
-                CreatePictureBoxes();
+                //CreatePictureBoxes();
 
-                Bitmap tempBitmap = new Bitmap(MainBitmap, new Size(390, 390));
-                CropImage(tempBitmap, 130, 130);
+                //Bitmap tempBitmap = new Bitmap(MainBitmap, new Size(390, 390));
+                //CropImage(tempBitmap, 130, 130);
 
-                for (int i = 0; i < pictureBoxList.Count; i++)
-                {
-                    pictureBoxList[i].BackgroundImage = images[i];
-                }
+                //for (int i = 0; i < pictureBoxList.Count; i++)
+                //{
+                //    pictureBoxList[i].BackgroundImage = images[i];
+                //}
 
-                PlacePictureBoxesToForm();
+                //PlacePictureBoxesToForm();
 
 
                 tmrTimeElapse.Stop();
@@ -350,6 +418,27 @@
         }
         private void SwitchBoxes(PictureBox pictureBox, PictureBox emptyBox, Point pic1, Point pic2, int index1, int index2)
         {
+            switch (index2 - index1)
+            {
+                case 1:
+                    currentMoveDirection = StringData.directionLeft;
+                    break;
+                case -1:
+                    currentMoveDirection = StringData.directionRight;
+                    break;
+                case 3:
+                    currentMoveDirection = StringData.directionUp;
+                    break;
+                case -3:
+                    currentMoveDirection = StringData.directionDown;
+                    break;
+                default:
+                    currentMoveDirection = StringData.directionSwitch;
+                    break;
+            }
+
+            lblBFSCurrMove.Text = "Move : " + currentMoveDirection;
+
             pictureBox.Location = pic2;
             emptyBox.Location = pic1;
 
@@ -370,6 +459,8 @@
         }
         private void OpenFileEvent(object sender, EventArgs e)
         {
+            CloseAllOpenWindows();
+
             using (OpenFileDialog open = new OpenFileDialog())
             {
                 open.Filter = "Image Files Only | *.jpg; *.jpeg; *.gif; *.png";
@@ -396,12 +487,14 @@
         }
         private void GalleryOpenCloseClickEvent(object sender, EventArgs e)
         {
+            CloseAllOpenWindows();
             if (GalleryBox.Visible == false) GalleryBox.Visible = true;
             else GalleryBox.Visible = false;
         }
 
         private void SettingsOpenClosedClickEvent_Click(object sender, EventArgs e)
         {
+            CloseAllOpenWindows();
             if (panSettings.Visible == false) panSettings.Visible = true;
             else panSettings.Visible = false;
         }
@@ -562,26 +655,59 @@
 
         private void BtnAutoSolve_Click(object sender, EventArgs e)
         {
-            var initialState = currentPositions.Select(x => int.Parse(x.ToString())).ToArray();
-            string message = string.Empty;
+            if (panBFS.Visible == false) panBFS.Visible = true;
+            else panBFS.Visible = false;
 
-            PuzzleSolver solver = new PuzzleSolver();
-            List<string> solution = solver.SolvePuzzle(initialState);
+            textBoxBFSResult.Text = "";
+        }
 
-            if (solution[0] == "No Solution")
+        private void CloseAllOpenWindows()
+        {
+            GalleryBox.Visible = false;
+            panSettings.Visible = false;
+        }
+
+        private void lblBFSClose_Click(object sender, EventArgs e)
+        {
+            textBoxBFSResult.Text = "";
+            panBFS.Visible = false;
+        }
+        private void btnBFSSolve_Click(object sender, EventArgs e)
+        {
+            if (moves != 0)
             {
-                message = "No solution found.";
+                textBoxBFSResult.Text = "";
+
+                var initialState = currentPositions.Select(x => int.Parse(x.ToString())).ToArray();
+                string message = string.Empty;
+
+                PuzzleSolver solver = new PuzzleSolver();
+                List<string> solution = solver.SolvePuzzle(initialState);
+
+                if (solution[0] == StringData.warningNoSolution)
+                {
+                    message = StringData.messageNoFoundSolution;
+                }
+                else
+                {
+                    message += "Solution: ";
+                    foreach (var move in solution)
+                    {
+                        message += move + ", ";
+                    }
+                }
+
+                panBFS.Visible = true;
+                textBoxBFSResult.Text = message;
+
+                queueNextMove = new Queue<string>(message.Split(", ", StringSplitOptions.RemoveEmptyEntries));
+                lblBFSNextMove.Text = queueNextMove.ElementAt(0) == StringData.messageNoFoundSolution 
+                    ? StringData.warningNoSolution : queueNextMove.Dequeue();               
             }
             else
             {
-                message += "Solution: ";
-                foreach (var move in solution)
-                {
-                   message += move + ", ";
-                }
-            }
-
-            MessageBox.Show(message);
+                textBoxBFSResult.Text = StringData.warningStartGame;
+            }          
         }
     }
 }

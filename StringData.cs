@@ -2,12 +2,20 @@
 {
     public static class StringData
     {
-        public static string gameModNormal = "Normal";
-        public static string gameModHard = "Hard";
-        public static string gameModVeryHard = "VeryHard";
+        public static readonly string gameModNormal = "Normal";
+        public static readonly string gameModHard = "Hard";
+        public static readonly string gameModVeryHard = "VeryHard";
+        public static readonly string victory = "VICTORY";
+        public static readonly string directionLeft = "Left";
+        public static readonly string directionRight = "Right";
+        public static readonly string directionUp = "Up";
+        public static readonly string directionDown = "Down";
+        public static readonly string directionSwitch = "Switch";
+        public static readonly string warningStartGame = "The Game has not started, at least one direct move is required.";
+        public static readonly string warningNoSolution = "No Solution";
+        public static readonly string messageNoFoundSolution = "No solution found in allowed attempts.";
 
 
-        public static string victory = "VICTORY";
 
 
         public static Dictionary<string, string> EnglishStrings = new Dictionary<string, string>

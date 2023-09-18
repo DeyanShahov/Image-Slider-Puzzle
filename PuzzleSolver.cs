@@ -14,19 +14,24 @@
 
             //Determine how moves can be made (all possible directions)
             var possibleMoves = new List<(int Dx, int Dy)> { (-1, 0), (1, 0), (0, -1), (0, 1) };
-            var moveNames = new List<string> { "Left", "Right", "Up", "Down" };
+            var moveNames = new List<string> { StringData.directionLeft, StringData.directionRight, StringData.directionUp, StringData.directionDown };
 
             //Determine queue for BFS
             var queue = new Queue<PuzzleState>();
             queue.Enqueue(initialPuzzleState);
 
             //Run BFS
-            while (queue.Any())
+            while (queue.Any() && queue.Count < 1000000)
             {
                 var currentState = queue.Dequeue();
 
                 //Found SOLUTION for Win
-                if (string.Join(",", currentState.State) == goalStateString) return currentState.Moves;
+                if (string.Join(",", currentState.State) == goalStateString) 
+                {
+                    queue.Clear();
+                    //GC.Collect();
+                    return currentState.Moves;
+                }
 
                 //Find the position of 0 (black box)
                 var zeroIndex = Array.IndexOf(currentState.State, 0);
@@ -62,7 +67,8 @@
 
             }
 
-            return new List<string> { "No Solution" };
+            queue.Clear();
+            return new List<string> { StringData.warningNoSolution };
 
         }
     }
