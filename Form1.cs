@@ -4,6 +4,7 @@
     {
         private LanguageChanger languageChanger = new LanguageChanger();
         private Queue<string> queueNextMove;
+        private int queueNextMoveOriginalLength;
         private string currentMoveDirection = string.Empty;
 
         private List<Bitmap> imageFromGallery = new List<Bitmap>();
@@ -214,12 +215,12 @@
                 int shuffleCounts = 0;
 
                 //Find the position of 0 (black box)
-                var zeroIndex = 0;
+                var zeroIndex = pictureBoxList.FindIndex(x => x.Tag == "0"); //0;
                 var zeroX = zeroIndex % 3;
                 var zeroY = zeroIndex / 3;
 
 
-                while (shuffleCounts < 5)
+                while (shuffleCounts < 100)
                 {
                     var (dx, dy) = possibleMoves[random.Next(0, possibleMoves.Count)];
                     var newX = zeroX + dx;
@@ -315,6 +316,8 @@
         }
         private void ResetPuzzle()
         {
+            ClearAllBFSSettings();
+
             if (queueNextMove != null && queueNextMove.Any()) queueNextMove.Clear();
             currentMoveDirection = string.Empty;
 
@@ -363,9 +366,9 @@
                 || pictureBox.Left == emptyBox.Right && pictureBox.Location.Y == emptyBox.Location.Y
                 || pictureBox.Top == emptyBox.Bottom && pictureBox.Location.X == emptyBox.Location.X
                 || pictureBox.Bottom == emptyBox.Top && pictureBox.Location.X == emptyBox.Location.X)
-                {                  
+                {
                     SwitchBoxes(pictureBox, emptyBox, pic1, pic2, index1, index2);
-                }                            
+                }
             }
             else
             {
@@ -376,9 +379,16 @@
                 btnSwitch.Text = $"{languageChanger.ReturnCorrectWord("Switch", languageCurrent)} {switchNumber}";
             }
 
-            if (queueNextMove != null && queueNextMove.Any())// && currentMoveDirection == queueNextMove.ElementAt(0))
+            if (queueNextMove != null && queueNextMove.Any())
             {
-                lblBFSNextMove.Text = "Next Move : " + queueNextMove.Dequeue();
+                string move = queueNextMove.Dequeue();
+
+                if (currentMoveDirection == move) lblBFSNextMove.Text = StringData.messageNextMove + queueNextMove.FirstOrDefault();
+                else
+                {
+                    ClearAllBFSSettings();
+                    lblBFSNextMove.Text = StringData.errorMove;
+                }
             }
 
             label2.Text = "";
@@ -390,17 +400,9 @@
 
                 ClearAllCollections();
 
-                //CreatePictureBoxes();
+                CreatePictureBoxes();
 
-                //Bitmap tempBitmap = new Bitmap(MainBitmap, new Size(390, 390));
-                //CropImage(tempBitmap, 130, 130);
-
-                //for (int i = 0; i < pictureBoxList.Count; i++)
-                //{
-                //    pictureBoxList[i].BackgroundImage = images[i];
-                //}
-
-                //PlacePictureBoxesToForm();
+                SetFullPictureForWining();
 
                 panBFS.Visible = false;
                 tmrTimeElapse.Stop();
@@ -415,6 +417,39 @@
 
                 pictureBoxList.ForEach(p => p.Enabled = false);
                 btnPause.Enabled = false;
+            }
+        }
+
+        private void SetFullPictureForWining()
+        {
+            Bitmap tempBitmap = new Bitmap(MainBitmap, new Size(390, 390));
+            CropImage(tempBitmap, 130, 130);
+
+            for (int i = 0; i < pictureBoxList.Count; i++)
+            {
+                pictureBoxList[i].BackgroundImage = images[i];
+            }
+
+            int x = PuzzleBox.Location.X - 5;
+            int y = PuzzleBox.Location.Y - 25;
+
+            for (int i = 0; i < pictureBoxList.Count; i++)
+            {
+                pictureBoxList[i].BackColor = Color.Black;
+
+                if (i == 3 || i == 6)
+                {
+                    y += 130;
+                    x = PuzzleBox.Location.X - 5;
+                }
+
+                pictureBoxList[i].BorderStyle = BorderStyle.FixedSingle;
+                pictureBoxList[i].Location = new Point(x, y);
+
+                PuzzleBox.Controls.Add(pictureBoxList[i]);
+
+                x += 130;
+                winPositions += locations[i];
             }
         }
         private void SwitchBoxes(PictureBox pictureBox, PictureBox emptyBox, Point pic1, Point pic2, int index1, int index2)
@@ -531,15 +566,13 @@
         private void btnShuffleClick(object sender, EventArgs e)
         {
             DialogResult YesOrNo = new DialogResult();
+
             if (lblTimeElapsed.Text != "00:00:00")
             {
                 YesOrNo = MessageBox.Show(languageChanger.ReturnCorrectWord("Are You Sure To Restart ?", languageCurrent), "Puzzle", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             }
 
-            if (YesOrNo == DialogResult.Yes || lblTimeElapsed.Text == "00:00:00")
-            {
-                ResetPuzzle();
-            }
+            if (YesOrNo == DialogResult.Yes || lblTimeElapsed.Text == "00:00:00") ResetPuzzle();
         }
 
         private void lblNormalMod_Click(object sender, EventArgs e)
@@ -657,9 +690,11 @@
         private void BtnAutoSolve_Click(object sender, EventArgs e)
         {
             if (panBFS.Visible == false) panBFS.Visible = true;
-            else panBFS.Visible = false;
-
-            textBoxBFSResult.Text = "";
+            else
+            {
+                ClearAllBFSSettings();
+                panBFS.Visible = false;
+            }
         }
 
         private void CloseAllOpenWindows()
@@ -667,48 +702,124 @@
             GalleryBox.Visible = false;
             panSettings.Visible = false;
         }
-
         private void lblBFSClose_Click(object sender, EventArgs e)
         {
-            textBoxBFSResult.Text = "";
+            ClearAllBFSSettings();
             panBFS.Visible = false;
         }
         private void btnBFSSolve_Click(object sender, EventArgs e)
         {
-            if (moves != 0)
+            if (int.TryParse(textBoxBFSAttemps.Text, out int inputNumber))
             {
-                textBoxBFSResult.Text = "";
+                int minValue = 1;
+                int maxValue = 1000;
 
-                var initialState = currentPositions.Select(x => int.Parse(x.ToString())).ToArray();
-                string message = string.Empty;
-
-                PuzzleSolver solver = new PuzzleSolver();
-                List<string> solution = solver.SolvePuzzle(initialState);
-
-                if (solution[0] == StringData.warningNoSolution)
+                if (inputNumber >= minValue && inputNumber <= maxValue)
                 {
-                    message = StringData.messageNoFoundSolution;
+                    if (moves != 0)
+                    {
+                        ClearAllBFSSettings();
+
+                        textBoxBFSResult.Text = "";
+
+                        var initialState = currentPositions.Select(x => int.Parse(x.ToString())).ToArray();
+                        string message = string.Empty;
+
+                        PuzzleSolver solver = new PuzzleSolver();
+                        List<string> solution = solver.SolvePuzzle(initialState, inputNumber * 100000);
+
+                        if (solution[0] == StringData.warningNoSolution)
+                        {
+                            message = StringData.messageNoFoundSolution;
+                        }
+                        else
+                        {
+                            //message += "Solution: ";
+                            foreach (var move in solution)
+                            {
+                                message += move + ", ";
+                            }
+                        }
+
+                        panBFS.Visible = true;
+                        textBoxBFSResult.Text = "Solution: " + message;
+
+                        queueNextMove = new Queue<string>(message.Split(", ", StringSplitOptions.RemoveEmptyEntries));
+                        queueNextMoveOriginalLength = queueNextMove.Count;
+                        lblBFSNextMove.Text = queueNextMove.FirstOrDefault() == StringData.messageNoFoundSolution
+                            ? StringData.warningNoSolution : StringData.messageNextMove + queueNextMove.FirstOrDefault();
+
+                    }
+                    else
+                    {
+                        textBoxBFSResult.Text = StringData.warningStartGame;
+                    }
                 }
                 else
                 {
-                    message += "Solution: ";
-                    foreach (var move in solution)
-                    {
-                        message += move + ", ";
-                    }
+                    textBoxBFSResult.Text = "Invalid number.";
                 }
-
-                panBFS.Visible = true;
-                textBoxBFSResult.Text = message;
-
-                queueNextMove = new Queue<string>(message.Split(", ", StringSplitOptions.RemoveEmptyEntries));
-                lblBFSNextMove.Text = queueNextMove.ElementAt(0) == StringData.messageNoFoundSolution 
-                    ? StringData.warningNoSolution : (queueNextMove.Dequeue()).Replace("Solution: ", "Next Move : ");               
             }
-            else
+            else textBoxBFSResult.Text = "Entered is not a number.";
+        }
+
+        private void TmrAutoSolve_Tick(object sender, EventArgs e)
+        {
+            if (queueNextMove.Count > 0) PerformMove(queueNextMove.FirstOrDefault());
+        }
+
+        private void PerformMove(string move)
+        {
+            PictureBox emptyBox = pictureBoxList.Find(x => x.Tag == "0");
+            var indexEmptyBox = PuzzleBox.Controls.IndexOf(emptyBox);
+
+            int targetIndex = indexEmptyBox;
+
+            switch (move)
             {
-                textBoxBFSResult.Text = StringData.warningStartGame;
-            }          
+                case "Left":
+                    targetIndex--;
+                    break;
+                case "Right":
+                    targetIndex++;
+                    break;
+                case "Up":
+                    targetIndex -= 3;
+                    break;
+                case "Down":
+                    targetIndex += 3;
+                    break;
+            }
+
+            var targetBox = PuzzleBox.Controls[targetIndex];
+
+            var indexTargetBox = PuzzleBox.Controls.IndexOf(targetBox);
+
+            EventArgs arg = new EventArgs();
+
+            OnPicClick(targetBox, arg);
+        }
+
+        private void btnBFSPlay_Click(object sender, EventArgs e)
+        {
+            if (queueNextMove != null && queueNextMove.Count > 0)
+            {
+                tmrAutoSolve.Enabled = true;
+                tmrAutoSolve.Start();
+            }
+            else textBoxBFSResult.Text = StringData.warningBFSPlay;
+        }
+
+        private void ClearAllBFSSettings()
+        {
+            if (queueNextMove != null) queueNextMove.Clear();
+            queueNextMoveOriginalLength = 0;
+            textBoxBFSResult.Text = string.Empty;
+            lblBFSCurrMove.Text = StringData.messageCurrentMove;
+            lblBFSNextMove.Text = StringData.messageNextMove;
+            textBoxBFSAttemps.Text = "10";
+
+            tmrAutoSolve.Stop();
         }
     }
 }

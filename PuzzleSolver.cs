@@ -2,7 +2,7 @@
 {
     public class PuzzleSolver
     {
-        public List<string> SolvePuzzle(int[] initialState)
+        public List<string> SolvePuzzle(int[] initialState, int attempts = 1000000)
         {
             //Start state of Puzzle
             var initialStateString = string.Join(",", initialState);
@@ -21,7 +21,7 @@
             queue.Enqueue(initialPuzzleState);
 
             //Run BFS
-            while (queue.Any() && queue.Count < 1000000)
+            while (queue.Any() && queue.Count < attempts)
             {
                 var currentState = queue.Dequeue();
 

@@ -2,23 +2,25 @@
 {
     public static class StringData
     {
-        public static readonly string gameModNormal = "Normal";
-        public static readonly string gameModHard = "Hard";
-        public static readonly string gameModVeryHard = "VeryHard";
-        public static readonly string victory = "VICTORY";
-        public static readonly string directionLeft = "Left";
-        public static readonly string directionRight = "Right";
-        public static readonly string directionUp = "Up";
-        public static readonly string directionDown = "Down";
-        public static readonly string directionSwitch = "Switch";
-        public static readonly string warningStartGame = "The Game has not started, at least one direct move is required.";
-        public static readonly string warningNoSolution = "No Solution";
-        public static readonly string messageNoFoundSolution = "No solution found in allowed attempts.";
+        internal static readonly string gameModNormal = "Normal";
+        internal static readonly string gameModHard = "Hard";
+        internal static readonly string gameModVeryHard = "VeryHard";
+        internal static readonly string victory = "VICTORY";
+        internal static readonly string directionLeft = "Left";
+        internal static readonly string directionRight = "Right";
+        internal static readonly string directionUp = "Up";
+        internal static readonly string directionDown = "Down";
+        internal static readonly string directionSwitch = "Switch";
+        internal static readonly string warningStartGame = "The Game has not started, at least one direct move is required.";
+        internal static readonly string warningNoSolution = "No Solution";
+        internal static readonly string messageNoFoundSolution = "No solution found in allowed attempts.";
+        internal static readonly string messageNextMove = "Next Move : ";
+        internal static readonly string messageCurrentMove = "Move : ";
+        internal static readonly string warningBFSPlay = "No solution found for execution.";
+        internal static readonly string errorMove = "Wrong Move !!!";
 
 
-
-
-        public static Dictionary<string, string> EnglishStrings = new Dictionary<string, string>
+        internal static Dictionary<string, string> EnglishStrings = new Dictionary<string, string>
         {
             {"Moves Made:", "Moves Made:"},
             {"Switch", "Switch" },
@@ -31,7 +33,7 @@
             {"Are You Sure To Quit ?", "Are You Sure To Quit ?" }
         };
 
-        public static Dictionary<string, string> BulgarianStrings = new Dictionary<string, string>
+        internal static Dictionary<string, string> BulgarianStrings = new Dictionary<string, string>
         {
             {"Moves Made:", "Направени Ходове:"},
             {"Switch", "Размени" },
@@ -44,7 +46,7 @@
             {"Are You Sure To Quit ?", "Сигурни ли сте за Напускането ?" }
         };
 
-        public static Dictionary<string, string> GermanStrings = new Dictionary<string, string>
+        internal static Dictionary<string, string> GermanStrings = new Dictionary<string, string>
         {
             {"Moves Made:", "Nur auf Deutsch" },
             {"Switch", "Austauschen" },
@@ -57,7 +59,7 @@
             {"Are You Sure To Quit ?", "Sind Sie sicher, dass Sie beenden möchten?" }
         };
 
-        public static Dictionary<string, string> ChineseStrings = new Dictionary<string, string>
+        internal static Dictionary<string, string> ChineseStrings = new Dictionary<string, string>
         {
             {"Moves Made:", "只有在中文:" },
             {"Switch", "交换" },

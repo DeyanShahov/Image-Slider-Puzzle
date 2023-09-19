@@ -48,6 +48,10 @@
             pictureBox2 = new PictureBox();
             pictureBox3 = new PictureBox();
             pictureBox4 = new PictureBox();
+            panSettings = new Panel();
+            lblVeryHardMod = new Label();
+            lblHardMod = new Label();
+            lblNormalMod = new Label();
             pictureBox6 = new PictureBox();
             pictureBox5 = new PictureBox();
             pictureBox1 = new PictureBox();
@@ -58,10 +62,6 @@
             btnShuffle = new Button();
             btnPause = new Button();
             btnQuit = new Button();
-            panSettings = new Panel();
-            lblVeryHardMod = new Label();
-            lblHardMod = new Label();
-            lblNormalMod = new Label();
             btnSwitch = new Button();
             btnAutoSolve = new Button();
             panBFS = new Panel();
@@ -75,17 +75,17 @@
             lblBFSSolution = new Label();
             textBoxBFSAttemps = new TextBox();
             lblBFSClose = new Label();
+            tmrAutoSolve = new System.Windows.Forms.Timer(components);
             menuStrip1.SuspendLayout();
-            PuzzleBox.SuspendLayout();
             GalleryBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox7).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
+            panSettings.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
-            panSettings.SuspendLayout();
             panBFS.SuspendLayout();
             SuspendLayout();
             // 
@@ -190,7 +190,6 @@
             // 
             // PuzzleBox
             // 
-            PuzzleBox.Controls.Add(GalleryBox);
             PuzzleBox.Location = new Point(25, 46);
             PuzzleBox.Name = "PuzzleBox";
             PuzzleBox.Size = new Size(430, 425);
@@ -206,10 +205,11 @@
             GalleryBox.Controls.Add(pictureBox2);
             GalleryBox.Controls.Add(pictureBox3);
             GalleryBox.Controls.Add(pictureBox4);
+            GalleryBox.Controls.Add(panSettings);
             GalleryBox.Controls.Add(pictureBox6);
             GalleryBox.Controls.Add(pictureBox5);
             GalleryBox.Controls.Add(pictureBox1);
-            GalleryBox.Location = new Point(50, 22);
+            GalleryBox.Location = new Point(120, 27);
             GalleryBox.Name = "GalleryBox";
             GalleryBox.Size = new Size(572, 488);
             GalleryBox.TabIndex = 0;
@@ -260,6 +260,58 @@
             pictureBox4.TabIndex = 3;
             pictureBox4.TabStop = false;
             pictureBox4.Click += pictureBox4_Click;
+            // 
+            // panSettings
+            // 
+            panSettings.BackColor = SystemColors.ActiveBorder;
+            panSettings.BorderStyle = BorderStyle.FixedSingle;
+            panSettings.Controls.Add(lblVeryHardMod);
+            panSettings.Controls.Add(lblHardMod);
+            panSettings.Controls.Add(lblNormalMod);
+            panSettings.ForeColor = Color.Black;
+            panSettings.Location = new Point(174, 4);
+            panSettings.Name = "panSettings";
+            panSettings.Size = new Size(242, 478);
+            panSettings.TabIndex = 0;
+            panSettings.Visible = false;
+            // 
+            // lblVeryHardMod
+            // 
+            lblVeryHardMod.Anchor = AnchorStyles.None;
+            lblVeryHardMod.BorderStyle = BorderStyle.FixedSingle;
+            lblVeryHardMod.FlatStyle = FlatStyle.Popup;
+            lblVeryHardMod.Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
+            lblVeryHardMod.Location = new Point(3, 290);
+            lblVeryHardMod.Name = "lblVeryHardMod";
+            lblVeryHardMod.Size = new Size(234, 31);
+            lblVeryHardMod.TabIndex = 2;
+            lblVeryHardMod.Text = "VERY HARD";
+            lblVeryHardMod.TextAlign = ContentAlignment.MiddleCenter;
+            lblVeryHardMod.Click += lblVeryHardMod_Click;
+            // 
+            // lblHardMod
+            // 
+            lblHardMod.BorderStyle = BorderStyle.FixedSingle;
+            lblHardMod.Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
+            lblHardMod.Location = new Point(3, 190);
+            lblHardMod.Name = "lblHardMod";
+            lblHardMod.Size = new Size(234, 31);
+            lblHardMod.TabIndex = 1;
+            lblHardMod.Text = "HARD";
+            lblHardMod.TextAlign = ContentAlignment.MiddleCenter;
+            lblHardMod.Click += lblHardMod_Click;
+            // 
+            // lblNormalMod
+            // 
+            lblNormalMod.BorderStyle = BorderStyle.FixedSingle;
+            lblNormalMod.Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
+            lblNormalMod.Location = new Point(3, 92);
+            lblNormalMod.Name = "lblNormalMod";
+            lblNormalMod.Size = new Size(234, 31);
+            lblNormalMod.TabIndex = 0;
+            lblNormalMod.Text = "NORMAL";
+            lblNormalMod.TextAlign = ContentAlignment.MiddleCenter;
+            lblNormalMod.Click += lblNormalMod_Click;
             // 
             // pictureBox6
             // 
@@ -361,58 +413,6 @@
             btnQuit.UseVisualStyleBackColor = true;
             btnQuit.Click += btnQuitClick;
             // 
-            // panSettings
-            // 
-            panSettings.BackColor = SystemColors.ActiveBorder;
-            panSettings.BorderStyle = BorderStyle.FixedSingle;
-            panSettings.Controls.Add(lblVeryHardMod);
-            panSettings.Controls.Add(lblHardMod);
-            panSettings.Controls.Add(lblNormalMod);
-            panSettings.ForeColor = Color.Black;
-            panSettings.Location = new Point(202, 27);
-            panSettings.Name = "panSettings";
-            panSettings.Size = new Size(242, 478);
-            panSettings.TabIndex = 0;
-            panSettings.Visible = false;
-            // 
-            // lblVeryHardMod
-            // 
-            lblVeryHardMod.Anchor = AnchorStyles.None;
-            lblVeryHardMod.BorderStyle = BorderStyle.FixedSingle;
-            lblVeryHardMod.FlatStyle = FlatStyle.Popup;
-            lblVeryHardMod.Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
-            lblVeryHardMod.Location = new Point(3, 290);
-            lblVeryHardMod.Name = "lblVeryHardMod";
-            lblVeryHardMod.Size = new Size(234, 31);
-            lblVeryHardMod.TabIndex = 2;
-            lblVeryHardMod.Text = "VERY HARD";
-            lblVeryHardMod.TextAlign = ContentAlignment.MiddleCenter;
-            lblVeryHardMod.Click += lblVeryHardMod_Click;
-            // 
-            // lblHardMod
-            // 
-            lblHardMod.BorderStyle = BorderStyle.FixedSingle;
-            lblHardMod.Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
-            lblHardMod.Location = new Point(3, 190);
-            lblHardMod.Name = "lblHardMod";
-            lblHardMod.Size = new Size(234, 31);
-            lblHardMod.TabIndex = 1;
-            lblHardMod.Text = "HARD";
-            lblHardMod.TextAlign = ContentAlignment.MiddleCenter;
-            lblHardMod.Click += lblHardMod_Click;
-            // 
-            // lblNormalMod
-            // 
-            lblNormalMod.BorderStyle = BorderStyle.FixedSingle;
-            lblNormalMod.Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
-            lblNormalMod.Location = new Point(3, 92);
-            lblNormalMod.Name = "lblNormalMod";
-            lblNormalMod.Size = new Size(234, 31);
-            lblNormalMod.TabIndex = 0;
-            lblNormalMod.Text = "NORMAL";
-            lblNormalMod.TextAlign = ContentAlignment.MiddleCenter;
-            lblNormalMod.Click += lblNormalMod_Click;
-            // 
             // btnSwitch
             // 
             btnSwitch.Location = new Point(489, 519);
@@ -469,9 +469,9 @@
             lblBFSNextMove.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
             lblBFSNextMove.Location = new Point(13, 283);
             lblBFSNextMove.Name = "lblBFSNextMove";
-            lblBFSNextMove.Size = new Size(103, 21);
+            lblBFSNextMove.Size = new Size(99, 21);
             lblBFSNextMove.TabIndex = 8;
-            lblBFSNextMove.Text = "Next Move : ";
+            lblBFSNextMove.Text = "Next Move :";
             // 
             // btnBFSPlay
             // 
@@ -481,6 +481,7 @@
             btnBFSPlay.TabIndex = 7;
             btnBFSPlay.Text = "PLAY";
             btnBFSPlay.UseVisualStyleBackColor = true;
+            btnBFSPlay.Click += btnBFSPlay_Click;
             // 
             // btnBFSSolve
             // 
@@ -530,10 +531,10 @@
             lblBFSSolution.TabIndex = 2;
             lblBFSSolution.Text = "BFS SOLUTION";
             // 
-            // textBoxBFSAttempts
+            // textBoxBFSAttemps
             // 
             textBoxBFSAttemps.Location = new Point(132, 59);
-            textBoxBFSAttemps.Name = "textBoxBFSAttempts";
+            textBoxBFSAttemps.Name = "textBoxBFSAttemps";
             textBoxBFSAttemps.Size = new Size(79, 23);
             textBoxBFSAttemps.TabIndex = 1;
             textBoxBFSAttemps.Text = "10";
@@ -550,16 +551,21 @@
             lblBFSClose.Text = "X";
             lblBFSClose.Click += lblBFSClose_Click;
             // 
+            // tmrAutoSolve
+            // 
+            tmrAutoSolve.Interval = 1000;
+            tmrAutoSolve.Tick += TmrAutoSolve_Tick;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlDarkDark;
             ClientSize = new Size(803, 560);
+            Controls.Add(GalleryBox);
             Controls.Add(panBFS);
             Controls.Add(btnAutoSolve);
             Controls.Add(btnSwitch);
-            Controls.Add(panSettings);
             Controls.Add(btnQuit);
             Controls.Add(btnPause);
             Controls.Add(btnShuffle);
@@ -577,16 +583,15 @@
             Text = "Image Slider Puzzle";
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
-            PuzzleBox.ResumeLayout(false);
             GalleryBox.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox7).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
+            panSettings.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-            panSettings.ResumeLayout(false);
             panBFS.ResumeLayout(false);
             panBFS.PerformLayout();
             ResumeLayout(false);
@@ -641,5 +646,6 @@
         private Button btnBFSPlay;
         private Label lblBFSNextMove;
         private Label lblBFSCurrMove;
+        private System.Windows.Forms.Timer tmrAutoSolve;
     }
 }
