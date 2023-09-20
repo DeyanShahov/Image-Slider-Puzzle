@@ -1,6 +1,6 @@
 ﻿namespace Image_Slider_Puzzle
 {
-    public class PuzzleSolver
+    public class BFSSolver
     {
         public List<string> SolvePuzzle(int[] initialState, int attempts = 1000000)
         {

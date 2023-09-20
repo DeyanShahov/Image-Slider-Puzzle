@@ -48,13 +48,24 @@
             pictureBox2 = new PictureBox();
             pictureBox3 = new PictureBox();
             pictureBox4 = new PictureBox();
-            panSettings = new Panel();
-            lblVeryHardMod = new Label();
-            lblHardMod = new Label();
-            lblNormalMod = new Label();
             pictureBox6 = new PictureBox();
             pictureBox5 = new PictureBox();
             pictureBox1 = new PictureBox();
+            panSettings = new Panel();
+            panAStar = new Panel();
+            lblACurrMove = new Label();
+            lblANextMove = new Label();
+            btnAPlay = new Button();
+            btnASolve = new Button();
+            textBoxAResult = new TextBox();
+            label5 = new Label();
+            label6 = new Label();
+            lblASoluton = new Label();
+            textBoxAAttempts = new TextBox();
+            lblAClose = new Label();
+            lblVeryHardMod = new Label();
+            lblHardMod = new Label();
+            lblNormalMod = new Label();
             OriginalImageBox = new GroupBox();
             lblMovesMade = new Label();
             lblTimeElapsed = new Label();
@@ -76,16 +87,19 @@
             textBoxBFSAttemps = new TextBox();
             lblBFSClose = new Label();
             tmrAutoSolve = new System.Windows.Forms.Timer(components);
+            btnAStar = new Button();
             menuStrip1.SuspendLayout();
+            PuzzleBox.SuspendLayout();
             GalleryBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox7).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
-            panSettings.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            panSettings.SuspendLayout();
+            panAStar.SuspendLayout();
             panBFS.SuspendLayout();
             SuspendLayout();
             // 
@@ -190,6 +204,7 @@
             // 
             // PuzzleBox
             // 
+            PuzzleBox.Controls.Add(GalleryBox);
             PuzzleBox.Location = new Point(25, 46);
             PuzzleBox.Name = "PuzzleBox";
             PuzzleBox.Size = new Size(430, 425);
@@ -205,11 +220,10 @@
             GalleryBox.Controls.Add(pictureBox2);
             GalleryBox.Controls.Add(pictureBox3);
             GalleryBox.Controls.Add(pictureBox4);
-            GalleryBox.Controls.Add(panSettings);
             GalleryBox.Controls.Add(pictureBox6);
             GalleryBox.Controls.Add(pictureBox5);
             GalleryBox.Controls.Add(pictureBox1);
-            GalleryBox.Location = new Point(120, 27);
+            GalleryBox.Location = new Point(17, 22);
             GalleryBox.Name = "GalleryBox";
             GalleryBox.Size = new Size(572, 488);
             GalleryBox.TabIndex = 0;
@@ -261,6 +275,39 @@
             pictureBox4.TabStop = false;
             pictureBox4.Click += pictureBox4_Click;
             // 
+            // pictureBox6
+            // 
+            pictureBox6.Image = Properties.Resources.Untitled1762;
+            pictureBox6.Location = new Point(396, 186);
+            pictureBox6.Name = "pictureBox6";
+            pictureBox6.Size = new Size(149, 116);
+            pictureBox6.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox6.TabIndex = 2;
+            pictureBox6.TabStop = false;
+            pictureBox6.Click += pictureBox6_Click;
+            // 
+            // pictureBox5
+            // 
+            pictureBox5.Image = Properties.Resources.Untitled1761;
+            pictureBox5.Location = new Point(220, 186);
+            pictureBox5.Name = "pictureBox5";
+            pictureBox5.Size = new Size(149, 116);
+            pictureBox5.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox5.TabIndex = 1;
+            pictureBox5.TabStop = false;
+            pictureBox5.Click += pictureBox5_Click;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = Properties.Resources.Untitled1757;
+            pictureBox1.Location = new Point(41, 37);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(149, 116);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 0;
+            pictureBox1.TabStop = false;
+            pictureBox1.Click += pictureBox1_Click;
+            // 
             // panSettings
             // 
             panSettings.BackColor = SystemColors.ActiveBorder;
@@ -269,11 +316,129 @@
             panSettings.Controls.Add(lblHardMod);
             panSettings.Controls.Add(lblNormalMod);
             panSettings.ForeColor = Color.Black;
-            panSettings.Location = new Point(174, 4);
+            panSettings.Location = new Point(289, 35);
             panSettings.Name = "panSettings";
             panSettings.Size = new Size(242, 478);
             panSettings.TabIndex = 0;
             panSettings.Visible = false;
+            // 
+            // panAStar
+            // 
+            panAStar.BackColor = SystemColors.ActiveBorder;
+            panAStar.BorderStyle = BorderStyle.FixedSingle;
+            panAStar.Controls.Add(lblACurrMove);
+            panAStar.Controls.Add(lblANextMove);
+            panAStar.Controls.Add(btnAPlay);
+            panAStar.Controls.Add(btnASolve);
+            panAStar.Controls.Add(textBoxAResult);
+            panAStar.Controls.Add(label5);
+            panAStar.Controls.Add(label6);
+            panAStar.Controls.Add(lblASoluton);
+            panAStar.Controls.Add(textBoxAAttempts);
+            panAStar.Controls.Add(lblAClose);
+            panAStar.Location = new Point(482, 29);
+            panAStar.Name = "panAStar";
+            panAStar.Size = new Size(300, 317);
+            panAStar.TabIndex = 13;
+            panAStar.Visible = false;
+            // 
+            // lblACurrMove
+            // 
+            lblACurrMove.AutoSize = true;
+            lblACurrMove.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            lblACurrMove.Location = new Point(13, 252);
+            lblACurrMove.Name = "lblACurrMove";
+            lblACurrMove.Size = new Size(64, 21);
+            lblACurrMove.TabIndex = 9;
+            lblACurrMove.Text = "Move : ";
+            // 
+            // lblANextMove
+            // 
+            lblANextMove.AutoSize = true;
+            lblANextMove.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            lblANextMove.Location = new Point(13, 283);
+            lblANextMove.Name = "lblANextMove";
+            lblANextMove.Size = new Size(99, 21);
+            lblANextMove.TabIndex = 8;
+            lblANextMove.Text = "Next Move :";
+            // 
+            // btnAPlay
+            // 
+            btnAPlay.Location = new Point(6, 94);
+            btnAPlay.Name = "btnAPlay";
+            btnAPlay.Size = new Size(75, 23);
+            btnAPlay.TabIndex = 7;
+            btnAPlay.Text = "PLAY";
+            btnAPlay.UseVisualStyleBackColor = true;
+            btnAPlay.Click += btnAPlay_Click;
+            // 
+            // btnASolve
+            // 
+            btnASolve.Location = new Point(219, 94);
+            btnASolve.Name = "btnASolve";
+            btnASolve.Size = new Size(75, 23);
+            btnASolve.TabIndex = 6;
+            btnASolve.Text = "SOLVE";
+            btnASolve.UseVisualStyleBackColor = true;
+            btnASolve.Click += btnASolve_Click;
+            // 
+            // textBoxAResult
+            // 
+            textBoxAResult.BackColor = SystemColors.ControlLight;
+            textBoxAResult.Location = new Point(6, 123);
+            textBoxAResult.Multiline = true;
+            textBoxAResult.Name = "textBoxAResult";
+            textBoxAResult.ReadOnly = true;
+            textBoxAResult.Size = new Size(288, 94);
+            textBoxAResult.TabIndex = 5;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(6, 62);
+            label5.Name = "label5";
+            label5.Size = new Size(120, 15);
+            label5.TabIndex = 4;
+            label5.Text = "Attempts for solution";
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(217, 62);
+            label6.Name = "label6";
+            label6.Size = new Size(55, 15);
+            label6.TabIndex = 3;
+            label6.Text = "x 100 000";
+            // 
+            // lblASoluton
+            // 
+            lblASoluton.Font = new Font("Segoe UI Black", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
+            lblASoluton.Location = new Point(10, 5);
+            lblASoluton.Name = "lblASoluton";
+            lblASoluton.Size = new Size(253, 30);
+            lblASoluton.TabIndex = 2;
+            lblASoluton.Text = "A STAR SOLUTION";
+            lblASoluton.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // textBoxAAttempts
+            // 
+            textBoxAAttempts.Location = new Point(132, 59);
+            textBoxAAttempts.Name = "textBoxAAttempts";
+            textBoxAAttempts.Size = new Size(79, 23);
+            textBoxAAttempts.TabIndex = 1;
+            textBoxAAttempts.Text = "10";
+            textBoxAAttempts.TextAlign = HorizontalAlignment.Center;
+            // 
+            // lblAClose
+            // 
+            lblAClose.AutoSize = true;
+            lblAClose.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            lblAClose.Location = new Point(265, 5);
+            lblAClose.Name = "lblAClose";
+            lblAClose.Size = new Size(30, 32);
+            lblAClose.TabIndex = 0;
+            lblAClose.Text = "X";
+            lblAClose.Click += lblAClose_Click;
             // 
             // lblVeryHardMod
             // 
@@ -312,39 +477,6 @@
             lblNormalMod.Text = "NORMAL";
             lblNormalMod.TextAlign = ContentAlignment.MiddleCenter;
             lblNormalMod.Click += lblNormalMod_Click;
-            // 
-            // pictureBox6
-            // 
-            pictureBox6.Image = Properties.Resources.Untitled1762;
-            pictureBox6.Location = new Point(396, 186);
-            pictureBox6.Name = "pictureBox6";
-            pictureBox6.Size = new Size(149, 116);
-            pictureBox6.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox6.TabIndex = 2;
-            pictureBox6.TabStop = false;
-            pictureBox6.Click += pictureBox6_Click;
-            // 
-            // pictureBox5
-            // 
-            pictureBox5.Image = Properties.Resources.Untitled1761;
-            pictureBox5.Location = new Point(220, 186);
-            pictureBox5.Name = "pictureBox5";
-            pictureBox5.Size = new Size(149, 116);
-            pictureBox5.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox5.TabIndex = 1;
-            pictureBox5.TabStop = false;
-            pictureBox5.Click += pictureBox5_Click;
-            // 
-            // pictureBox1
-            // 
-            pictureBox1.Image = Properties.Resources.Untitled1757;
-            pictureBox1.Location = new Point(41, 37);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(149, 116);
-            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox1.TabIndex = 0;
-            pictureBox1.TabStop = false;
-            pictureBox1.Click += pictureBox1_Click;
             // 
             // OriginalImageBox
             // 
@@ -447,7 +579,7 @@
             panBFS.Controls.Add(lblBFSSolution);
             panBFS.Controls.Add(textBoxBFSAttemps);
             panBFS.Controls.Add(lblBFSClose);
-            panBFS.Location = new Point(475, 46);
+            panBFS.Location = new Point(475, 45);
             panBFS.Name = "panBFS";
             panBFS.Size = new Size(300, 317);
             panBFS.TabIndex = 12;
@@ -523,13 +655,13 @@
             // 
             // lblBFSSolution
             // 
-            lblBFSSolution.AutoSize = true;
             lblBFSSolution.Font = new Font("Segoe UI Black", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
-            lblBFSSolution.Location = new Point(66, 5);
+            lblBFSSolution.Location = new Point(6, 5);
             lblBFSSolution.Name = "lblBFSSolution";
-            lblBFSSolution.Size = new Size(165, 30);
+            lblBFSSolution.Size = new Size(253, 45);
             lblBFSSolution.TabIndex = 2;
             lblBFSSolution.Text = "BFS SOLUTION";
+            lblBFSSolution.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // textBoxBFSAttemps
             // 
@@ -556,14 +688,26 @@
             tmrAutoSolve.Interval = 1000;
             tmrAutoSolve.Tick += TmrAutoSolve_Tick;
             // 
+            // btnAStar
+            // 
+            btnAStar.Location = new Point(263, 519);
+            btnAStar.Name = "btnAStar";
+            btnAStar.Size = new Size(97, 23);
+            btnAStar.TabIndex = 13;
+            btnAStar.Text = "A Star Answer";
+            btnAStar.UseVisualStyleBackColor = true;
+            btnAStar.Click += btnAStar_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlDarkDark;
             ClientSize = new Size(803, 560);
-            Controls.Add(GalleryBox);
+            Controls.Add(panAStar);
+            Controls.Add(btnAStar);
             Controls.Add(panBFS);
+            Controls.Add(panSettings);
             Controls.Add(btnAutoSolve);
             Controls.Add(btnSwitch);
             Controls.Add(btnQuit);
@@ -583,15 +727,18 @@
             Text = "Image Slider Puzzle";
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
+            PuzzleBox.ResumeLayout(false);
             GalleryBox.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox7).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
-            panSettings.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            panSettings.ResumeLayout(false);
+            panAStar.ResumeLayout(false);
+            panAStar.PerformLayout();
             panBFS.ResumeLayout(false);
             panBFS.PerformLayout();
             ResumeLayout(false);
@@ -647,5 +794,17 @@
         private Label lblBFSNextMove;
         private Label lblBFSCurrMove;
         private System.Windows.Forms.Timer tmrAutoSolve;
+        private Button btnAStar;
+        private Panel panAStar;
+        private Label lblACurrMove;
+        private Label lblANextMove;
+        private Button btnAPlay;
+        private Button btnASolve;
+        private TextBox textBoxAResult;
+        private Label label5;
+        private Label label6;
+        private Label lblASoluton;
+        private TextBox textBoxAAttempts;
+        private Label lblAClose;
     }
 }

@@ -25,6 +25,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="OptimizedPriorityQueue" Version="5.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Resources\Untitled1757.png" />
     <Resource Include="Resources\Untitled1758.png" />
     <Resource Include="Resources\Untitled1759.png" />

@@ -1,4 +1,8 @@
-﻿namespace Image_Slider_Puzzle
+﻿using System.Drawing.Text;
+using System.Security.Cryptography.X509Certificates;
+using System.Windows.Forms;
+
+namespace Image_Slider_Puzzle
 {
     public partial class Form1 : Form
     {
@@ -220,7 +224,7 @@
                 var zeroY = zeroIndex / 3;
 
 
-                while (shuffleCounts < 100)
+                while (shuffleCounts < 50)
                 {
                     var (dx, dy) = possibleMoves[random.Next(0, possibleMoves.Count)];
                     var newX = zeroX + dx;
@@ -257,27 +261,6 @@
 
         }
 
-        private bool CheckGame()
-        {
-            bool isWin = false;
-
-            foreach (Control x in PuzzleBox.Controls)
-            {
-                if (x is PictureBox) currentLocations.Add(x.Tag.ToString());
-            }
-
-            currentPositions = string.Join("", currentLocations);
-            label1.Text = winPositions;
-            label2.Text = currentPositions;
-
-            if (winPositions == currentPositions)
-            {
-                label2.Text = StringData.victory;
-                isWin = true;
-            }
-
-            return isWin;
-        }
         private void LoadImageFromGalleryOrPc(Bitmap image)
         {
             ClearAllCollections();
@@ -383,7 +366,12 @@
             {
                 string move = queueNextMove.Dequeue();
 
-                if (currentMoveDirection == move) lblBFSNextMove.Text = StringData.messageNextMove + queueNextMove.FirstOrDefault();
+                if (currentMoveDirection == move)
+                {
+                    string message = StringData.messageNextMove + queueNextMove.FirstOrDefault();
+                    if (panBFS.Visible == true) lblBFSNextMove.Text = message;
+                    if (panAStar.Visible == true) lblANextMove.Text = message;
+                }
                 else
                 {
                     ClearAllBFSSettings();
@@ -419,7 +407,6 @@
                 btnPause.Enabled = false;
             }
         }
-
         private void SetFullPictureForWining()
         {
             Bitmap tempBitmap = new Bitmap(MainBitmap, new Size(390, 390));
@@ -473,7 +460,9 @@
                     break;
             }
 
-            lblBFSCurrMove.Text = "Move : " + currentMoveDirection;
+            string message = "Move : " + currentMoveDirection;
+            if (panBFS.Visible == true) lblBFSCurrMove.Text = message;
+            if (panAStar.Visible == true) lblACurrMove.Text = message;
 
             pictureBox.Location = pic2;
             emptyBox.Location = pic1;
@@ -527,14 +516,12 @@
             if (GalleryBox.Visible == false) GalleryBox.Visible = true;
             else GalleryBox.Visible = false;
         }
-
         private void SettingsOpenClosedClickEvent_Click(object sender, EventArgs e)
         {
             CloseAllOpenWindows();
             if (panSettings.Visible == false) panSettings.Visible = true;
             else panSettings.Visible = false;
         }
-
 
         #region Btn Click Event
         private void btnQuitClick(object sender, EventArgs e)
@@ -627,7 +614,84 @@
             languageCurrent = Language.Chinese;
             languageChanger.ChangeLanguage(languageCurrent);
         }
+
+        private void btnBFSPlay_Click(object sender, EventArgs e)
+        {
+            if (queueNextMove != null && queueNextMove.Count > 0)
+            {
+                tmrAutoSolve.Enabled = true;
+                tmrAutoSolve.Start();
+            }
+            else textBoxBFSResult.Text = StringData.warningBFSPlay;
+        }
+        private void BtnAutoSolve_Click(object sender, EventArgs e)
+        {
+            ClearAllBFSSettings();
+
+            if (panBFS.Visible == false) panBFS.Visible = true;
+            else panBFS.Visible = false;
+        }
+        private void lblBFSClose_Click(object sender, EventArgs e)
+        {
+            ClearAllBFSSettings();
+            panBFS.Visible = false;
+        }
+        private void btnBFSSolve_Click(object sender, EventArgs e)
+        {
+            if (int.TryParse(textBoxBFSAttemps.Text, out int inputNumber))
+            {
+                int minValue = 1;
+                int maxValue = 1000;
+
+                if (inputNumber >= minValue && inputNumber <= maxValue)
+                {
+                    if (moves != 0)
+                    {
+                        ClearAllBFSSettings();
+
+                        textBoxBFSResult.Text = "";
+
+                        var initialState = currentPositions.Select(x => int.Parse(x.ToString())).ToArray();
+                        string message = string.Empty;
+
+                        BFSSolver solverBFS = new BFSSolver();
+                        List<string> solution = solverBFS.SolvePuzzle(initialState, inputNumber * 100000);
+
+                        if (solution[0] == StringData.warningNoSolution)
+                        {
+                            message = StringData.messageNoFoundSolution;
+                        }
+                        else
+                        {
+                            foreach (var move in solution)
+                            {
+                                message += move + ", ";
+                            }
+                        }
+
+                        panBFS.Visible = true;
+                        textBoxBFSResult.Text = "Solution: " + message;
+
+                        queueNextMove = new Queue<string>(message.Split(", ", StringSplitOptions.RemoveEmptyEntries));
+                        queueNextMoveOriginalLength = queueNextMove.Count;
+                        lblBFSNextMove.Text = queueNextMove.FirstOrDefault() == StringData.messageNoFoundSolution
+                            ? StringData.warningNoSolution : StringData.messageNextMove + queueNextMove.FirstOrDefault();
+                    }
+                    else
+                    {
+                        textBoxBFSResult.Text = StringData.warningStartGame;
+                    }
+                }
+                else
+                {
+                    textBoxBFSResult.Text = StringData.errorInvalidNumber;
+                }
+            }
+            else textBoxBFSResult.Text = StringData.errorEnteredNotNumber;
+        }
+
         #endregion
+
 
         private void AskPermissionBeforeQuite(object sender, FormClosingEventArgs e)
         {
@@ -686,88 +750,10 @@
 
             return type;
         }
-
-        private void BtnAutoSolve_Click(object sender, EventArgs e)
-        {
-            if (panBFS.Visible == false) panBFS.Visible = true;
-            else
-            {
-                ClearAllBFSSettings();
-                panBFS.Visible = false;
-            }
-        }
-
-        private void CloseAllOpenWindows()
-        {
-            GalleryBox.Visible = false;
-            panSettings.Visible = false;
-        }
-        private void lblBFSClose_Click(object sender, EventArgs e)
-        {
-            ClearAllBFSSettings();
-            panBFS.Visible = false;
-        }
-        private void btnBFSSolve_Click(object sender, EventArgs e)
-        {
-            if (int.TryParse(textBoxBFSAttemps.Text, out int inputNumber))
-            {
-                int minValue = 1;
-                int maxValue = 1000;
-
-                if (inputNumber >= minValue && inputNumber <= maxValue)
-                {
-                    if (moves != 0)
-                    {
-                        ClearAllBFSSettings();
-
-                        textBoxBFSResult.Text = "";
-
-                        var initialState = currentPositions.Select(x => int.Parse(x.ToString())).ToArray();
-                        string message = string.Empty;
-
-                        PuzzleSolver solver = new PuzzleSolver();
-                        List<string> solution = solver.SolvePuzzle(initialState, inputNumber * 100000);
-
-                        if (solution[0] == StringData.warningNoSolution)
-                        {
-                            message = StringData.messageNoFoundSolution;
-                        }
-                        else
-                        {
-                            //message += "Solution: ";
-                            foreach (var move in solution)
-                            {
-                                message += move + ", ";
-                            }
-                        }
-
-                        panBFS.Visible = true;
-                        textBoxBFSResult.Text = "Solution: " + message;
-
-                        queueNextMove = new Queue<string>(message.Split(", ", StringSplitOptions.RemoveEmptyEntries));
-                        queueNextMoveOriginalLength = queueNextMove.Count;
-                        lblBFSNextMove.Text = queueNextMove.FirstOrDefault() == StringData.messageNoFoundSolution
-                            ? StringData.warningNoSolution : StringData.messageNextMove + queueNextMove.FirstOrDefault();
-
-                    }
-                    else
-                    {
-                        textBoxBFSResult.Text = StringData.warningStartGame;
-                    }
-                }
-                else
-                {
-                    textBoxBFSResult.Text = "Invalid number.";
-                }
-            }
-            else textBoxBFSResult.Text = "Entered is not a number.";
-        }
-
         private void TmrAutoSolve_Tick(object sender, EventArgs e)
         {
             if (queueNextMove.Count > 0) PerformMove(queueNextMove.FirstOrDefault());
         }
-
         private void PerformMove(string move)
         {
             PictureBox emptyBox = pictureBoxList.Find(x => x.Tag == "0");
@@ -799,17 +785,6 @@
 
             OnPicClick(targetBox, arg);
         }
-
-        private void btnBFSPlay_Click(object sender, EventArgs e)
-        {
-            if (queueNextMove != null && queueNextMove.Count > 0)
-            {
-                tmrAutoSolve.Enabled = true;
-                tmrAutoSolve.Start();
-            }
-            else textBoxBFSResult.Text = StringData.warningBFSPlay;
-        }
-
         private void ClearAllBFSSettings()
         {
             if (queueNextMove != null) queueNextMove.Clear();
@@ -820,6 +795,162 @@
             textBoxBFSAttemps.Text = "10";
 
             tmrAutoSolve.Stop();
+        }
+
+        private void ClearAllASettings()
+        {
+            if (queueNextMove != null) queueNextMove.Clear();
+            queueNextMoveOriginalLength = 0;
+            textBoxAResult.Text = string.Empty;
+            lblACurrMove.Text = StringData.messageCurrentMove;
+            lblANextMove.Text = StringData.messageNextMove;
+            textBoxAAttempts.Text = "10";
+
+            tmrAutoSolve.Stop();
+        }
+        private void CloseAllOpenWindows()
+        {
+            GalleryBox.Visible = false;
+            panSettings.Visible = false;
+        }
+
+        private bool CheckGame()
+        {
+            bool isWin = false;
+
+            foreach (Control x in PuzzleBox.Controls)
+            {
+                if (x is PictureBox) currentLocations.Add(x.Tag.ToString());
+            }
+
+            currentPositions = string.Join("", currentLocations);
+            label1.Text = winPositions;
+            label2.Text = currentPositions;
+
+            if (winPositions == currentPositions)
+            {
+                label2.Text = StringData.victory;
+                isWin = true;
+            }
+
+            return isWin;
+        }
+
+        private void btnAStar_Click(object sender, EventArgs e)
+        {
+            ClearAllASettings();
+
+            if (panAStar.Visible == false) panAStar.Visible = true;
+            else panAStar.Visible = false;
+
+        }
+
+        private void btnASolve_Click(object sender, EventArgs e)
+        {
+
+            if (int.TryParse(textBoxAAttempts.Text, out int attemptsNumber))
+            {
+                int minValue = 1;
+                int maxValue = 1000;
+
+                if (attemptsNumber >= minValue && attemptsNumber <= maxValue)
+                {
+                    if (moves != 0)
+                    {
+                        ClearAllASettings();
+
+                        textBoxAResult.Text = "";
+
+                        int[,] startBoard = new int[3, 3];
+                        ConvertStringToIntMatrix(currentPositions, startBoard);
+
+                        int[,] goalBoard = new int[3, 3];
+                        ConvertStringToIntMatrix(winPositions, goalBoard);
+
+                        var (zeroX, zeroY) = FindPositionBlackBox(startBoard);
+
+                        AStarSolver solverAStar = new AStarSolver();
+                        PuzzleStateV2 initialState = new PuzzleStateV2(startBoard, zeroX, zeroY, 0, goalBoard);
+                        PuzzleStateV2 solution = solverAStar.SolvePuzzle(initialState, goalBoard, attemptsNumber * 100000);
+                        var message = string.Empty;
+
+                        if (solution != null)
+                        {
+                            message = solverAStar.ReturnSolution(solution);
+                            //textBoxAResult.Text = "Solution: " + message;
+                        }
+                        else textBoxAResult.Text = StringData.messageNoFoundSolution;
+                        //else
+                        //{
+                        //    foreach (var move in solution)
+                        //    {
+                        //        message += move + ", ";
+                        //    }
+                        //}
+
+                        textBoxAResult.Text = "Solution: " + message;
+
+                        queueNextMove = new Queue<string>(message.Split(", ", StringSplitOptions.RemoveEmptyEntries));
+                        queueNextMoveOriginalLength = queueNextMove.Count;
+                        lblANextMove.Text = queueNextMove.FirstOrDefault() == StringData.messageNoFoundSolution
+                            ? StringData.warningNoSolution : StringData.messageNextMove + queueNextMove.FirstOrDefault();
+
+                        static void ConvertStringToIntMatrix(string stringInput, int[,] board)
+                        {
+                            for (int x = 0; x < 3; x++)
+                            {
+                                for (int y = 0; y < 3; y++)
+                                {
+                                    int index = x * 3 + y;
+                                    char digit = stringInput[index];
+                                    int number = int.Parse(digit.ToString());
+                                    board[x, y] = number;
+                                }
+                            }
+                        }
+
+                        static (int, int) FindPositionBlackBox(int[,] goalBoard)
+                        {
+                            for (int x = 0; x < 3; x++)
+                            {
+                                for (int y = 0; y < 3; y++)
+                                {
+                                    int number = goalBoard[x, y];
+
+                                    if (number == 0) return (x, y);
+                                }
+                            }
+
+                            return (-1, -1);
+                        }
+                    }
+                    else
+                    {
+                        textBoxAResult.Text = StringData.warningStartGame;
+                    }
+                }
+                else
+                {
+                    textBoxAResult.Text = StringData.errorInvalidNumber;
+                }
+            }
+            else textBoxAResult.Text = StringData.errorEnteredNotNumber;
+        }
+
+        private void lblAClose_Click(object sender, EventArgs e)
+        {
+            panAStar.Visible = false;
+            ClearAllASettings();
+        }
+
+        private void btnAPlay_Click(object sender, EventArgs e)
+        {
+            if (queueNextMove != null && queueNextMove.Count > 0)
+            {
+                tmrAutoSolve.Enabled = true;
+                tmrAutoSolve.Start();
+            }
+            else textBoxAResult.Text = StringData.warningBFSPlay;
         }
     }
 }

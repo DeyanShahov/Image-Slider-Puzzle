@@ -18,6 +18,8 @@
         internal static readonly string messageCurrentMove = "Move : ";
         internal static readonly string warningBFSPlay = "No solution found for execution.";
         internal static readonly string errorMove = "Wrong Move !!!";
+        internal static readonly string errorInvalidNumber = "Invalid number.";
+        internal static readonly string errorEnteredNotNumber = "Entered is not a number.";
 
 
         internal static Dictionary<string, string> EnglishStrings = new Dictionary<string, string>
