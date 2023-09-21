@@ -1,8 +1,4 @@
-﻿using System.Drawing.Text;
-using System.Security.Cryptography.X509Certificates;
-using System.Windows.Forms;
-
-namespace Image_Slider_Puzzle
+﻿namespace Image_Slider_Puzzle
 {
     public partial class Form1 : Form
     {
@@ -32,6 +28,10 @@ namespace Image_Slider_Puzzle
         Bitmap MainBitmap;
         Random random = new Random();
 
+        int fullSizeRow;
+        int numberBoxesOnSide;
+        int sizeBox;
+
 
         public Form1()
         {
@@ -48,6 +48,10 @@ namespace Image_Slider_Puzzle
             imageFromGallery.Add(Properties.Resources.Untitled1763);
 
             GetAllObjectForLanguageChange();
+
+            fullSizeRow = 390;
+            numberBoxesOnSide = 3;
+            sizeBox = fullSizeRow / numberBoxesOnSide;
         }
 
         private void GetAllObjectForLanguageChange()
@@ -125,30 +129,46 @@ namespace Image_Slider_Puzzle
             OriginalImageBox.BackgroundImageLayout = ImageLayout.Center;
             OriginalImageBox.BackgroundImage = tempBitmap;
         }
-        private void CreatePictureBoxes()
+        private void CreatePictureBoxes(int fullSizeRow, int numberBoxesOnSide)
         {
-            for (int i = 0; i < 9; i++)
+            int sizeBox = fullSizeRow / numberBoxesOnSide;
+
+            for (int i = 0; i < numberBoxesOnSide * numberBoxesOnSide; i++)
             {
                 PictureBox tempPic = new PictureBox();
-                tempPic.Size = new Size(130, 130);
+                tempPic.Size = new Size(sizeBox, sizeBox);
                 tempPic.Tag = i.ToString();
                 tempPic.Click += OnPicClick;
                 pictureBoxList.Add(tempPic);
                 locations.Add(tempPic.Tag.ToString());
             }
         }
-        private void CropImage(Bitmap mainBitmap, int height, int width)
+
+        //private void CreatePictureBoxes()
+        //{
+        //    for (int i = 0; i < 9; i++)
+        //    {
+        //        PictureBox tempPic = new PictureBox();
+        //        tempPic.Size = new Size(130, 130);
+        //        tempPic.Tag = i.ToString();
+        //        tempPic.Click += OnPicClick;
+        //        pictureBoxList.Add(tempPic);
+        //        locations.Add(tempPic.Tag.ToString());
+        //    }
+        //}
+
+        private void CropImage(Bitmap mainBitmap, int size, int numberBoxOnSide)
         {
             int x = 0;
             int y = 0;
 
-            for (int blocks = 0; blocks < 9; blocks++)
+            for (int blocks = 0; blocks < numberBoxOnSide * numberBoxOnSide; blocks++)
             {
-                Bitmap croppedImage = new Bitmap(width, height);
+                Bitmap croppedImage = new Bitmap(size, size);
 
-                for (int i = 0; i < height; i++)
+                for (int i = 0; i < size; i++)
                 {
-                    for (int j = 0; j < width; j++)
+                    for (int j = 0; j < size; j++)
                     {
                         croppedImage.SetPixel(i, j, mainBitmap.GetPixel((i + x), (j + y)));
                     }
@@ -156,30 +176,58 @@ namespace Image_Slider_Puzzle
 
                 images.Add(croppedImage);
 
-                x += 130;
-                if (x == 390)
+                x += size;
+                if (x == size * numberBoxOnSide)
                 {
                     x = 0;
-                    y += 130;
+                    y += size;
                 }
             }
         }
-        private void AddImages()
+
+        //private void CropImage(Bitmap mainBitmap, int height, int width)
+        //{
+        //    int x = 0;
+        //    int y = 0;
+
+        //    for (int blocks = 0; blocks < 9; blocks++)
+        //    {
+        //        Bitmap croppedImage = new Bitmap(width, height);
+
+        //        for (int i = 0; i < height; i++)
+        //        {
+        //            for (int j = 0; j < width; j++)
+        //            {
+        //                croppedImage.SetPixel(i, j, mainBitmap.GetPixel((i + x), (j + y)));
+        //            }
+        //        }
+
+        //        images.Add(croppedImage);
+
+        //        x += 130;
+        //        if (x == 390)
+        //        {
+        //            x = 0;
+        //            y += 130;
+        //        }
+        //    }
+        //}
+        private void AddImages(int sizeBox, int numberBoxesOnSide)
         {
             Bitmap tempBitmap = new Bitmap(MainBitmap, new Size(390, 390));
-            CropImage(tempBitmap, 130, 130);
+            CropImage(tempBitmap, sizeBox, numberBoxesOnSide);
 
             for (int i = 1; i < pictureBoxList.Count; i++)
             {
                 pictureBoxList[i].BackgroundImage = images[i];
             }
 
-            PlacePictureBoxesToForm();
+            PlacePictureBoxesToForm(sizeBox, numberBoxesOnSide);
         }
-        private void PlacePictureBoxesToForm()
+        private void PlacePictureBoxesToForm(int sizeBox, int numberBoxesOnSide)
         {
 
-            ShuffleImageForPuzzleBox();
+            ShuffleImageForPuzzleBox(numberBoxesOnSide);
 
             int x = PuzzleBox.Location.X - 5;
             int y = PuzzleBox.Location.Y - 25;
@@ -188,9 +236,9 @@ namespace Image_Slider_Puzzle
             {
                 pictureBoxList[i].BackColor = Color.Black;
 
-                if (i == 3 || i == 6)
+                if (i == numberBoxesOnSide || i == numberBoxesOnSide * 2 || i == numberBoxesOnSide * 3 || i == numberBoxesOnSide * 4)
                 {
-                    y += 130;
+                    y += sizeBox;
                     x = PuzzleBox.Location.X - 5;
                 }
 
@@ -199,11 +247,39 @@ namespace Image_Slider_Puzzle
 
                 PuzzleBox.Controls.Add(pictureBoxList[i]);
 
-                x += 130;
+                x += sizeBox;
                 winPositions += locations[i];
             }
         }
-        private void ShuffleImageForPuzzleBox()
+
+        //private void PlacePictureBoxesToForm()
+        //{
+
+        //    ShuffleImageForPuzzleBox();
+
+        //    int x = PuzzleBox.Location.X - 5;
+        //    int y = PuzzleBox.Location.Y - 25;
+
+        //    for (int i = 0; i < pictureBoxList.Count; i++)
+        //    {
+        //        pictureBoxList[i].BackColor = Color.Black;
+
+        //        if (i == 3 || i == 6)
+        //        {
+        //            y += 130;
+        //            x = PuzzleBox.Location.X - 5;
+        //        }
+
+        //        pictureBoxList[i].BorderStyle = BorderStyle.FixedSingle;
+        //        pictureBoxList[i].Location = new Point(x, y);
+
+        //        PuzzleBox.Controls.Add(pictureBoxList[i]);
+
+        //        x += 130;
+        //        winPositions += locations[i];
+        //    }
+        //}
+        private void ShuffleImageForPuzzleBox(int numberBoxesOnSide)
         {
             //shuffleImages.FindAll(p => p.BackgroundImage != null).ForEach(p => p.BackgroundImage.RotateFlip(RotateFlipType.Rotate90FlipNone));
             //var shuffleImages = pictureBoxList.OrderBy(a => Guid.NewGuid()).ToList();
@@ -220,8 +296,8 @@ namespace Image_Slider_Puzzle
 
                 //Find the position of 0 (black box)
                 var zeroIndex = pictureBoxList.FindIndex(x => x.Tag == "0"); //0;
-                var zeroX = zeroIndex % 3;
-                var zeroY = zeroIndex / 3;
+                var zeroX = zeroIndex % numberBoxesOnSide;
+                var zeroY = zeroIndex / numberBoxesOnSide;
 
 
                 while (shuffleCounts < 50)
@@ -230,9 +306,9 @@ namespace Image_Slider_Puzzle
                     var newX = zeroX + dx;
                     var newY = zeroY + dy;
 
-                    if (newX >= 0 && newX < 3 && newY >= 0 && newY < 3)
+                    if (newX >= 0 && newX < numberBoxesOnSide && newY >= 0 && newY < numberBoxesOnSide)
                     {
-                        var newIndex = newY * 3 + newX;
+                        var newIndex = newY * numberBoxesOnSide + newX;
 
                         //Swap
                         var temp = initialState[zeroIndex];
@@ -249,8 +325,8 @@ namespace Image_Slider_Puzzle
                             }
                         }
 
-                        zeroX = zeroIndex % 3;
-                        zeroY = zeroIndex / 3;
+                        zeroX = zeroIndex % numberBoxesOnSide;
+                        zeroY = zeroIndex / numberBoxesOnSide;
 
                         shuffleCounts++;
                     }
@@ -269,9 +345,9 @@ namespace Image_Slider_Puzzle
 
             ResetPuzzle();
             MainBitmap = (Bitmap)image.Clone();
-            CreatePictureBoxes();
+            CreatePictureBoxes(fullSizeRow, numberBoxesOnSide);
             SetOriginalImageBox();
-            AddImages();
+            AddImages(sizeBox, numberBoxesOnSide);
 
             GalleryBox.Visible = false;
             btnPause.Enabled = true;
@@ -324,7 +400,7 @@ namespace Image_Slider_Puzzle
             currentPositions = string.Empty;
             label2.Text = "";
 
-            PlacePictureBoxesToForm();
+            PlacePictureBoxesToForm(sizeBox, numberBoxesOnSide);
         }
 
 
@@ -332,7 +408,7 @@ namespace Image_Slider_Puzzle
 
         private void OnPicClick(object? sender, EventArgs e)
         {
-            CloseAllOpenWindows();
+            CloseAllOpenWindows(sender.ToString());
 
             PictureBox pictureBox = (PictureBox)sender;
             PictureBox emptyBox = pictureBoxList.Find(x => x.Tag == "0");
@@ -388,9 +464,9 @@ namespace Image_Slider_Puzzle
 
                 ClearAllCollections();
 
-                CreatePictureBoxes();
+                CreatePictureBoxes(fullSizeRow, numberBoxesOnSide);
 
-                SetFullPictureForWining();
+                SetFullPictureForWining(sizeBox, numberBoxesOnSide);
 
                 panBFS.Visible = false;
                 tmrTimeElapse.Stop();
@@ -407,10 +483,10 @@ namespace Image_Slider_Puzzle
                 btnPause.Enabled = false;
             }
         }
-        private void SetFullPictureForWining()
+        private void SetFullPictureForWining(int size, int numberBoxesOnSide)
         {
             Bitmap tempBitmap = new Bitmap(MainBitmap, new Size(390, 390));
-            CropImage(tempBitmap, 130, 130);
+            CropImage(tempBitmap, size, numberBoxesOnSide);
 
             for (int i = 0; i < pictureBoxList.Count; i++)
             {
@@ -424,9 +500,9 @@ namespace Image_Slider_Puzzle
             {
                 pictureBoxList[i].BackColor = Color.Black;
 
-                if (i == 3 || i == 6)
+                if (i == numberBoxesOnSide || i == numberBoxesOnSide * 2 || i == numberBoxesOnSide * 3 || i == numberBoxesOnSide * 4)
                 {
-                    y += 130;
+                    y += size;
                     x = PuzzleBox.Location.X - 5;
                 }
 
@@ -435,7 +511,7 @@ namespace Image_Slider_Puzzle
 
                 PuzzleBox.Controls.Add(pictureBoxList[i]);
 
-                x += 130;
+                x += size;
                 winPositions += locations[i];
             }
         }
@@ -484,7 +560,7 @@ namespace Image_Slider_Puzzle
         }
         private void OpenFileEvent(object sender, EventArgs e)
         {
-            CloseAllOpenWindows();
+            CloseAllOpenWindows(sender.ToString());
 
             using (OpenFileDialog open = new OpenFileDialog())
             {
@@ -512,13 +588,13 @@ namespace Image_Slider_Puzzle
         }
         private void GalleryOpenCloseClickEvent(object sender, EventArgs e)
         {
-            CloseAllOpenWindows();
+            CloseAllOpenWindows(sender.ToString());
             if (GalleryBox.Visible == false) GalleryBox.Visible = true;
             else GalleryBox.Visible = false;
         }
         private void SettingsOpenClosedClickEvent_Click(object sender, EventArgs e)
         {
-            CloseAllOpenWindows();
+            CloseAllOpenWindows(sender.ToString());
             if (panSettings.Visible == false) panSettings.Visible = true;
             else panSettings.Visible = false;
         }
@@ -808,10 +884,10 @@ namespace Image_Slider_Puzzle
 
             tmrAutoSolve.Stop();
         }
-        private void CloseAllOpenWindows()
+        private void CloseAllOpenWindows(string sender)
         {
-            GalleryBox.Visible = false;
-            panSettings.Visible = false;
+            if (sender != "Gallery") GalleryBox.Visible = false;
+            if (sender != "Settings") panSettings.Visible = false;
         }
 
         private bool CheckGame()
@@ -861,47 +937,38 @@ namespace Image_Slider_Puzzle
 
                         textBoxAResult.Text = "";
 
-                        int[,] startBoard = new int[3, 3];
-                        ConvertStringToIntMatrix(currentPositions, startBoard);
+                        int[,] startBoard = new int[numberBoxesOnSide, numberBoxesOnSide];
+                        ConvertStringToIntMatrix(currentPositions, startBoard, numberBoxesOnSide);
 
-                        int[,] goalBoard = new int[3, 3];
-                        ConvertStringToIntMatrix(winPositions, goalBoard);
+                        int[,] goalBoard = new int[numberBoxesOnSide, numberBoxesOnSide];
+                        ConvertStringToIntMatrix(winPositions, goalBoard, numberBoxesOnSide);
 
-                        var (zeroX, zeroY) = FindPositionBlackBox(startBoard);
+                        var (zeroX, zeroY) = FindPositionBlackBox(startBoard, numberBoxesOnSide);
 
                         AStarSolver solverAStar = new AStarSolver();
                         PuzzleStateV2 initialState = new PuzzleStateV2(startBoard, zeroX, zeroY, 0, goalBoard);
-                        PuzzleStateV2 solution = solverAStar.SolvePuzzle(initialState, goalBoard, attemptsNumber * 100000);
+                        PuzzleStateV2 solution = solverAStar.SolvePuzzle(initialState, goalBoard, numberBoxesOnSide, attemptsNumber * 100000);
                         var message = string.Empty;
 
                         if (solution != null)
                         {
                             message = solverAStar.ReturnSolution(solution);
-                            //textBoxAResult.Text = "Solution: " + message;
+                            textBoxAResult.Text = "Solution: " + message;
                         }
                         else textBoxAResult.Text = StringData.messageNoFoundSolution;
-                        //else
-                        //{
-                        //    foreach (var move in solution)
-                        //    {
-                        //        message += move + ", ";
-                        //    }
-                        //}
-
-                        textBoxAResult.Text = "Solution: " + message;
 
                         queueNextMove = new Queue<string>(message.Split(", ", StringSplitOptions.RemoveEmptyEntries));
                         queueNextMoveOriginalLength = queueNextMove.Count;
                         lblANextMove.Text = queueNextMove.FirstOrDefault() == StringData.messageNoFoundSolution
                             ? StringData.warningNoSolution : StringData.messageNextMove + queueNextMove.FirstOrDefault();
 
-                        static void ConvertStringToIntMatrix(string stringInput, int[,] board)
+                        static void ConvertStringToIntMatrix(string stringInput, int[,] board, int numberBoxesOnSide)
                         {
-                            for (int x = 0; x < 3; x++)
+                            for (int x = 0; x < numberBoxesOnSide; x++)
                             {
-                                for (int y = 0; y < 3; y++)
+                                for (int y = 0; y < numberBoxesOnSide; y++)
                                 {
-                                    int index = x * 3 + y;
+                                    int index = x * numberBoxesOnSide + y;
                                     char digit = stringInput[index];
                                     int number = int.Parse(digit.ToString());
                                     board[x, y] = number;
@@ -909,11 +976,11 @@ namespace Image_Slider_Puzzle
                             }
                         }
 
-                        static (int, int) FindPositionBlackBox(int[,] goalBoard)
+                        static (int, int) FindPositionBlackBox(int[,] goalBoard, int numberBoxesOnSide)
                         {
-                            for (int x = 0; x < 3; x++)
+                            for (int x = 0; x < numberBoxesOnSide; x++)
                             {
-                                for (int y = 0; y < 3; y++)
+                                for (int y = 0; y < numberBoxesOnSide; y++)
                                 {
                                     int number = goalBoard[x, y];
 

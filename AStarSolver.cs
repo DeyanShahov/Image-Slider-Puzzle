@@ -2,7 +2,7 @@
 {
     public class AStarSolver
     {
-        public PuzzleStateV2 SolvePuzzle(PuzzleStateV2 initialState, int[,] goal, int attemptsNumber = 1000000)
+        public PuzzleStateV2 SolvePuzzle(PuzzleStateV2 initialState, int[,] goal, int numberBoxesOnSide, int attemptsNumber = 1000000)
         {
             HashSet<PuzzleStateV2> visited = new HashSet<PuzzleStateV2>();
             PriorityQueue<PuzzleStateV2, int> openSet = new PriorityQueue<PuzzleStateV2, int>();
@@ -14,11 +14,11 @@
 
                 PuzzleStateV2 current = openSet.Dequeue();
 
-                if (IsGoal(current, goal)) return current;
+                if (IsGoal(current, goal, numberBoxesOnSide)) return current;
 
                 visited.Add(current);
 
-                foreach (PuzzleStateV2 neighbor in current.GetNeighbors(goal))
+                foreach (PuzzleStateV2 neighbor in current.GetNeighbors(goal, numberBoxesOnSide))
                 {
                     if (!visited.Contains(neighbor)) openSet.Enqueue(neighbor, neighbor.Cost + neighbor.Heuristic);
                 }
@@ -27,11 +27,11 @@
             return null;
         }
 
-        private static bool IsGoal(PuzzleStateV2 state, int[,] goal)
+        private static bool IsGoal(PuzzleStateV2 state, int[,] goal, int numberBoxesOnSide)
         {
-            for (int x = 0; x < 3; x++)
+            for (int x = 0; x < numberBoxesOnSide; x++)
             {
-                for (int y = 0; y < 3; y++)
+                for (int y = 0; y < numberBoxesOnSide; y++)
                 {
                     if (state.Board[x, y] != goal[x, y]) return false;
                 }
@@ -72,7 +72,7 @@
             EmptyX = emptyX;
             EmptyY = emptyY;
             Cost = cost;
-            Heuristic = CalculateHeuristic(goal);
+            Heuristic = CalculateHeuristic(goal, board.GetLength(1));
             Parent = null;
         }
 
@@ -82,17 +82,17 @@
             EmptyX = emptyX;
             EmptyY = emptyY;
             Cost = cost;
-            Heuristic = CalculateHeuristic(goal);
+            Heuristic = CalculateHeuristic(goal, board.GetLength(1));
             Direction = direction;
             Parent = parent;
         }
 
-        private int CalculateHeuristic(int[,] goal)
+        private int CalculateHeuristic(int[,] goal, int numberBoxesOnSide)
         {
             int heuristic = 0;
-            for (int x = 0; x < 3; x++)
+            for (int x = 0; x < numberBoxesOnSide; x++)
             {
-                for (int y = 0; y < 3; y++)
+                for (int y = 0; y < numberBoxesOnSide; y++)
                 {
                     if (Board[x, y] != goal[x, y]) heuristic++;
                 }
@@ -100,7 +100,7 @@
             return heuristic;
         }
 
-        public IEnumerable<PuzzleStateV2> GetNeighbors(int[,] goal)
+        public IEnumerable<PuzzleStateV2> GetNeighbors(int[,] goal, int numberBoxesOnSide)
         {
             List<PuzzleStateV2> neighbors = new List<PuzzleStateV2>();
             int[] dx = { -1, 1, 0, 0 };
@@ -114,7 +114,7 @@
                 int newX = EmptyX + dx[i];
                 int newY = EmptyY + dy[i];
 
-                if (newX >= 0 && newX < 3 && newY >= 0 && newY < 3)
+                if (newX >= 0 && newX < numberBoxesOnSide && newY >= 0 && newY < numberBoxesOnSide)
                 {
                     int[,] newBoard = (int[,])Board.Clone();
                     newBoard[EmptyX, EmptyY] = newBoard[newX, newY];

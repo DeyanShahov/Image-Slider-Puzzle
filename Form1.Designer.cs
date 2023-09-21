@@ -52,6 +52,9 @@
             pictureBox5 = new PictureBox();
             pictureBox1 = new PictureBox();
             panSettings = new Panel();
+            lblVeryHardMod = new Label();
+            lblHardMod = new Label();
+            lblNormalMod = new Label();
             panAStar = new Panel();
             lblACurrMove = new Label();
             lblANextMove = new Label();
@@ -63,9 +66,6 @@
             lblASoluton = new Label();
             textBoxAAttempts = new TextBox();
             lblAClose = new Label();
-            lblVeryHardMod = new Label();
-            lblHardMod = new Label();
-            lblNormalMod = new Label();
             OriginalImageBox = new GroupBox();
             lblMovesMade = new Label();
             lblTimeElapsed = new Label();
@@ -89,7 +89,6 @@
             tmrAutoSolve = new System.Windows.Forms.Timer(components);
             btnAStar = new Button();
             menuStrip1.SuspendLayout();
-            PuzzleBox.SuspendLayout();
             GalleryBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox7).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
@@ -118,9 +117,9 @@
             // 
             label2.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point);
             label2.ForeColor = Color.White;
-            label2.Location = new Point(599, 512);
+            label2.Location = new Point(474, 512);
             label2.Name = "label2";
-            label2.Size = new Size(180, 30);
+            label2.Size = new Size(305, 30);
             label2.TabIndex = 1;
             label2.Text = "Status";
             label2.TextAlign = ContentAlignment.MiddleRight;
@@ -204,7 +203,6 @@
             // 
             // PuzzleBox
             // 
-            PuzzleBox.Controls.Add(GalleryBox);
             PuzzleBox.Location = new Point(25, 46);
             PuzzleBox.Name = "PuzzleBox";
             PuzzleBox.Size = new Size(430, 425);
@@ -223,7 +221,7 @@
             GalleryBox.Controls.Add(pictureBox6);
             GalleryBox.Controls.Add(pictureBox5);
             GalleryBox.Controls.Add(pictureBox1);
-            GalleryBox.Location = new Point(17, 22);
+            GalleryBox.Location = new Point(128, 35);
             GalleryBox.Name = "GalleryBox";
             GalleryBox.Size = new Size(572, 488);
             GalleryBox.TabIndex = 0;
@@ -316,11 +314,49 @@
             panSettings.Controls.Add(lblHardMod);
             panSettings.Controls.Add(lblNormalMod);
             panSettings.ForeColor = Color.Black;
-            panSettings.Location = new Point(289, 35);
+            panSettings.Location = new Point(299, 31);
             panSettings.Name = "panSettings";
             panSettings.Size = new Size(242, 478);
             panSettings.TabIndex = 0;
             panSettings.Visible = false;
+            // 
+            // lblVeryHardMod
+            // 
+            lblVeryHardMod.Anchor = AnchorStyles.None;
+            lblVeryHardMod.BorderStyle = BorderStyle.FixedSingle;
+            lblVeryHardMod.FlatStyle = FlatStyle.Popup;
+            lblVeryHardMod.Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
+            lblVeryHardMod.Location = new Point(3, 290);
+            lblVeryHardMod.Name = "lblVeryHardMod";
+            lblVeryHardMod.Size = new Size(234, 31);
+            lblVeryHardMod.TabIndex = 2;
+            lblVeryHardMod.Text = "VERY HARD";
+            lblVeryHardMod.TextAlign = ContentAlignment.MiddleCenter;
+            lblVeryHardMod.Click += lblVeryHardMod_Click;
+            // 
+            // lblHardMod
+            // 
+            lblHardMod.BorderStyle = BorderStyle.FixedSingle;
+            lblHardMod.Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
+            lblHardMod.Location = new Point(3, 190);
+            lblHardMod.Name = "lblHardMod";
+            lblHardMod.Size = new Size(234, 31);
+            lblHardMod.TabIndex = 1;
+            lblHardMod.Text = "HARD";
+            lblHardMod.TextAlign = ContentAlignment.MiddleCenter;
+            lblHardMod.Click += lblHardMod_Click;
+            // 
+            // lblNormalMod
+            // 
+            lblNormalMod.BorderStyle = BorderStyle.FixedSingle;
+            lblNormalMod.Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
+            lblNormalMod.Location = new Point(3, 92);
+            lblNormalMod.Name = "lblNormalMod";
+            lblNormalMod.Size = new Size(234, 31);
+            lblNormalMod.TabIndex = 0;
+            lblNormalMod.Text = "NORMAL";
+            lblNormalMod.TextAlign = ContentAlignment.MiddleCenter;
+            lblNormalMod.Click += lblNormalMod_Click;
             // 
             // panAStar
             // 
@@ -336,7 +372,7 @@
             panAStar.Controls.Add(lblASoluton);
             panAStar.Controls.Add(textBoxAAttempts);
             panAStar.Controls.Add(lblAClose);
-            panAStar.Location = new Point(482, 29);
+            panAStar.Location = new Point(475, 45);
             panAStar.Name = "panAStar";
             panAStar.Size = new Size(300, 317);
             panAStar.TabIndex = 13;
@@ -440,44 +476,6 @@
             lblAClose.Text = "X";
             lblAClose.Click += lblAClose_Click;
             // 
-            // lblVeryHardMod
-            // 
-            lblVeryHardMod.Anchor = AnchorStyles.None;
-            lblVeryHardMod.BorderStyle = BorderStyle.FixedSingle;
-            lblVeryHardMod.FlatStyle = FlatStyle.Popup;
-            lblVeryHardMod.Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
-            lblVeryHardMod.Location = new Point(3, 290);
-            lblVeryHardMod.Name = "lblVeryHardMod";
-            lblVeryHardMod.Size = new Size(234, 31);
-            lblVeryHardMod.TabIndex = 2;
-            lblVeryHardMod.Text = "VERY HARD";
-            lblVeryHardMod.TextAlign = ContentAlignment.MiddleCenter;
-            lblVeryHardMod.Click += lblVeryHardMod_Click;
-            // 
-            // lblHardMod
-            // 
-            lblHardMod.BorderStyle = BorderStyle.FixedSingle;
-            lblHardMod.Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
-            lblHardMod.Location = new Point(3, 190);
-            lblHardMod.Name = "lblHardMod";
-            lblHardMod.Size = new Size(234, 31);
-            lblHardMod.TabIndex = 1;
-            lblHardMod.Text = "HARD";
-            lblHardMod.TextAlign = ContentAlignment.MiddleCenter;
-            lblHardMod.Click += lblHardMod_Click;
-            // 
-            // lblNormalMod
-            // 
-            lblNormalMod.BorderStyle = BorderStyle.FixedSingle;
-            lblNormalMod.Font = new Font("Impact", 18F, FontStyle.Regular, GraphicsUnit.Point);
-            lblNormalMod.Location = new Point(3, 92);
-            lblNormalMod.Name = "lblNormalMod";
-            lblNormalMod.Size = new Size(234, 31);
-            lblNormalMod.TabIndex = 0;
-            lblNormalMod.Text = "NORMAL";
-            lblNormalMod.TextAlign = ContentAlignment.MiddleCenter;
-            lblNormalMod.Click += lblNormalMod_Click;
-            // 
             // OriginalImageBox
             // 
             OriginalImageBox.Location = new Point(475, 46);
@@ -517,7 +515,7 @@
             // 
             // btnShuffle
             // 
-            btnShuffle.Location = new Point(490, 468);
+            btnShuffle.Location = new Point(474, 468);
             btnShuffle.Name = "btnShuffle";
             btnShuffle.Size = new Size(75, 23);
             btnShuffle.TabIndex = 7;
@@ -527,7 +525,7 @@
             // 
             // btnPause
             // 
-            btnPause.Location = new Point(586, 468);
+            btnPause.Location = new Point(550, 468);
             btnPause.Name = "btnPause";
             btnPause.Size = new Size(75, 23);
             btnPause.TabIndex = 8;
@@ -537,7 +535,7 @@
             // 
             // btnQuit
             // 
-            btnQuit.Location = new Point(681, 468);
+            btnQuit.Location = new Point(702, 468);
             btnQuit.Name = "btnQuit";
             btnQuit.Size = new Size(75, 23);
             btnQuit.TabIndex = 9;
@@ -547,7 +545,7 @@
             // 
             // btnSwitch
             // 
-            btnSwitch.Location = new Point(489, 519);
+            btnSwitch.Location = new Point(626, 468);
             btnSwitch.Name = "btnSwitch";
             btnSwitch.Size = new Size(75, 23);
             btnSwitch.TabIndex = 10;
@@ -557,7 +555,7 @@
             // 
             // btnAutoSolve
             // 
-            btnAutoSolve.Location = new Point(379, 519);
+            btnAutoSolve.Location = new Point(128, 477);
             btnAutoSolve.Name = "btnAutoSolve";
             btnAutoSolve.Size = new Size(94, 23);
             btnAutoSolve.TabIndex = 11;
@@ -690,7 +688,7 @@
             // 
             // btnAStar
             // 
-            btnAStar.Location = new Point(263, 519);
+            btnAStar.Location = new Point(25, 477);
             btnAStar.Name = "btnAStar";
             btnAStar.Size = new Size(97, 23);
             btnAStar.TabIndex = 13;
@@ -704,6 +702,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlDarkDark;
             ClientSize = new Size(803, 560);
+            Controls.Add(GalleryBox);
             Controls.Add(panAStar);
             Controls.Add(btnAStar);
             Controls.Add(panBFS);
@@ -727,7 +726,6 @@
             Text = "Image Slider Puzzle";
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
-            PuzzleBox.ResumeLayout(false);
             GalleryBox.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox7).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
