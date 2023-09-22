@@ -12,6 +12,7 @@
         private List<Bitmap> images = new List<Bitmap>();
         private List<string> locations = new List<string>();
         private List<string> currentLocations = new List<string>();
+        private List<string> winningPositions = new List<string>();
 
         private string winPositions;
         private string currentPositions;
@@ -212,9 +213,9 @@
         //        }
         //    }
         //}
-        private void AddImages(int sizeBox, int numberBoxesOnSide)
+        private void AddImages(int sizeBox, int numberBoxesOnSide, int fullSize)
         {
-            Bitmap tempBitmap = new Bitmap(MainBitmap, new Size(390, 390));
+            Bitmap tempBitmap = new Bitmap(MainBitmap, new Size(fullSize, fullSize));
             CropImage(tempBitmap, sizeBox, numberBoxesOnSide);
 
             for (int i = 1; i < pictureBoxList.Count; i++)
@@ -249,6 +250,7 @@
 
                 x += sizeBox;
                 winPositions += locations[i];
+                winningPositions.Add(locations[i]);
             }
         }
 
@@ -347,7 +349,7 @@
             MainBitmap = (Bitmap)image.Clone();
             CreatePictureBoxes(fullSizeRow, numberBoxesOnSide);
             SetOriginalImageBox();
-            AddImages(sizeBox, numberBoxesOnSide);
+            AddImages(sizeBox, numberBoxesOnSide, fullSizeRow);
 
             GalleryBox.Visible = false;
             btnPause.Enabled = true;
@@ -368,6 +370,7 @@
                 images.Clear();
                 locations.Clear();
                 currentLocations.Clear();
+                winningPositions.Clear();
                 winPositions = string.Empty;
                 currentPositions = string.Empty;
                 label2.Text = string.Empty;
@@ -426,12 +429,12 @@
                 || pictureBox.Top == emptyBox.Bottom && pictureBox.Location.X == emptyBox.Location.X
                 || pictureBox.Bottom == emptyBox.Top && pictureBox.Location.X == emptyBox.Location.X)
                 {
-                    SwitchBoxes(pictureBox, emptyBox, pic1, pic2, index1, index2);
+                    SwitchBoxes(pictureBox, emptyBox, pic1, pic2, index1, index2, numberBoxesOnSide);
                 }
             }
             else
             {
-                SwitchBoxes(pictureBox, emptyBox, pic1, pic2, index1, index2);
+                SwitchBoxes(pictureBox, emptyBox, pic1, pic2, index1, index2, numberBoxesOnSide);
 
                 toSwitch = false;
                 btnSwitch.Enabled = false;
@@ -485,7 +488,7 @@
         }
         private void SetFullPictureForWining(int size, int numberBoxesOnSide)
         {
-            Bitmap tempBitmap = new Bitmap(MainBitmap, new Size(390, 390));
+            Bitmap tempBitmap = new Bitmap(MainBitmap, new Size(size * numberBoxesOnSide, size * numberBoxesOnSide));
             CropImage(tempBitmap, size, numberBoxesOnSide);
 
             for (int i = 0; i < pictureBoxList.Count; i++)
@@ -513,28 +516,18 @@
 
                 x += size;
                 winPositions += locations[i];
+                winningPositions.Add(locations[i]);
             }
         }
-        private void SwitchBoxes(PictureBox pictureBox, PictureBox emptyBox, Point pic1, Point pic2, int index1, int index2)
+        private void SwitchBoxes(PictureBox pictureBox, PictureBox emptyBox, Point pic1, Point pic2, int index1, int index2, int numberBoxesOnSide)
         {
-            switch (index2 - index1)
-            {
-                case 1:
-                    currentMoveDirection = StringData.directionLeft;
-                    break;
-                case -1:
-                    currentMoveDirection = StringData.directionRight;
-                    break;
-                case 3:
-                    currentMoveDirection = StringData.directionUp;
-                    break;
-                case -3:
-                    currentMoveDirection = StringData.directionDown;
-                    break;
-                default:
-                    currentMoveDirection = StringData.directionSwitch;
-                    break;
-            }
+            int differenceInIndexes = index2 - index1;
+
+            if (differenceInIndexes == 1) currentMoveDirection = StringData.directionLeft;
+            else if (differenceInIndexes == -1) currentMoveDirection = StringData.directionRight;
+            else if (differenceInIndexes == numberBoxesOnSide) currentMoveDirection = StringData.directionUp;
+            else if (differenceInIndexes == -numberBoxesOnSide) currentMoveDirection = StringData.directionDown;
+            else currentMoveDirection = StringData.directionSwitch;
 
             string message = "Move : " + currentMoveDirection;
             if (panBFS.Visible == true) lblBFSCurrMove.Text = message;
@@ -543,20 +536,14 @@
             pictureBox.Location = pic2;
             emptyBox.Location = pic1;
 
-
             if (gameMod == StringData.gameModVeryHard) RotatePictureBoxes(PuzzleBox);
-
 
             PuzzleBox.Controls.SetChildIndex(pictureBox, index2);
             PuzzleBox.Controls.SetChildIndex(emptyBox, index1);
 
-            //lblMovesMade.Text = "Moves Made: " + (++moves);
-            lblMovesMade.Text = $"{languageChanger.ReturnCorrectWord("Moves Made:", languageCurrent)} {++moves}";//"Moves Made: " + (++moves);
+            lblMovesMade.Text = $"{languageChanger.ReturnCorrectWord("Moves Made:", languageCurrent)} {++moves}";
 
-            if (lblTimeElapsed.Text == "00:00:00")
-            {
-                tmrTimeElapse.Start();
-            }
+            if (lblTimeElapsed.Text == "00:00:00") tmrTimeElapse.Start();
         }
         private void OpenFileEvent(object sender, EventArgs e)
         {
@@ -828,9 +815,10 @@
         }
         private void TmrAutoSolve_Tick(object sender, EventArgs e)
         {
-            if (queueNextMove.Count > 0) PerformMove(queueNextMove.FirstOrDefault());
+            if (queueNextMove.Count > 0) PerformMove(queueNextMove.FirstOrDefault(), numberBoxesOnSide);
+            else tmrAutoSolve.Stop();
         }
-        private void PerformMove(string move)
+        private void PerformMove(string move, int numberBoxesOnSide)
         {
             PictureBox emptyBox = pictureBoxList.Find(x => x.Tag == "0");
             var indexEmptyBox = PuzzleBox.Controls.IndexOf(emptyBox);
@@ -846,20 +834,16 @@
                     targetIndex++;
                     break;
                 case "Up":
-                    targetIndex -= 3;
+                    targetIndex -= numberBoxesOnSide;
                     break;
                 case "Down":
-                    targetIndex += 3;
+                    targetIndex += numberBoxesOnSide;
                     break;
             }
 
             var targetBox = PuzzleBox.Controls[targetIndex];
 
-            var indexTargetBox = PuzzleBox.Controls.IndexOf(targetBox);
-
-            EventArgs arg = new EventArgs();
-
-            OnPicClick(targetBox, arg);
+            OnPicClick(targetBox, new EventArgs());
         }
         private void ClearAllBFSSettings()
         {
@@ -938,10 +922,11 @@
                         textBoxAResult.Text = "";
 
                         int[,] startBoard = new int[numberBoxesOnSide, numberBoxesOnSide];
-                        ConvertStringToIntMatrix(currentPositions, startBoard, numberBoxesOnSide);
+                        ConvertStringToIntMatrix(currentLocations, startBoard, numberBoxesOnSide);
 
                         int[,] goalBoard = new int[numberBoxesOnSide, numberBoxesOnSide];
-                        ConvertStringToIntMatrix(winPositions, goalBoard, numberBoxesOnSide);
+                        //var winPositionList = Enumerable.Range(0, winPositions.)
+                        ConvertStringToIntMatrix(winningPositions, goalBoard, numberBoxesOnSide);
 
                         var (zeroX, zeroY) = FindPositionBlackBox(startBoard, numberBoxesOnSide);
 
@@ -962,16 +947,15 @@
                         lblANextMove.Text = queueNextMove.FirstOrDefault() == StringData.messageNoFoundSolution
                             ? StringData.warningNoSolution : StringData.messageNextMove + queueNextMove.FirstOrDefault();
 
-                        static void ConvertStringToIntMatrix(string stringInput, int[,] board, int numberBoxesOnSide)
+                        static void ConvertStringToIntMatrix(List<string> stringInput, int[,] board, int numberBoxesOnSide)
                         {
                             for (int x = 0; x < numberBoxesOnSide; x++)
                             {
                                 for (int y = 0; y < numberBoxesOnSide; y++)
                                 {
                                     int index = x * numberBoxesOnSide + y;
-                                    char digit = stringInput[index];
-                                    int number = int.Parse(digit.ToString());
-                                    board[x, y] = number;
+                                    int digit = int.Parse(stringInput[index]);
+                                    board[x, y] = digit;
                                 }
                             }
                         }
@@ -1018,6 +1002,49 @@
                 tmrAutoSolve.Start();
             }
             else textBoxAResult.Text = StringData.warningBFSPlay;
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e) => CheckRadioButtonInUse();
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e) => CheckRadioButtonInUse();
+
+        private void radioButton3_CheckedChanged(object sender, EventArgs e) => CheckRadioButtonInUse();
+
+
+        private void CheckRadioButtonInUse()
+        {
+            if (radioButton1.Checked)
+            {
+                numberBoxesOnSide = 3;
+                fullSizeRow = 390;
+                PuzzleBox.Height = 430;
+                PuzzleBox.Width = 440;
+            }
+            else if (radioButton2.Checked)
+            {
+                numberBoxesOnSide = 4;
+                fullSizeRow = 520;
+                PuzzleBox.Height = 560;
+                PuzzleBox.Width = 570;
+            }
+            else if (radioButton3.Checked)
+            {
+                numberBoxesOnSide = 5;
+                fullSizeRow = 650;
+                PuzzleBox.Height = 690;
+                PuzzleBox.Width = 700;
+            }
+
+
+            sizeBox = fullSizeRow / numberBoxesOnSide;
+
+            panSettings.Visible = false;
+
+            ClearAllCollections();
+
+            if (MainBitmap != null) MainBitmap.Dispose();
+
+            ResetPuzzle();
         }
     }
 }

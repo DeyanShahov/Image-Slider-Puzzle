@@ -52,6 +52,12 @@
             pictureBox5 = new PictureBox();
             pictureBox1 = new PictureBox();
             panSettings = new Panel();
+            label7 = new Label();
+            label4 = new Label();
+            label3 = new Label();
+            radioButton3 = new RadioButton();
+            radioButton2 = new RadioButton();
+            radioButton1 = new RadioButton();
             lblVeryHardMod = new Label();
             lblHardMod = new Label();
             lblNormalMod = new Label();
@@ -107,7 +113,7 @@
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point);
             label1.ForeColor = Color.White;
-            label1.Location = new Point(25, 512);
+            label1.Location = new Point(745, 606);
             label1.Name = "label1";
             label1.Size = new Size(89, 30);
             label1.TabIndex = 0;
@@ -117,7 +123,7 @@
             // 
             label2.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point);
             label2.ForeColor = Color.White;
-            label2.Location = new Point(474, 512);
+            label2.Location = new Point(740, 649);
             label2.Name = "label2";
             label2.Size = new Size(305, 30);
             label2.TabIndex = 1;
@@ -129,7 +135,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, GalleryToolStripMenuItem, settingsToolStripMenuItem, SettingsOpenClosedClickEvent, languageToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(803, 24);
+            menuStrip1.Size = new Size(1070, 24);
             menuStrip1.TabIndex = 2;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -203,9 +209,9 @@
             // 
             // PuzzleBox
             // 
-            PuzzleBox.Location = new Point(25, 46);
+            PuzzleBox.Location = new Point(35, 46);
             PuzzleBox.Name = "PuzzleBox";
-            PuzzleBox.Size = new Size(430, 425);
+            PuzzleBox.Size = new Size(440, 430);
             PuzzleBox.TabIndex = 3;
             PuzzleBox.TabStop = false;
             PuzzleBox.Text = "Puzzle Box";
@@ -221,7 +227,7 @@
             GalleryBox.Controls.Add(pictureBox6);
             GalleryBox.Controls.Add(pictureBox5);
             GalleryBox.Controls.Add(pictureBox1);
-            GalleryBox.Location = new Point(128, 35);
+            GalleryBox.Location = new Point(255, 36);
             GalleryBox.Name = "GalleryBox";
             GalleryBox.Size = new Size(572, 488);
             GalleryBox.TabIndex = 0;
@@ -310,15 +316,86 @@
             // 
             panSettings.BackColor = SystemColors.ActiveBorder;
             panSettings.BorderStyle = BorderStyle.FixedSingle;
+            panSettings.Controls.Add(label7);
+            panSettings.Controls.Add(label4);
+            panSettings.Controls.Add(label3);
+            panSettings.Controls.Add(radioButton3);
+            panSettings.Controls.Add(radioButton2);
+            panSettings.Controls.Add(radioButton1);
             panSettings.Controls.Add(lblVeryHardMod);
             panSettings.Controls.Add(lblHardMod);
             panSettings.Controls.Add(lblNormalMod);
             panSettings.ForeColor = Color.Black;
-            panSettings.Location = new Point(299, 31);
+            panSettings.Location = new Point(448, 36);
             panSettings.Name = "panSettings";
             panSettings.Size = new Size(242, 478);
             panSettings.TabIndex = 0;
             panSettings.Visible = false;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Font = new Font("Impact", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
+            label7.Location = new Point(49, 383);
+            label7.Name = "label7";
+            label7.Size = new Size(41, 23);
+            label7.TabIndex = 8;
+            label7.Text = "4 x 4";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("Impact", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
+            label4.Location = new Point(49, 415);
+            label4.Name = "label4";
+            label4.Size = new Size(43, 23);
+            label4.TabIndex = 7;
+            label4.Text = "5 x 5";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Font = new Font("Impact", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
+            label3.Location = new Point(49, 354);
+            label3.Name = "label3";
+            label3.Size = new Size(43, 23);
+            label3.TabIndex = 6;
+            label3.Text = "3 x 3";
+            // 
+            // radioButton3
+            // 
+            radioButton3.AutoSize = true;
+            radioButton3.Location = new Point(130, 419);
+            radioButton3.Name = "radioButton3";
+            radioButton3.Size = new Size(94, 19);
+            radioButton3.TabIndex = 5;
+            radioButton3.Text = "radioButton3";
+            radioButton3.UseVisualStyleBackColor = true;
+            radioButton3.CheckedChanged += radioButton3_CheckedChanged;
+            // 
+            // radioButton2
+            // 
+            radioButton2.AutoSize = true;
+            radioButton2.Location = new Point(130, 387);
+            radioButton2.Name = "radioButton2";
+            radioButton2.Size = new Size(94, 19);
+            radioButton2.TabIndex = 4;
+            radioButton2.Text = "radioButton2";
+            radioButton2.UseVisualStyleBackColor = true;
+            radioButton2.CheckedChanged += radioButton2_CheckedChanged;
+            // 
+            // radioButton1
+            // 
+            radioButton1.AutoSize = true;
+            radioButton1.Checked = true;
+            radioButton1.Location = new Point(130, 358);
+            radioButton1.Name = "radioButton1";
+            radioButton1.Size = new Size(94, 19);
+            radioButton1.TabIndex = 3;
+            radioButton1.TabStop = true;
+            radioButton1.Text = "radioButton1";
+            radioButton1.UseVisualStyleBackColor = true;
+            radioButton1.CheckedChanged += radioButton1_CheckedChanged;
             // 
             // lblVeryHardMod
             // 
@@ -372,7 +449,7 @@
             panAStar.Controls.Add(lblASoluton);
             panAStar.Controls.Add(textBoxAAttempts);
             panAStar.Controls.Add(lblAClose);
-            panAStar.Location = new Point(475, 45);
+            panAStar.Location = new Point(745, 45);
             panAStar.Name = "panAStar";
             panAStar.Size = new Size(300, 317);
             panAStar.TabIndex = 13;
@@ -478,7 +555,7 @@
             // 
             // OriginalImageBox
             // 
-            OriginalImageBox.Location = new Point(475, 46);
+            OriginalImageBox.Location = new Point(745, 46);
             OriginalImageBox.Name = "OriginalImageBox";
             OriginalImageBox.Size = new Size(300, 300);
             OriginalImageBox.TabIndex = 4;
@@ -490,7 +567,7 @@
             lblMovesMade.AutoSize = true;
             lblMovesMade.Font = new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point);
             lblMovesMade.ForeColor = SystemColors.ControlText;
-            lblMovesMade.Location = new Point(263, 483);
+            lblMovesMade.Location = new Point(745, 538);
             lblMovesMade.Name = "lblMovesMade";
             lblMovesMade.Size = new Size(118, 19);
             lblMovesMade.TabIndex = 5;
@@ -501,7 +578,7 @@
             // 
             lblTimeElapsed.BorderStyle = BorderStyle.Fixed3D;
             lblTimeElapsed.Font = new Font("Impact", 48F, FontStyle.Regular, GraphicsUnit.Point);
-            lblTimeElapsed.Location = new Point(475, 366);
+            lblTimeElapsed.Location = new Point(745, 377);
             lblTimeElapsed.Name = "lblTimeElapsed";
             lblTimeElapsed.Size = new Size(300, 82);
             lblTimeElapsed.TabIndex = 6;
@@ -515,7 +592,7 @@
             // 
             // btnShuffle
             // 
-            btnShuffle.Location = new Point(474, 468);
+            btnShuffle.Location = new Point(745, 480);
             btnShuffle.Name = "btnShuffle";
             btnShuffle.Size = new Size(75, 23);
             btnShuffle.TabIndex = 7;
@@ -525,7 +602,7 @@
             // 
             // btnPause
             // 
-            btnPause.Location = new Point(550, 468);
+            btnPause.Location = new Point(820, 480);
             btnPause.Name = "btnPause";
             btnPause.Size = new Size(75, 23);
             btnPause.TabIndex = 8;
@@ -535,7 +612,7 @@
             // 
             // btnQuit
             // 
-            btnQuit.Location = new Point(702, 468);
+            btnQuit.Location = new Point(970, 480);
             btnQuit.Name = "btnQuit";
             btnQuit.Size = new Size(75, 23);
             btnQuit.TabIndex = 9;
@@ -545,7 +622,7 @@
             // 
             // btnSwitch
             // 
-            btnSwitch.Location = new Point(626, 468);
+            btnSwitch.Location = new Point(895, 480);
             btnSwitch.Name = "btnSwitch";
             btnSwitch.Size = new Size(75, 23);
             btnSwitch.TabIndex = 10;
@@ -555,7 +632,7 @@
             // 
             // btnAutoSolve
             // 
-            btnAutoSolve.Location = new Point(128, 477);
+            btnAutoSolve.Location = new Point(951, 534);
             btnAutoSolve.Name = "btnAutoSolve";
             btnAutoSolve.Size = new Size(94, 23);
             btnAutoSolve.TabIndex = 11;
@@ -577,7 +654,7 @@
             panBFS.Controls.Add(lblBFSSolution);
             panBFS.Controls.Add(textBoxBFSAttemps);
             panBFS.Controls.Add(lblBFSClose);
-            panBFS.Location = new Point(475, 45);
+            panBFS.Location = new Point(745, 45);
             panBFS.Name = "panBFS";
             panBFS.Size = new Size(300, 317);
             panBFS.TabIndex = 12;
@@ -654,7 +731,7 @@
             // lblBFSSolution
             // 
             lblBFSSolution.Font = new Font("Segoe UI Black", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
-            lblBFSSolution.Location = new Point(6, 5);
+            lblBFSSolution.Location = new Point(6, 0);
             lblBFSSolution.Name = "lblBFSSolution";
             lblBFSSolution.Size = new Size(253, 45);
             lblBFSSolution.TabIndex = 2;
@@ -688,7 +765,7 @@
             // 
             // btnAStar
             // 
-            btnAStar.Location = new Point(25, 477);
+            btnAStar.Location = new Point(948, 572);
             btnAStar.Name = "btnAStar";
             btnAStar.Size = new Size(97, 23);
             btnAStar.TabIndex = 13;
@@ -701,12 +778,12 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlDarkDark;
-            ClientSize = new Size(803, 560);
+            ClientSize = new Size(1070, 765);
             Controls.Add(GalleryBox);
+            Controls.Add(panSettings);
+            Controls.Add(panBFS);
             Controls.Add(panAStar);
             Controls.Add(btnAStar);
-            Controls.Add(panBFS);
-            Controls.Add(panSettings);
             Controls.Add(btnAutoSolve);
             Controls.Add(btnSwitch);
             Controls.Add(btnQuit);
@@ -735,6 +812,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             panSettings.ResumeLayout(false);
+            panSettings.PerformLayout();
             panAStar.ResumeLayout(false);
             panAStar.PerformLayout();
             panBFS.ResumeLayout(false);
@@ -804,5 +882,11 @@
         private Label lblASoluton;
         private TextBox textBoxAAttempts;
         private Label lblAClose;
+        private Label label7;
+        private Label label4;
+        private Label label3;
+        private RadioButton radioButton3;
+        private RadioButton radioButton2;
+        private RadioButton radioButton1;
     }
 }
