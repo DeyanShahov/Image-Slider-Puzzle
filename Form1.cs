@@ -144,20 +144,6 @@
                 locations.Add(tempPic.Tag.ToString());
             }
         }
-
-        //private void CreatePictureBoxes()
-        //{
-        //    for (int i = 0; i < 9; i++)
-        //    {
-        //        PictureBox tempPic = new PictureBox();
-        //        tempPic.Size = new Size(130, 130);
-        //        tempPic.Tag = i.ToString();
-        //        tempPic.Click += OnPicClick;
-        //        pictureBoxList.Add(tempPic);
-        //        locations.Add(tempPic.Tag.ToString());
-        //    }
-        //}
-
         private void CropImage(Bitmap mainBitmap, int size, int numberBoxOnSide)
         {
             int x = 0;
@@ -186,33 +172,6 @@
             }
         }
 
-        //private void CropImage(Bitmap mainBitmap, int height, int width)
-        //{
-        //    int x = 0;
-        //    int y = 0;
-
-        //    for (int blocks = 0; blocks < 9; blocks++)
-        //    {
-        //        Bitmap croppedImage = new Bitmap(width, height);
-
-        //        for (int i = 0; i < height; i++)
-        //        {
-        //            for (int j = 0; j < width; j++)
-        //            {
-        //                croppedImage.SetPixel(i, j, mainBitmap.GetPixel((i + x), (j + y)));
-        //            }
-        //        }
-
-        //        images.Add(croppedImage);
-
-        //        x += 130;
-        //        if (x == 390)
-        //        {
-        //            x = 0;
-        //            y += 130;
-        //        }
-        //    }
-        //}
         private void AddImages(int sizeBox, int numberBoxesOnSide, int fullSize)
         {
             Bitmap tempBitmap = new Bitmap(MainBitmap, new Size(fullSize, fullSize));
@@ -254,33 +213,6 @@
             }
         }
 
-        //private void PlacePictureBoxesToForm()
-        //{
-
-        //    ShuffleImageForPuzzleBox();
-
-        //    int x = PuzzleBox.Location.X - 5;
-        //    int y = PuzzleBox.Location.Y - 25;
-
-        //    for (int i = 0; i < pictureBoxList.Count; i++)
-        //    {
-        //        pictureBoxList[i].BackColor = Color.Black;
-
-        //        if (i == 3 || i == 6)
-        //        {
-        //            y += 130;
-        //            x = PuzzleBox.Location.X - 5;
-        //        }
-
-        //        pictureBoxList[i].BorderStyle = BorderStyle.FixedSingle;
-        //        pictureBoxList[i].Location = new Point(x, y);
-
-        //        PuzzleBox.Controls.Add(pictureBoxList[i]);
-
-        //        x += 130;
-        //        winPositions += locations[i];
-        //    }
-        //}
         private void ShuffleImageForPuzzleBox(int numberBoxesOnSide)
         {
             //shuffleImages.FindAll(p => p.BackgroundImage != null).ForEach(p => p.BackgroundImage.RotateFlip(RotateFlipType.Rotate90FlipNone));
@@ -302,7 +234,7 @@
                 var zeroY = zeroIndex / numberBoxesOnSide;
 
 
-                while (shuffleCounts < 50)
+                while (shuffleCounts < 100)
                 {
                     var (dx, dy) = possibleMoves[random.Next(0, possibleMoves.Count)];
                     var newX = zeroX + dx;
@@ -466,6 +398,10 @@
             {
 
                 ClearAllCollections();
+                ClearAllBFSSettings();
+                panBFS.Visible = false;
+                ClearAllASettings();
+                panAStar.Visible = false;
 
                 CreatePictureBoxes(fullSizeRow, numberBoxesOnSide);
 
@@ -720,10 +656,7 @@
                         BFSSolver solverBFS = new BFSSolver();
                         List<string> solution = solverBFS.SolvePuzzle(initialState, inputNumber * 100000);
 
-                        if (solution[0] == StringData.warningNoSolution)
-                        {
-                            message = StringData.messageNoFoundSolution;
-                        }
+                        if (solution[0] == StringData.warningNoSolution) message = StringData.messageNoFoundSolution;
                         else
                         {
                             foreach (var move in solution)
@@ -740,15 +673,9 @@
                         lblBFSNextMove.Text = queueNextMove.FirstOrDefault() == StringData.messageNoFoundSolution
                             ? StringData.warningNoSolution : StringData.messageNextMove + queueNextMove.FirstOrDefault();
                     }
-                    else
-                    {
-                        textBoxBFSResult.Text = StringData.warningStartGame;
-                    }
+                    else textBoxBFSResult.Text = StringData.warningStartGame;
                 }
-                else
-                {
-                    textBoxBFSResult.Text = StringData.errorInvalidNumber;
-                }
+                else textBoxBFSResult.Text = StringData.errorInvalidNumber;
             }
             else textBoxBFSResult.Text = StringData.errorEnteredNotNumber;
         }
@@ -761,7 +688,6 @@
             DialogResult YesOrNO = MessageBox.Show(this, languageChanger.ReturnCorrectWord("Are You Sure To Quit ?", languageCurrent), "Puzzle", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (sender as Button != btnQuit && YesOrNO == DialogResult.No) e.Cancel = true;
             if (sender as Button == btnQuit && YesOrNO == DialogResult.Yes) Environment.Exit(0);
-
         }
 
 
@@ -883,7 +809,8 @@
                 if (x is PictureBox) currentLocations.Add(x.Tag.ToString());
             }
 
-            currentPositions = string.Join("", currentLocations);
+            currentPositions = string.Join(".", currentLocations);
+            winPositions = string.Join(".", winningPositions);
             label1.Text = winPositions;
             label2.Text = currentPositions;
 
@@ -925,7 +852,6 @@
                         ConvertStringToIntMatrix(currentLocations, startBoard, numberBoxesOnSide);
 
                         int[,] goalBoard = new int[numberBoxesOnSide, numberBoxesOnSide];
-                        //var winPositionList = Enumerable.Range(0, winPositions.)
                         ConvertStringToIntMatrix(winningPositions, goalBoard, numberBoxesOnSide);
 
                         var (zeroX, zeroY) = FindPositionBlackBox(startBoard, numberBoxesOnSide);
@@ -975,15 +901,9 @@
                             return (-1, -1);
                         }
                     }
-                    else
-                    {
-                        textBoxAResult.Text = StringData.warningStartGame;
-                    }
+                    else textBoxAResult.Text = StringData.warningStartGame;
                 }
-                else
-                {
-                    textBoxAResult.Text = StringData.errorInvalidNumber;
-                }
+                else textBoxAResult.Text = StringData.errorInvalidNumber;
             }
             else textBoxAResult.Text = StringData.errorEnteredNotNumber;
         }

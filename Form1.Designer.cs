@@ -113,7 +113,7 @@
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point);
             label1.ForeColor = Color.White;
-            label1.Location = new Point(745, 606);
+            label1.Location = new Point(35, 782);
             label1.Name = "label1";
             label1.Size = new Size(89, 30);
             label1.TabIndex = 0;
@@ -123,9 +123,9 @@
             // 
             label2.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point);
             label2.ForeColor = Color.White;
-            label2.Location = new Point(740, 649);
+            label2.Location = new Point(267, 749);
             label2.Name = "label2";
-            label2.Size = new Size(305, 30);
+            label2.Size = new Size(778, 30);
             label2.TabIndex = 1;
             label2.Text = "Status";
             label2.TextAlign = ContentAlignment.MiddleRight;
@@ -778,7 +778,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlDarkDark;
-            ClientSize = new Size(1070, 765);
+            ClientSize = new Size(1070, 821);
             Controls.Add(GalleryBox);
             Controls.Add(panSettings);
             Controls.Add(panBFS);
