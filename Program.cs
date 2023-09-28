@@ -1,3 +1,5 @@
+using System.Runtime.InteropServices;
+
 namespace Image_Slider_Puzzle
 {
     internal static class Program

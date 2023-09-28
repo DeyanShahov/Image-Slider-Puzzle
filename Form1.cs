@@ -1,4 +1,7 @@
-﻿namespace Image_Slider_Puzzle
+﻿using Microsoft.VisualBasic.Devices;
+using System.Windows.Input;
+
+namespace Image_Slider_Puzzle
 {
     public partial class Form1 : Form
     {
@@ -33,10 +36,13 @@
         int numberBoxesOnSide;
         int sizeBox;
 
+        private GlobalKeyListener globalKeyListener;
 
         public Form1()
         {
             InitializeComponent();
+
+            globalKeyListener = new GlobalKeyListener(textBoxAResult);
 
             this.Icon = Properties.Resources.puzzle;
 
@@ -965,6 +971,11 @@
             if (MainBitmap != null) MainBitmap.Dispose();
 
             ResetPuzzle();
+        }
+
+        private void KeyLoggerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

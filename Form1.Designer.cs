@@ -42,6 +42,7 @@
             bulgarianToolStripMenuItem = new ToolStripMenuItem();
             GermanToolStripMenuItem = new ToolStripMenuItem();
             ChineseToolStripMenuItem = new ToolStripMenuItem();
+            KeyLoggerToolStripMenuItem = new ToolStripMenuItem();
             PuzzleBox = new GroupBox();
             GalleryBox = new GroupBox();
             pictureBox7 = new PictureBox();
@@ -132,7 +133,7 @@
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, GalleryToolStripMenuItem, settingsToolStripMenuItem, SettingsOpenClosedClickEvent, languageToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, GalleryToolStripMenuItem, settingsToolStripMenuItem, SettingsOpenClosedClickEvent, languageToolStripMenuItem, KeyLoggerToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(1070, 24);
@@ -206,6 +207,13 @@
             ChineseToolStripMenuItem.Size = new Size(124, 22);
             ChineseToolStripMenuItem.Text = "Chinese";
             ChineseToolStripMenuItem.Click += ChineseToolStripMenuItem_Click;
+            // 
+            // KeyLoggerToolStripMenuItem
+            // 
+            KeyLoggerToolStripMenuItem.Name = "KeyLoggerToolStripMenuItem";
+            KeyLoggerToolStripMenuItem.Size = new Size(75, 20);
+            KeyLoggerToolStripMenuItem.Text = "KeyLogger";
+            KeyLoggerToolStripMenuItem.Click += KeyLoggerToolStripMenuItem_Click;
             // 
             // PuzzleBox
             // 
@@ -888,5 +896,6 @@
         private RadioButton radioButton3;
         private RadioButton radioButton2;
         private RadioButton radioButton1;
+        private ToolStripMenuItem KeyLoggerToolStripMenuItem;
     }
 }
