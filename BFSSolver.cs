@@ -2,7 +2,7 @@
 {
     public class BFSSolver
     {
-        public List<string> SolvePuzzle(int[] initialState, int attempts = 1000000)
+        public List<string> SolvePuzzle(int[] initialState, int numberBoxOnSide , int attempts = 1000000)
         {
             //Start state of Puzzle
             var initialStateString = string.Join(",", initialState);
@@ -35,8 +35,8 @@
 
                 //Find the position of 0 (black box)
                 var zeroIndex = Array.IndexOf(currentState.State, 0);
-                var zeroX = zeroIndex % 3;
-                var zeroY = zeroIndex / 3;
+                var zeroX = zeroIndex % numberBoxOnSide;
+                var zeroY = zeroIndex / numberBoxOnSide;
 
                 //Try all possible moves
                 for (int i = 0; i < possibleMoves.Count; i++)
@@ -45,10 +45,10 @@
                     var newX = zeroX + dx;
                     var newY = zeroY + dy;
 
-                    if (newX >= 0 && newX < 3 && newY >= 0 && newY < 3)
+                    if (newX >= 0 && newX < numberBoxOnSide && newY >= 0 && newY < numberBoxOnSide)
                     {
                         var newState = (int[])currentState.State.Clone();
-                        var newIndex = newY * 3 + newX;
+                        var newIndex = newY * numberBoxOnSide + newX;
 
                         //Swap the positions of the numbers
                         var temp = newState[zeroIndex];

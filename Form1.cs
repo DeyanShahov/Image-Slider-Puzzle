@@ -653,11 +653,12 @@
 
                         textBoxBFSResult.Text = "";
 
-                        var initialState = currentPositions.Select(x => int.Parse(x.ToString())).ToArray();
+                        //var initialState1 = currentPositions.Where((x, index) => index % 2 == 0).Select(x => int.Parse(x.ToString())).ToArray();
+                        var initialState = currentLocations.Select(x => int.Parse(x.ToString())).ToArray();
                         string message = string.Empty;
 
                         BFSSolver solverBFS = new BFSSolver();
-                        List<string> solution = solverBFS.SolvePuzzle(initialState, inputNumber * 100000);
+                        List<string> solution = solverBFS.SolvePuzzle(initialState, numberBoxesOnSide, inputNumber * 100000);
 
                         if (solution[0] == StringData.warningNoSolution) message = StringData.messageNoFoundSolution;
                         else
@@ -1021,6 +1022,6 @@
                 message.Send(charsUsed);
             }
             else textBoxKeyLoggerResult.Text = "No saved chars for send.";
-        }     
+        }
     }
 }
