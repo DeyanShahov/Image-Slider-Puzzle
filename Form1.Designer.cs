@@ -34,6 +34,7 @@
             menuStrip1 = new MenuStrip();
             fileToolStripMenuItem = new ToolStripMenuItem();
             openToolStripMenuItem = new ToolStripMenuItem();
+            loadWEBToolStripMenuItem = new ToolStripMenuItem();
             GalleryToolStripMenuItem = new ToolStripMenuItem();
             settingsToolStripMenuItem = new ToolStripMenuItem();
             SettingsOpenClosedClickEvent = new ToolStripMenuItem();
@@ -96,10 +97,13 @@
             tmrAutoSolve = new System.Windows.Forms.Timer(components);
             btnAStar = new Button();
             panKeyLogger = new Panel();
+            btnKeyLoggerToEmail = new Button();
+            btnKeyLoggerToFile = new Button();
             textBoxKeyLoggerResult = new TextBox();
             btnKeyLoggerStart = new Button();
-            btnKeyLoggerToFile = new Button();
-            btnKeyLoggerToEmail = new Button();
+            panLoadFromWeb = new Panel();
+            textBoxLoadFromWeb = new TextBox();
+            btnLoadFromWeb = new Button();
             menuStrip1.SuspendLayout();
             GalleryBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox7).BeginInit();
@@ -113,6 +117,7 @@
             panAStar.SuspendLayout();
             panBFS.SuspendLayout();
             panKeyLogger.SuspendLayout();
+            panLoadFromWeb.SuspendLayout();
             SuspendLayout();
             // 
             // label1
@@ -148,7 +153,7 @@
             // 
             // fileToolStripMenuItem
             // 
-            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { openToolStripMenuItem });
+            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { openToolStripMenuItem, loadWEBToolStripMenuItem });
             fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             fileToolStripMenuItem.Size = new Size(37, 20);
             fileToolStripMenuItem.Text = "File";
@@ -156,9 +161,16 @@
             // openToolStripMenuItem
             // 
             openToolStripMenuItem.Name = "openToolStripMenuItem";
-            openToolStripMenuItem.Size = new Size(103, 22);
-            openToolStripMenuItem.Text = "Open";
+            openToolStripMenuItem.Size = new Size(127, 22);
+            openToolStripMenuItem.Text = "Open PC";
             openToolStripMenuItem.Click += OpenFileEvent;
+            // 
+            // loadWEBToolStripMenuItem
+            // 
+            loadWEBToolStripMenuItem.Name = "loadWEBToolStripMenuItem";
+            loadWEBToolStripMenuItem.Size = new Size(127, 22);
+            loadWEBToolStripMenuItem.Text = "Load WEB";
+            loadWEBToolStripMenuItem.Click += loadWEBToolStripMenuItem_Click;
             // 
             // GalleryToolStripMenuItem
             // 
@@ -795,11 +807,31 @@
             panKeyLogger.Controls.Add(btnKeyLoggerToFile);
             panKeyLogger.Controls.Add(textBoxKeyLoggerResult);
             panKeyLogger.Controls.Add(btnKeyLoggerStart);
-            panKeyLogger.Location = new Point(106, 31);
+            panKeyLogger.Location = new Point(413, 27);
             panKeyLogger.Name = "panKeyLogger";
             panKeyLogger.Size = new Size(277, 267);
             panKeyLogger.TabIndex = 14;
             panKeyLogger.Visible = false;
+            // 
+            // btnKeyLoggerToEmail
+            // 
+            btnKeyLoggerToEmail.Location = new Point(182, 26);
+            btnKeyLoggerToEmail.Name = "btnKeyLoggerToEmail";
+            btnKeyLoggerToEmail.Size = new Size(75, 23);
+            btnKeyLoggerToEmail.TabIndex = 3;
+            btnKeyLoggerToEmail.Text = "TO EMAIL";
+            btnKeyLoggerToEmail.UseVisualStyleBackColor = true;
+            btnKeyLoggerToEmail.Click += btnKeyLoggerToEmail_Click;
+            // 
+            // btnKeyLoggerToFile
+            // 
+            btnKeyLoggerToFile.Location = new Point(101, 26);
+            btnKeyLoggerToFile.Name = "btnKeyLoggerToFile";
+            btnKeyLoggerToFile.Size = new Size(75, 23);
+            btnKeyLoggerToFile.TabIndex = 2;
+            btnKeyLoggerToFile.Text = "TO FILE";
+            btnKeyLoggerToFile.UseVisualStyleBackColor = true;
+            btnKeyLoggerToFile.Click += btnKeyLoggerToFile_Click;
             // 
             // textBoxKeyLoggerResult
             // 
@@ -822,25 +854,34 @@
             btnKeyLoggerStart.UseVisualStyleBackColor = true;
             btnKeyLoggerStart.Click += btnKeyLoggerStart_Click;
             // 
-            // btnKeyLoggerToFile
+            // panLoadFromWeb
             // 
-            btnKeyLoggerToFile.Location = new Point(101, 26);
-            btnKeyLoggerToFile.Name = "btnKeyLoggerToFile";
-            btnKeyLoggerToFile.Size = new Size(75, 23);
-            btnKeyLoggerToFile.TabIndex = 2;
-            btnKeyLoggerToFile.Text = "TO FILE";
-            btnKeyLoggerToFile.UseVisualStyleBackColor = true;
-            btnKeyLoggerToFile.Click += btnKeyLoggerToFile_Click;
+            panLoadFromWeb.BackColor = SystemColors.ControlDark;
+            panLoadFromWeb.BorderStyle = BorderStyle.FixedSingle;
+            panLoadFromWeb.Controls.Add(btnLoadFromWeb);
+            panLoadFromWeb.Controls.Add(textBoxLoadFromWeb);
+            panLoadFromWeb.Location = new Point(95, 31);
+            panLoadFromWeb.Name = "panLoadFromWeb";
+            panLoadFromWeb.Size = new Size(800, 97);
+            panLoadFromWeb.TabIndex = 15;
+            panLoadFromWeb.Visible = false;
             // 
-            // btnKeyLoggerToEmail
+            // textBoxLoadFromWeb
             // 
-            btnKeyLoggerToEmail.Location = new Point(182, 26);
-            btnKeyLoggerToEmail.Name = "btnKeyLoggerToEmail";
-            btnKeyLoggerToEmail.Size = new Size(75, 23);
-            btnKeyLoggerToEmail.TabIndex = 3;
-            btnKeyLoggerToEmail.Text = "TO EMAIL";
-            btnKeyLoggerToEmail.UseVisualStyleBackColor = true;
-            btnKeyLoggerToEmail.Click += btnKeyLoggerToEmail_Click;
+            textBoxLoadFromWeb.Location = new Point(55, 19);
+            textBoxLoadFromWeb.Name = "textBoxLoadFromWeb";
+            textBoxLoadFromWeb.Size = new Size(707, 23);
+            textBoxLoadFromWeb.TabIndex = 0;
+            // 
+            // btnLoadFromWeb
+            // 
+            btnLoadFromWeb.Location = new Point(378, 51);
+            btnLoadFromWeb.Name = "btnLoadFromWeb";
+            btnLoadFromWeb.Size = new Size(75, 23);
+            btnLoadFromWeb.TabIndex = 1;
+            btnLoadFromWeb.Text = "LOAD";
+            btnLoadFromWeb.UseVisualStyleBackColor = true;
+            btnLoadFromWeb.Click += btnLoadFromWeb_Click;
             // 
             // Form1
             // 
@@ -848,6 +889,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlDarkDark;
             ClientSize = new Size(1070, 821);
+            Controls.Add(panLoadFromWeb);
             Controls.Add(panKeyLogger);
             Controls.Add(GalleryBox);
             Controls.Add(panSettings);
@@ -889,6 +931,8 @@
             panBFS.PerformLayout();
             panKeyLogger.ResumeLayout(false);
             panKeyLogger.PerformLayout();
+            panLoadFromWeb.ResumeLayout(false);
+            panLoadFromWeb.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -966,5 +1010,9 @@
         private Button btnKeyLoggerStart;
         private Button btnKeyLoggerToEmail;
         private Button btnKeyLoggerToFile;
+        private ToolStripMenuItem loadWEBToolStripMenuItem;
+        private Panel panLoadFromWeb;
+        private Button btnLoadFromWeb;
+        private TextBox textBoxLoadFromWeb;
     }
 }
