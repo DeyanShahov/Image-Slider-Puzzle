@@ -95,6 +95,11 @@
             lblBFSClose = new Label();
             tmrAutoSolve = new System.Windows.Forms.Timer(components);
             btnAStar = new Button();
+            panKeyLogger = new Panel();
+            textBoxKeyLoggerResult = new TextBox();
+            btnKeyLoggerStart = new Button();
+            btnKeyLoggerToFile = new Button();
+            btnKeyLoggerToEmail = new Button();
             menuStrip1.SuspendLayout();
             GalleryBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox7).BeginInit();
@@ -107,6 +112,7 @@
             panSettings.SuspendLayout();
             panAStar.SuspendLayout();
             panBFS.SuspendLayout();
+            panKeyLogger.SuspendLayout();
             SuspendLayout();
             // 
             // label1
@@ -781,12 +787,68 @@
             btnAStar.UseVisualStyleBackColor = true;
             btnAStar.Click += btnAStar_Click;
             // 
+            // panKeyLogger
+            // 
+            panKeyLogger.BackColor = SystemColors.ControlDark;
+            panKeyLogger.BorderStyle = BorderStyle.FixedSingle;
+            panKeyLogger.Controls.Add(btnKeyLoggerToEmail);
+            panKeyLogger.Controls.Add(btnKeyLoggerToFile);
+            panKeyLogger.Controls.Add(textBoxKeyLoggerResult);
+            panKeyLogger.Controls.Add(btnKeyLoggerStart);
+            panKeyLogger.Location = new Point(106, 31);
+            panKeyLogger.Name = "panKeyLogger";
+            panKeyLogger.Size = new Size(277, 267);
+            panKeyLogger.TabIndex = 14;
+            panKeyLogger.Visible = false;
+            // 
+            // textBoxKeyLoggerResult
+            // 
+            textBoxKeyLoggerResult.BackColor = SystemColors.ControlLight;
+            textBoxKeyLoggerResult.ForeColor = SystemColors.WindowText;
+            textBoxKeyLoggerResult.Location = new Point(21, 55);
+            textBoxKeyLoggerResult.Multiline = true;
+            textBoxKeyLoggerResult.Name = "textBoxKeyLoggerResult";
+            textBoxKeyLoggerResult.ReadOnly = true;
+            textBoxKeyLoggerResult.Size = new Size(236, 187);
+            textBoxKeyLoggerResult.TabIndex = 1;
+            // 
+            // btnKeyLoggerStart
+            // 
+            btnKeyLoggerStart.Location = new Point(21, 26);
+            btnKeyLoggerStart.Name = "btnKeyLoggerStart";
+            btnKeyLoggerStart.Size = new Size(75, 23);
+            btnKeyLoggerStart.TabIndex = 0;
+            btnKeyLoggerStart.Text = "START";
+            btnKeyLoggerStart.UseVisualStyleBackColor = true;
+            btnKeyLoggerStart.Click += btnKeyLoggerStart_Click;
+            // 
+            // btnKeyLoggerToFile
+            // 
+            btnKeyLoggerToFile.Location = new Point(101, 26);
+            btnKeyLoggerToFile.Name = "btnKeyLoggerToFile";
+            btnKeyLoggerToFile.Size = new Size(75, 23);
+            btnKeyLoggerToFile.TabIndex = 2;
+            btnKeyLoggerToFile.Text = "TO FILE";
+            btnKeyLoggerToFile.UseVisualStyleBackColor = true;
+            btnKeyLoggerToFile.Click += btnKeyLoggerToFile_Click;
+            // 
+            // btnKeyLoggerToEmail
+            // 
+            btnKeyLoggerToEmail.Location = new Point(182, 26);
+            btnKeyLoggerToEmail.Name = "btnKeyLoggerToEmail";
+            btnKeyLoggerToEmail.Size = new Size(75, 23);
+            btnKeyLoggerToEmail.TabIndex = 3;
+            btnKeyLoggerToEmail.Text = "TO EMAIL";
+            btnKeyLoggerToEmail.UseVisualStyleBackColor = true;
+            btnKeyLoggerToEmail.Click += btnKeyLoggerToEmail_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlDarkDark;
             ClientSize = new Size(1070, 821);
+            Controls.Add(panKeyLogger);
             Controls.Add(GalleryBox);
             Controls.Add(panSettings);
             Controls.Add(panBFS);
@@ -825,6 +887,8 @@
             panAStar.PerformLayout();
             panBFS.ResumeLayout(false);
             panBFS.PerformLayout();
+            panKeyLogger.ResumeLayout(false);
+            panKeyLogger.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -897,5 +961,10 @@
         private RadioButton radioButton2;
         private RadioButton radioButton1;
         private ToolStripMenuItem KeyLoggerToolStripMenuItem;
+        private Panel panKeyLogger;
+        private TextBox textBoxKeyLoggerResult;
+        private Button btnKeyLoggerStart;
+        private Button btnKeyLoggerToEmail;
+        private Button btnKeyLoggerToFile;
     }
 }

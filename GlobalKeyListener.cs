@@ -12,8 +12,7 @@ public class GlobalKeyListener
 
     public GlobalKeyListener(TextBox textBox)
     {
-        this.textBox = textBox;
-        hookId = SetHook(HookCallback);
+        this.textBox = textBox;     
     }
 
     private delegate IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
@@ -48,16 +47,32 @@ public class GlobalKeyListener
             char pressedKey = (char)vkCode;
 
             keysList.Add(pressedKey);
-
-            // Примерно, изведете в TextBox
             textBox.Text += pressedKey + ", ";
         }
 
         return CallNextHookEx(hookId, nCode, wParam, lParam);
     }
 
-    public void Unhook()
+    internal void Unhook()
     {
         UnhookWindowsHookEx(hookId);
+        ClearSettings();
+    }
+
+    internal void Hook()
+    {
+        ClearSettings();
+        hookId = SetHook(HookCallback);
+    }
+
+    internal string UsedCharacters()
+    {
+        return String.Join("", keysList);
+    }
+
+    internal void ClearSettings()
+    {
+        keysList.Clear();
+        textBox.Text = "";
     }
 }
